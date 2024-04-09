@@ -9,14 +9,10 @@ class Usuario(models.Model):
     email = models.EmailField(max_length=150)
     password = models.CharField(max_length=150)
     direccion = models.CharField(max_length=150)
-    rol = models.CharField(max_length=150)
-    metodoPago = models.CharField(max_length=150)
 
 
     def __str__(self):
-        return self.nombre + ' ' + self.apellido + ' ' + self.nombreUsuario + ' ' + self.email + ' ' + self.password + ' ' + self.direccion + ' ' + self.rol
-
-
+        return self.nombre + ' ' + self.apellido + ' ' + self.nombreUsuario + ' ' + self.email + ' ' + self.password + ' ' + self.direccion
 
 class marcaCoche(models.Model):
     nombre = models.CharField(max_length=150)
@@ -54,9 +50,12 @@ class producto (models.Model):
     descripcion = models.CharField(max_length=200)
     tipo_producto = models.ForeignKey(tipo_producto, on_delete=models.CASCADE)
     marca = models.ForeignKey(marcaCoche, on_delete=models.CASCADE)
+    tipo_producto = models.ForeignKey(tipo_producto, on_delete=models.CASCADE)
+    usuario = models.ManyToManyField(Usuario)
+
 
     def __str__(self):
-        return self.nombre + ' ' + str(self.url) + ' ' + self.descripcion + ' ' + str(self.tipo_producto) + ' ' + str(self.marca)
+        return self.nombre + ' ' + str(self.url) + ' ' + self.descripcion + ' ' + str(self.tipo_producto) + ' ' + str(self.marca) + ' ' + str(self.tipo_producto ) + ' ' + str(self.usuario)
 
 
 class citas (models.Model):
@@ -72,30 +71,14 @@ class presupuesto (models.Model):
     fallos = models.CharField(max_length=200)
     precio = models.IntegerField()
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.fallos + ' ' + str(self.precio) + ' ' + str(self.usuario)
-
-class presupuesto_producto (models.Model):
-    presupuesto = models.ManyToManyField(presupuesto)
-    producto = models.ManyToManyField(producto)
-
-    def __str__(self):
-        return str(self.presupuesto) + ' ' + str(self.producto)
-
-class presupuesto_cocheCliente (models.Model):
-    presupuesto = models.ManyToManyField(presupuesto)
     cocheCliente = models.ManyToManyField(CocheCliente)
-
-    def __str__(self):
-        return str(self.presupuesto) + ' ' + str(self.cocheCliente)
-
-class valoracion (models.Model):
     producto = models.ManyToManyField(producto)
-    usuario = models.ManyToManyField(Usuario)
+
+
 
     def __str__(self):
-        return str(self.producto) + ' ' + str(self.usuario)
+        return self.fallos + ' ' + str(self.precio) + ' ' + str(self.usuario) + ' ' + str(self.cocheCliente) + ' ' + str(self.producto)
+
 
 class mecanico (models.Model):
     nombre = models.CharField(max_length=150)
@@ -103,6 +86,7 @@ class mecanico (models.Model):
     fecha_nacimiento = models.DateField()
     dni = models.CharField(max_length=9)
     cita = models.ForeignKey(citas, on_delete=models.CASCADE)
+    url = models.CharField(max_length=500)
 
     def __str__(self):
-        return self.nombre + ' ' + self.email + ' ' + str(self.fecha_nacimiento) + ' ' + self.dni + ' ' + str(self.cita)
+        return self.nombre + ' ' + self.email + ' ' + str(self.fecha_nacimiento) + ' ' + self.dni + ' ' + str(self.cita) + ' ' + str(self.url)
