@@ -7,15 +7,15 @@ class Usuario(models.Model):
     apellido = models.CharField(max_length=150)
     nombreUsuario = models.CharField(max_length=150)
     email = models.EmailField(max_length=150)
-    password = models.CharField(max_length=150)
-    direccion = models.CharField(max_length=150)
+    password = models.CharField(max_length=15)
+    direccion = models.CharField(max_length=300)
 
 
     def __str__(self):
         return self.nombre + ' ' + self.apellido + ' ' + self.nombreUsuario + ' ' + self.email + ' ' + self.password + ' ' + self.direccion
 
 class marcaCoche(models.Model):
-    nombre = models.CharField(max_length=150)
+    nombre = models.CharField(max_length=250)
     url = models.CharField(max_length=500)
 
     def __str__(self):
@@ -23,10 +23,10 @@ class marcaCoche(models.Model):
 
 
 class CocheCliente(models.Model):
-    modelo = models.CharField(max_length=150)
+    modelo = models.CharField(max_length=250)
     matricula = models.CharField(max_length=150)
     KM = models.IntegerField()
-    descripcion_fallo = models.CharField(max_length=200)
+    descripcion_fallo = models.CharField(max_length=500)
     ITV = models.BooleanField()
     marca = models.ForeignKey(marcaCoche, on_delete=models.CASCADE)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
@@ -47,7 +47,7 @@ class tipo_producto(models.Model):
 class producto (models.Model):
     nombre = models.CharField(max_length=50)
     url = models.CharField(max_length=500)
-    descripcion = models.CharField(max_length=200)
+    descripcion = models.CharField(max_length=500)
     tipo_producto = models.ForeignKey(tipo_producto, on_delete=models.CASCADE)
     marca = models.ForeignKey(marcaCoche, on_delete=models.CASCADE)
     tipo_producto = models.ForeignKey(tipo_producto, on_delete=models.CASCADE)
