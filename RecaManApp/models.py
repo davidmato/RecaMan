@@ -96,3 +96,13 @@ class valoracion (models.Model):
 
     def __str__(self):
         return str(self.producto) + ' ' + str(self.usuario)
+
+class mecanico (models.Model):
+    nombre = models.CharField(max_length=150)
+    email = models.EmailField(max_length=150)
+    fecha_nacimiento = models.DateField()
+    dni = models.CharField(max_length=9)
+    cita = models.ForeignKey(citas, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.nombre + ' ' + self.email + ' ' + str(self.fecha_nacimiento) + ' ' + self.dni + ' ' + str(self.cita)
