@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Area Jefe</title>
@@ -53,7 +54,7 @@
     <div class="container">
       <!-- Navbar brand -->
       <a class="navbar-brand" href="#"><img id="MDB-logo"
-          src="./IMG/logo_recaman_definitivo.jpg" alt="MDB Logo"
+          src="{% static 'logo_recaman_definitivo.jpg' %}" alt="MDB Logo"
           draggable="false" width="95" height="95" /></a>
        
         <!-- Left links -->
@@ -91,26 +92,29 @@
         <!-- FORMULARIO DE PRODUCTOS -->
 
         <div class="container-fluid">
-          <form>
+          <form action="" method="post">
+              {% csrf_token %}
             <div class="mb-3">
               <label for="name" class="form-label">Nombre</label>
-              <input type="text" class="form-control" id="mecanicname">
+              <input type="text" class="form-control" id="mecanicname" name="mecanicnamen" value="{{ mecanico.nombre }}">
+
             </div>
             <div class="mb-3">
                 <label for="mail" class="form-label">Email</label>
-                <input type="text" class="form-control" id="mail">
+                <input type="text" class="form-control" id="mail" name="mail" value="{{ mecanico.email }}">
             </div>
             <div class="mb-3">
               <label for="birth" class="form-label">Fecha Nacimiento</label>
-              <input type="date" class="form-control" id="birth">
+              <input type="date" class="form-control" id="birth" name="birth" value="{{ mecanico.fecha_nacimiento|date:'Y-m-d' }}">
             </div>
-            <div class="mb-3">
+            <div class= "mb-3">
                 <label for="dni" class="form-label">DNI</label>
-                <input type="text" class="form-control" id="dni">
+                <input type="text" class="form-control" id="dni" name="dni" value="{{ mecanico.dni }}">
             </div>
             <div class="mb-3">
                 <label for="url" class="form-label">Imagen</label>
-                <input type="text" class="form-control" id="url">
+                <input type="text" class="form-control" id="url" name="url" value="{{ mecanico.url }}">
+
             </div>
             <button type="submit" class="btn btn-primary">Añadir producto</button>
           </form>
