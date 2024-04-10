@@ -68,7 +68,7 @@ class citas (models.Model):
     cocheCliente = models.ForeignKey(CocheCliente, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.fecha) + ' ' + str(self.hora) + ' ' + self.motivo + ' ' + str(self.usuario) + ' ' + str(self.mecanico) + ' ' + str(self.CocheCliente)
+        return str(self.fecha) + ' ' + str(self.hora) + ' ' + self.motivo + ' ' + str(self.usuario) + ' ' + str(self.mecanico) + ' ' + str(self.cocheCliente)
 class presupuesto (models.Model):
     fecha_compra = models.TimeField()
     precio = models.IntegerField()
