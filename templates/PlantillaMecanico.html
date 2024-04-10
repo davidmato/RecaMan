@@ -86,14 +86,21 @@
       </div>
         {% for e in mecanico %}
 
-            <div class="card" style="width: 18rem;">
+           <div class="card" style="width: 18rem;">
               <img src="{{ e.url }}" class="card-img-top" alt="...">
               <div class="card-body">
                 <h5 class="card-title">{{ e.nombre }}</h5>
-                <p class="card-text">{{ e.fecha_nacimiento }}</p>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">{{ e.fecha_nacimiento}}</li>
+                <li class="list-group-item">{{ e.dni }}</li>
+                <li class="list-group-item">{{ e.email }}</li>
+              </ul>
+              <div class="card-body">
+                <a href="#" class="card-link"><img src={% static 'icons8-papelera-24.png' %}></a>
+                <a href="#" class="card-link"><img src={% static 'icons8-editar-24.png' %}></a>
               </div>
             </div>
-
         {% endfor %}
 
     </div>
