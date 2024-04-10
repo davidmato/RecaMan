@@ -9,6 +9,11 @@ def areaboss(request):
     return render(request, 'Area_Admin.html')
 
 
+def plantillamecanic(request):
+    list_mecanic = Mecanico.objects.all()
+    return render(request, 'PlantillaMecanico.html',{'mecanico': list_mecanic})
+
+
 def new_meacanic(request):
 
     if request.method == 'GET':

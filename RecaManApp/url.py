@@ -6,4 +6,5 @@ urlpatterns = [
 
     path('jefe/', areaboss),
     path('jefe/newmecanic', new_meacanic),
+    path('jefe/plantilla', plantillamecanic)
 ]
