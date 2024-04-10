@@ -28,4 +28,4 @@ def new_meacanic(request):
         nuevo.url = request.POST.get('url')
         nuevo.save()
 
-        return redirect('/recaman/jefe')
+        return redirect('/recaman/jefe/plantilla')
