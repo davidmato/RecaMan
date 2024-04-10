@@ -22,6 +22,7 @@ class producto (models.Model):
     nombre = models.CharField(max_length=50)
     url = models.CharField(max_length=500)
     descripcion = models.CharField(max_length=200)
+    precio = models.IntegerField()
     marca = models.ForeignKey(marcaCoche, on_delete=models.CASCADE)
     tipo_producto = models.ForeignKey(tipo_producto, on_delete=models.CASCADE)
 
