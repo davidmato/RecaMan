@@ -1,0 +1,42 @@
+{% load static %}
+{% include 'nav.html' %}
+<head>
+    <link href=" {% static 'taller.png' %}">
+</head>
+
+<body>
+
+<div class="row">
+    <div class="col-4">
+      <div id="list-example" class="list-group" style="font-size: medium;">
+        <a class="list-group-item list-group-item-action" href="#list-item-1">Inicios Brillantes en Sevilla</a>
+        <a class="list-group-item list-group-item-action" href="#list-item-2">Pioneros en Innovación Solar</a>
+        <a class="list-group-item list-group-item-action" href="#list-item-3"> Soluciones Personalizadas para Sevilla</a>
+        <a class="list-group-item list-group-item-action" href="#list-item-4"> Educando para un Futuro Sostenible</a>
+        <a class="list-group-item list-group-item-action" href="#list-item-4"> Alianzas Estratégicas para el Crecimiento</a>
+        <a class="list-group-item list-group-item-action" href="#list-item-4"> El Legado Verde de SolarEco</a>
+        <img src="{% static 'taller.png' %}" alt="" style="margin-top: 5%;">
+      </div>
+    </div>
+    <div class="col-8">
+      <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0" >
+        <h4 id="list-item-1" style="font-size: medium;">En el año 2020, en la cálida ciudad de Sevilla, un grupo apasionado de emprendedores decidieron enfrentar los retos energéticos de su tiempo. Con backgrounds diversos en ingeniería, finanzas y sostenibilidad, nació SolarEco Innovations. Los fundadores, David, Elena, Luis y Marta, compartían una visión audaz de impulsar la transición hacia fuentes de energía más sostenibles en la región.</h4>
+        <p>...</p>
+        <h4 id="list-item-2" style="font-size: medium;">SolarEco Innovations decidió centrarse en la energía solar como la clave para un futuro más verde. Invirtieron en tecnología solar de vanguardia, desarrollando paneles solares altamente eficientes y sistemas de almacenamiento de energía innovadores. La empresa se comprometió a llevar la energía del sol a cada rincón de Sevilla, desde los tejados de los hogares hasta los grandes proyectos comerciales.</h4>
+        <p>...</p>
+        <h4 id="list-item-3" style="font-size: medium;">Con un enfoque único, SolarEco Innovations no solo proveía soluciones estándar, sino que también diseñaba sistemas personalizados para integrarse perfectamente con la arquitectura única de Sevilla. Desde la histórica Alcazaba hasta los modernos rascacielos, cada proyecto era una obra maestra de sostenibilidad y eficiencia.</h4>
+        <p>...</p>
+        <h4 id="list-item-4" style="font-size: medium;">Con el objetivo de empoderar a la comunidad sevillana, SolarEco Innovations lanzó programas educativos sobre energía renovable en escuelas y universidades locales. No solo estaban construyendo infraestructuras, sino también sembrando las semillas de un futuro donde la sostenibilidad era una parte integral de la vida cotidiana.</h4>
+        <p>...</p>
+        <h4 id="list-item-4" style="font-size: medium;">SolarEco Innovations forjó alianzas estratégicas con otras empresas locales, gobiernos municipales y organizaciones sin fines de lucro. Estas colaboraciones no solo impulsaron el crecimiento de la empresa, sino que también consolidaron a SolarEco como un líder en la revolución energética de Sevilla. Juntos, trabajaron en proyectos emblemáticos que transformaron la ciudad en un ejemplo de sostenibilidad.</h4>
+        <p>...</p>
+        <h4 id="list-item-4" style="font-size: medium;">Con el tiempo, SolarEco Innovations se convirtió en un nombre sinónimo de innovación y sostenibilidad en Sevilla. Su legado verde no solo se reflejaba en la energía limpia que generaban, sino también en la conciencia ambiental que fomentaban en la comunidad. Sevilla se transformó en una ciudad que abrazaba plenamente la energía renovable gracias al esfuerzo incansable de SolarEco Innovations, dejando un legado brillante y sostenible para las generaciones venideras.</h4>
+        <p>...</p>
+      </div>
+    </div>
+  </div>
+
+
+</body>
+
+{% include 'footer.html' %}
