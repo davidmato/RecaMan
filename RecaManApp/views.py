@@ -1,4 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+
+from RecaManApp.models import Mecanico
+
 
 # Create your views here.
 def sobre_nosotros(request):
