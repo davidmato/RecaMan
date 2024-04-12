@@ -53,3 +53,27 @@ def footer(request):
 #     return redirect('/RecaManApp/new_employee')
 #
 #
+def admin(request):
+    return render(request, 'admin.html')
+
+def plantilla_admin(request):
+    list_admin = producto.objects.all()
+    return render(request, 'admin.html', {'admin': list_admin})
+
+def new_product(request):
+    if request.method == 'GET':
+        tipos_producto = tipo_producto.objects.all()
+        marca = marcaCoche.objects.all()
+        return render(request, 'admin.html', {'tipos_producto': tipos_producto, 'marca': marca})
+    else:
+
+        new = producto()
+        new.nombre = request.POST.get('nombre')
+        new.url = request.POST.get('url')
+        new.descripcion = request.POST.get('descripcion')
+        new.marca = marcaCoche.objects.get(id=request.POST.get('marca'))
+        new.tipo_producto = tipo_producto.objects.get(id=request.POST.get('tipos_producto'))
+        new.precio = request.POST.get('price')
+        new.save()
+
+        return redirect('/RecaManApp/newproduct')

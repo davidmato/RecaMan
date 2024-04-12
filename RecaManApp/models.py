@@ -10,19 +10,17 @@ class marcaCoche(models.Model):
         return self.nombre + ' ' + self.url
 
 class tipo_producto(models.Model):
-    liquido_mantenimiento = models.CharField(max_length=250)
-    sistema_motor = models.CharField(max_length=250)
-    sistema_frenos = models.CharField(max_length=250)
-    articulos_no_mecanicos = models.CharField(max_length=250)
-    sistema_refrigeracion = models.CharField(max_length=250)
+    id = models.AutoField(primary_key=True)
+    tipo = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.liquido_mantenimiento + ' ' + self.sistema_motor + ' ' + self.sistema_frenos + ' ' + self.articulos_no_mecanicos + ' ' + self.sistema_refrigeracion
+        return self.tipo
 
 class producto (models.Model):
     nombre = models.CharField(max_length=50)
     url = models.CharField(max_length=500)
     descripcion = models.CharField(max_length=200)
+    precio = models.IntegerField()
     marca = models.ForeignKey(marcaCoche, on_delete=models.CASCADE)
     tipo_producto = models.ForeignKey(tipo_producto, on_delete=models.CASCADE)
 

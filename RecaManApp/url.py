@@ -6,4 +6,5 @@ urlpatterns = [
     path('admin/', admin, name='admin'),
     path('header/', header, name='header'),
     path('footer/', footer, name='footer'),
+    path('admin/newproduct', new_product, name='newproduct')
 ]
