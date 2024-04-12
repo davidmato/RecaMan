@@ -76,4 +76,4 @@ def new_product(request):
         new.precio = request.POST.get('price')
         new.save()
 
-        return redirect('/RecaManApp/newproduct')
+        return redirect('newproduct')

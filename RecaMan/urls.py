@@ -22,7 +22,5 @@ from RecaManApp.views import new_product
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('recaman/', include('RecaManApp.url')),
-    path('RecaManApp/newproduct', include('RecaManApp.url')),
-    path('RecaManApp/newproduct', new_product, name='newproduct')
 
 ]
