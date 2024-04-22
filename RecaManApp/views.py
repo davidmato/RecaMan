@@ -6,7 +6,7 @@ from RecaManApp.models import *
 # Create your views here.
 
 def areaboss(request):
-    return render(request, 'Area_Admin.html')
+    return render(request, 'newMecanic.html')
 
 
 def plantillamecanic(request):
@@ -17,7 +17,7 @@ def plantillamecanic(request):
 def new_meacanic(request):
 
     if request.method == 'GET':
-        return render(request, 'Area_Admin.html')
+        return render(request, 'newMecanic.html')
     else:
 
         nuevo = Mecanico()
