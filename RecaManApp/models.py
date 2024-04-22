@@ -10,15 +10,10 @@ class MarcaCoche(models.Model):
         return self.nombre + ' ' + self.url
 
 class Tipo_producto(models.Model):
-    liquido_mantenimiento = models.CharField(max_length=250)
-    sistema_motor = models.CharField(max_length=250)
-    sistema_frenos = models.CharField(max_length=250)
-    articulos_no_mecanicos = models.CharField(max_length=250)
-    sistema_refrigeracion = models.CharField(max_length=250)
+    tipo = models.CharField(max_length=250)
 
     def __str__(self):
-        return self.liquido_mantenimiento + ' ' + self.sistema_motor + ' ' + self.sistema_frenos + ' ' + self.articulos_no_mecanicos + ' ' + self.sistema_refrigeracion
-
+        return self.tipo
 class Producto (models.Model):
     nombre = models.CharField(max_length=50)
     url = models.CharField(max_length=500)
@@ -57,6 +52,12 @@ class CocheCliente(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
 
 
+    def necesita_cambio(self):
+        umbral_cambio = 10000  # Define tu umbral aquí
+        if self.KM >= umbral_cambio:
+            return f"Es necesario realizar un cambio en el coche con matrícula {self.matricula}. Ha recorrido {self.KM} kilómetros."
+        else:
+            return f"El coche con matrícula {self.matricula} ha recorrido {self.KM} kilómetros. Aún no es necesario realizar un cambio."
     def __str__(self):
         return self.modelo + ' ' + self.matricula + ' ' + str(self.KM) + ' ' + str(self.ITV) + ' ' + str(self.marca) + ' ' + str(self.usuario)
 

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 
-from RecaManApp.models import Mecanico
+from RecaManApp.models import *
 
 
 # Create your views here.
@@ -13,6 +13,14 @@ def nav(request):
 
 def footer(request):
     return render(request, 'footer.html')
+
+
+def login(request):
+    return render(request, 'login.html')
+
+def header(request):
+    return render(request, 'header.html')
+
 
 def areaboss(request):
     return render(request, 'Area_Admin.html')
@@ -38,3 +46,31 @@ def new_meacanic(request):
         nuevo.save()
 
         return redirect('/recaman/jefe/plantilla')
+
+
+
+def delete_mecanic(request, id):
+    mecanic = Mecanico.objects.get(id=id)
+    mecanic.delete()
+    return redirect('/recaman/jefe/plantilla')
+
+
+def edit_mecanic(request, id):
+    mecanic = Mecanico.objects.get(id=id)
+    if request.method == 'GET':
+        return render(request, 'EditarMecanico.html', {'mecanic': mecanic})
+    else:
+        mecanic.nombre = request.POST.get('mecanicnamen')
+        mecanic.email = request.POST.get('mail')
+        mecanic.fecha_nacimiento = request.POST.get('birth')
+        mecanic.dni = request.POST.get('dni')
+        mecanic.url = request.POST.get('url')
+        mecanic.save()
+        return redirect('/recaman/jefe/plantilla')
+
+
+def recambio_coche(request):
+    list_mecanic = Mecanico.objects.all()
+    list_coches = CocheCliente.objects.all()
+    mensajes = [coche.necesita_cambio() for coche in list_coches]
+    return render(request, 'PlantillaMecanico.html', {'mecanico': list_mecanic, 'mensajes': mensajes})
