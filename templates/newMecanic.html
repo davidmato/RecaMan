@@ -35,25 +35,25 @@
               {% csrf_token %}
             <div class="mb-3">
               <label for="mecanicname" class="form-label">Nombre</label>
-              <input type="text" class="form-control" id="mecanicname" name="mecanicnamen">
+              <input type="text" class="form-control" id="mecanicname" name="mecanicnamen" value="{{ mecanic.nombre }}">
             </div>
             <div class="mb-3">
               <label for="maili" class="form-label">Email</label>
-              <input type="text" class="form-control" id="maili" name="mail">
+              <input type="text" class="form-control" id="maili" name="mail" value="{{ mecanic.email }}">
             </div>
             <div class="mb-3">
               <label for="productPrice" class="form-label">Fecha Nacimiento</label>
-              <input type="date" class="form-control" id="productPrice" name="birth">
+              <input type="date" class="form-control" id="productPrice" name="birth" value="{{ mecanic.fecha_nacimiento|date:'Y-m-d' }}">
             </div>
             <div class="mb-3">
               <label for="dni" class="form-label">DNI</label>
-              <input type="text" class="form-control" id="dni" name="dni">
+              <input type="text" class="form-control" id="dni" name="dni" value="{{ mecanic.dni }}">
             </div>
             <div class="mb-3">
               <label for="urlimg" class="form-label">Imagen</label>
-              <input type="text" class="form-control" id="urlimg" name="url">
+              <input type="text" class="form-control" id="urlimg" name="url" value="{{ mecanic.url }}">
             </div>
-            <button type="submit" class="btn btn-dark">Añadir Mecanico</button>
+            <button type="submit" class="btn btn-dark">Guardar</button>
           </form>
         </div>
 
