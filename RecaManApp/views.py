@@ -21,6 +21,11 @@ def login(request):
 def header(request):
     return render(request, 'header.html')
 
+def home(request):
+    return render(request, 'home.html')
+
+
+
 
 def areaboss(request):
     return render(request, 'Area_Admin.html')
