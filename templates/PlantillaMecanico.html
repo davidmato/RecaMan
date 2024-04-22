@@ -40,8 +40,8 @@
                 <li class="list-group-item">{{ e.email }}</li>
               </ul>
               <div class="card-body">
-                <a href="#" class="card-link"><img src={% static 'icons8-papelera-24.png' %}></a>
-                <a href="#" class="card-link"><img src={% static 'icons8-editar-24.png' %}></a>
+                  <a href="{% url 'deleteMecanic' id=e.id %}"><button><img src={% static 'icons8-papelera-24.png' %}> </button></a>
+                  <a><button> <img src={% static 'icons8-editar-24.png' %}> </button></a>
               </div>
             </div>
         {% endfor %}

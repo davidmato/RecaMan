@@ -29,3 +29,9 @@ def new_meacanic(request):
         nuevo.save()
 
         return redirect('/recaman/jefe/plantilla')
+
+
+def delete_mecanic(request, id):
+    mecanic = Mecanico.objects.get(id=id)
+    mecanic.delete()
+    return redirect('/recaman/jefe/plantilla')
