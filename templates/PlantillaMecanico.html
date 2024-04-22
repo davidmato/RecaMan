@@ -41,7 +41,7 @@
               </ul>
               <div class="card-body">
                   <a href="{% url 'deleteMecanic' id=e.id %}"><button><img src={% static 'icons8-papelera-24.png' %}> </button></a>
-                  <a><button> <img src={% static 'icons8-editar-24.png' %}> </button></a>
+                  <a href="{% url 'editMecanic' id=e.id %}"><button> <img src={% static 'icons8-editar-24.png' %}> </button></a>
               </div>
             </div>
         {% endfor %}

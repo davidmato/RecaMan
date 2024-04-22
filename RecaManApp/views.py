@@ -35,3 +35,19 @@ def delete_mecanic(request, id):
     mecanic = Mecanico.objects.get(id=id)
     mecanic.delete()
     return redirect('/recaman/jefe/plantilla')
+
+
+def edit_mecanic(request, id):
+    mecanic = Mecanico.objects.get(id=id)
+
+    if request.method == "GET":
+        return render(request, 'newMecanic.html', {'mecanic':mecanic})
+    else:
+        mecanic.nombre = request.POST.get('mecanicnamen')
+        mecanic.email = request.POST.get('mail')
+        mecanic.fecha_nacimiento = request.POST.get('birth')
+        mecanic.dni = request.POST.get('dni')
+        mecanic.url = request.POST.get('url')
+        mecanic.save()
+
+        return redirect('/recaman/jefe/plantilla')
