@@ -22,5 +22,4 @@ from RecaManApp.views import areaboss
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('recaman/', include('RecaManApp.url')),
-    path('', areaboss)
 ]
