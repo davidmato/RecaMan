@@ -17,7 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from RecaManApp.views import areaboss
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('recaman/', include('RecaManApp.url'))
+    path('recaman/', include('RecaManApp.url')),
+    path('', areaboss)
 ]
