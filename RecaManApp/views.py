@@ -8,6 +8,9 @@ from RecaManApp.models import *
 def areaboss(request):
     return render(request, 'newMecanic.html')
 
+def login(request):
+    return render(request, 'login.html')
+
 
 def plantillamecanic(request):
     list_mecanic = Mecanico.objects.all()
