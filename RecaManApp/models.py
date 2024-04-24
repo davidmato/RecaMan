@@ -1,4 +1,4 @@
-
+from django.contrib.auth.base_user import AbstractBaseUser
 from django.db import models
 
 # Create your models here.
@@ -16,8 +16,16 @@ class Tipo_producto(models.Model):
     articulos_no_mecanicos = models.CharField(max_length=250)
     sistema_refrigeracion = models.CharField(max_length=250)
 
+
     def __str__(self):
         return self.liquido_mantenimiento + ' ' + self.sistema_motor + ' ' + self.sistema_frenos + ' ' + self.articulos_no_mecanicos + ' ' + self.sistema_refrigeracion
+
+class Roles(models.TextChoices):
+    ADMIN = 'ADMIN', 'Administrador'
+    MECHANIC = 'MECHANIC','Mechanic'
+    CLIENTE = 'CLIENTE', 'Cliente'
+
+
 
 class Producto (models.Model):
     nombre = models.CharField(max_length=50)
@@ -26,17 +34,24 @@ class Producto (models.Model):
     marca = models.ForeignKey(MarcaCoche, on_delete=models.CASCADE)
     tipo_producto = models.ForeignKey(Tipo_producto, on_delete=models.CASCADE)
 
-class Usuario(models.Model):
+class Usuario(AbstractBaseUser):
     nombre = models.CharField(max_length=150)
     apellido = models.CharField(max_length=150)
-    nombreUsuario = models.CharField(max_length=150)
-    email = models.EmailField(max_length=150)
+    nombreUsuario = models.CharField(max_length=150, unique=True)
+    email = models.EmailField(max_length=150, unique=True)
     password = models.CharField(max_length=150)
     direccion = models.CharField(max_length=150)
+    rol = models.CharField(max_length=15, choices=Roles.choices, default=Roles.CLIENTE)
     producto = models.ManyToManyField(Producto)
+
+    USERNAME_FIELD = 'nombreUsuario'
+    REQUIRED_FIELDS = ['password', 'nombreUsuario']
+
 
     def __str__(self):
         return self.nombre + ' ' + self.apellido + ' ' + self.nombreUsuario + ' ' + self.email + ' ' + self.password + ' ' + self.direccion
+
+
 
 
 class Mecanico (models.Model):
