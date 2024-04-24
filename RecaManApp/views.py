@@ -77,3 +77,16 @@ def new_product(request):
         new.save()
 
         return redirect('newproduct')
+
+def edit_product(request):
+    producto = Producto.objects.get(id=id)
+    if request.method == 'GET':
+        return render(request, 'EditarMecanico.html', {'producto': producto})
+    else:
+        producto.nombre = request.POST.get('mecanicnamen')
+        producto.email = request.POST.get('mail')
+        producto.fecha_nacimiento = request.POST.get('birth')
+        producto.dni = request.POST.get('dni')
+        producto.url = request.POST.get('url')
+        producto.save()
+        return redirect('/recaman/jefe/plantilla')
