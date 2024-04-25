@@ -54,8 +54,7 @@ class Producto (models.Model):
     tipo_producto = models.ForeignKey(Tipo_producto, on_delete=models.CASCADE)
 
 class Usuario(AbstractBaseUser):
-    nombre = models.CharField(max_length=150)
-    apellido = models.CharField(max_length=150)
+    nombre= models.CharField(max_length=150)
     nombreUsuario = models.CharField(max_length=150, unique=True)
     email = models.EmailField(max_length=150, unique=True)
     password = models.CharField(max_length=150)
