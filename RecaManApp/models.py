@@ -80,6 +80,7 @@ class Mecanico (models.Model):
     fecha_nacimiento = models.DateField()
     dni = models.CharField(max_length=9)
     url = models.CharField(max_length=500)
+    user = models.OneToOneField(Usuario, null=True, on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return self.nombre + ' ' + self.email + ' ' + str(self.fecha_nacimiento) + ' ' + self.dni + ' ' + self.url
