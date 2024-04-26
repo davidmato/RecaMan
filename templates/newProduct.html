@@ -75,15 +75,15 @@
               <select class="form-select" id="productCategory" name="tipos_producto">
 
                 {% for tipo in tipos_producto %}
-                    <option value="{{ tipo.id }}">{{ tipo.tipo }}</option>
+                    <option value="{{ tipo.id }}">{{ tipo.nombre }}</option>
                 {% endfor %}
 
 
                 <!-- Opciones de categoría -->
               </select>
             </div>
-            <button type="submit" class="btn btn-dark">Añadir producto</button>
-            <button type="submit" class="btn btn-dark">Eliminar producto</button>
+            <button type="submit" class="btn btn-dark">Guardar</button>
+            <button type="submit" class="btn btn-dark">Eliminar</button>
           </form>
         </div>
 

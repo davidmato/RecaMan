@@ -10,15 +10,12 @@ class MarcaCoche(models.Model):
         return self.nombre + ' ' + self.url
 
 class Tipo_producto(models.Model):
-    liquido_mantenimiento = models.CharField(max_length=250)
-    sistema_motor = models.CharField(max_length=250)
-    sistema_frenos = models.CharField(max_length=250)
-    articulos_no_mecanicos = models.CharField(max_length=250)
-    sistema_refrigeracion = models.CharField(max_length=250)
+    nombre = models.CharField(max_length=250)
+
 
 
     def __str__(self):
-        return self.liquido_mantenimiento + ' ' + self.sistema_motor + ' ' + self.sistema_frenos + ' ' + self.articulos_no_mecanicos + ' ' + self.sistema_refrigeracion
+        return self.nombre
 
 class Roles(models.TextChoices):
     ADMIN = 'ADMIN', 'Administrador'

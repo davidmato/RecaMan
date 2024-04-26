@@ -3,7 +3,7 @@ from .models import *
 
 
 def admin(request):
-    return render(request, 'admin.html')
+    return render(request, 'newProduct.html')
 
 def header(request):
     return render(request, 'header.html')
@@ -53,26 +53,26 @@ def footer(request):
 #     return redirect('/RecaManApp/new_employee')
 #
 #
-def admin(request):
-    return render(request, 'admin.html')
+def jefe(request):
+    return render(request, 'newProduct.html')
 
 def plantilla_admin(request):
-    list_admin = producto.objects.all()
-    return render(request, 'admin.html', {'admin': list_admin})
+    list_admin = Producto.objects.all()
+    return render(request, 'newProduct.html', {'admin': list_admin})
 
 def new_product(request):
     if request.method == 'GET':
-        tipos_producto = tipo_producto.objects.all()
-        marca = marcaCoche.objects.all()
-        return render(request, 'admin.html', {'tipos_producto': tipos_producto, 'marca': marca})
+        tipos_producto = Tipo_producto.objects.all()
+        marca = MarcaCoche.objects.all()
+        return render(request, 'newProduct.html', {'tipos_producto': tipos_producto, 'marca': marca})
     else:
 
-        new = producto()
+        new = Producto()
         new.nombre = request.POST.get('nombre')
         new.url = request.POST.get('url')
         new.descripcion = request.POST.get('descripcion')
-        new.marca = marcaCoche.objects.get(id=request.POST.get('marca'))
-        new.tipo_producto = tipo_producto.objects.get(id=request.POST.get('tipos_producto'))
+        new.marca = MarcaCoche.objects.get(id=request.POST.get('marca'))
+        new.tipo_producto = Tipo_producto.objects.get(id=request.POST.get('tipos_producto'))
         new.precio = request.POST.get('price')
         new.save()
 
@@ -81,12 +81,10 @@ def new_product(request):
 def edit_product(request):
     producto = Producto.objects.get(id=id)
     if request.method == 'GET':
-        return render(request, 'EditarMecanico.html', {'producto': producto})
+        return render(request, 'newProduct.html', {'producto': producto})
     else:
-        producto.nombre = request.POST.get('mecanicnamen')
-        producto.email = request.POST.get('mail')
-        producto.fecha_nacimiento = request.POST.get('birth')
-        producto.dni = request.POST.get('dni')
+        producto.nombre = request.POST.get('productname')
         producto.url = request.POST.get('url')
+        producto.descripcion = request.POST.get('descripcion')
         producto.save()
-        return redirect('/recaman/jefe/plantilla')
+        return redirect('plantillaproducto')
