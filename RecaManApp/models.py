@@ -45,6 +45,7 @@ class UserManager(BaseUserManager):
 class Producto (models.Model):
     nombre = models.CharField(max_length=150)
     url = models.CharField(max_length=500)
+    precio = models.FloatField()
     descripcion = models.CharField(max_length=250)
     marca = models.ForeignKey(MarcaCoche, on_delete=models.CASCADE)
     tipo_producto = models.ForeignKey(Tipo_producto, on_delete=models.CASCADE)
@@ -67,6 +68,15 @@ class Usuario(AbstractBaseUser):
     def __str__(self):
         return self.nombre + ' ' + self.apellido + ' ' + self.nombreUsuario + ' ' + self.email + ' ' + self.password + ' ' + self.direccion
 
+class Cliente (models.Model):
+    nombre = models.CharField(max_length=150)
+    nombreUsuario = models.CharField(max_length=150)
+    email = models.EmailField(max_length=150)
+    password = models.CharField(max_length=150)
+    direccion = models.CharField(max_length=150)
+    producto = models.ManyToManyField(Producto)
+    def __str__(self):
+        return self.nombre + ' ' + self.nombreUsuario + ' ' + self.email + ' ' + self.password + ' ' + self.direccion + ' ' + str(self.producto)
 
 class Mecanico (models.Model):
     nombre = models.CharField(max_length=150)
