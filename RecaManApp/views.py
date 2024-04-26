@@ -59,10 +59,10 @@ def registrar_user(request):
     if request.method == "GET":
         return render(request, 'register.html')
     else:
-        username = request.POST.get('nombre-registro')
+        name = request.POST.get('nombre-registro')
         mail = request.POST.get('email-registro')
         NameUsuario = request.POST.get('nom-usuario')
-        direccion = request.POST.get('direccion')
+        dicrection = request.POST.get('register-direccion')
         password = request.POST.get('contraseña-registro')
         repeatpassword = request.POST.get('confirmar')
 
@@ -86,6 +86,8 @@ def registrar_user(request):
 
         else:
             user = Usuario.objects.create(nombreUsuario=NameUsuario, password=make_password(password), email=mail)
+            user.direccion=dicrection
+            user.nombre=name
             user.save()
 
 
