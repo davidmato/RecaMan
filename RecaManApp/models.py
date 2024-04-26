@@ -106,7 +106,7 @@ class Citas (models.Model):
     def __str__(self):
         return str(self.fecha) + ' ' + str(self.hora) + ' ' + self.motivo + ' ' + str(self.usuario) + ' ' + str(self.mecanico) + ' ' + str(self.cocheCliente)
 class Presupuesto (models.Model):
-    fecha_compra = models.TimeField()
+    fecha_compra = models.DateField()
     precio = models.IntegerField()
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     producto = models.ManyToManyField(Producto)
