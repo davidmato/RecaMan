@@ -53,7 +53,6 @@ def new_meacanic(request):
         return redirect('/recaman/jefe/plantilla')
 
 
-
 def delete_mecanic(request, id):
     mecanic = Mecanico.objects.get(id=id)
     mecanic.delete()
@@ -79,3 +78,49 @@ def recambio_coche(request):
     list_coches = CocheCliente.objects.all()
     mensajes = [coche.necesita_cambio() for coche in list_coches]
     return render(request, 'PlantillaMecanico.html', {'mecanico': list_mecanic, 'mensajes': mensajes})
+
+
+# def add_to_cart(request, id):
+#     carrito = {}
+#
+#     #comprobar si hay un carrito en la sesion
+#     if 'carrito' in request.session:
+#         carrito = request.session.get('carrito', {})
+#
+#     #comprobar si el prducto esta o no en el carrito
+#
+#     if str(id) in carrito.keys():
+#         carrito[str(id)] = carrito[str(id)] + 1
+#     else:
+#         carrito[str(id)] = 1
+#
+#
+#     request.session['carrito'] = carrito
+#
+#     return redirect('/recaman/')
+#
+#
+# def show_cart(request):
+#     carrito = {}
+#     sessin_carrito = {}
+# 
+#     total = 0.0
+#
+#     if 'carrito' in request.session:
+#         sessin_carrito = request.session.get('carrito', {})
+#
+#
+#     for key in sessin_carrito.keys():
+#         product = Item.objects.get(id=(key))
+#         amount = carrito[key]
+#         carrito[product] = amount
+#
+#
+#     return render(request, 'Carrito.html', {'carrito': carrito})
+
+
+
+
+
+
+
