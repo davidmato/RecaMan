@@ -56,6 +56,7 @@ class Usuarios(AbstractBaseUser):
     email = models.EmailField(max_length=150, unique=True)
     password = models.CharField(max_length=150)
     rol = models.CharField(max_length=15, choices=Roles.choices, default=Roles.CLIENTE)
+    producto = models.ManyToManyField(Producto)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
@@ -70,10 +71,8 @@ class Usuarios(AbstractBaseUser):
 
 class Cliente(models.Model):
     nombre = models.CharField(max_length=150)
-    email = models.EmailField(max_length=150)
     fecha_nacimiento = models.DateField()
     direccion = models.CharField(max_length=150)
-    producto = models.ManyToManyField(Producto)
     user = models.OneToOneField(Usuarios, null=True, on_delete=models.DO_NOTHING)
 
 class Mecanico (models.Model):
