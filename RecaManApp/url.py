@@ -10,5 +10,6 @@ urlpatterns = [
     path('jefe/eliminarmecanico/<int:id>', delete_mecanic, name="deleteMecanic"),
     path('jefe/editarmecanico/<int:id>', edit_mecanic, name="editMecanic"),
     path('registrar', registrar_user, name="register"),
-    path('jefe/anyadirUserMecanic/<int:id>', register_mecanic_user, name="registermecanic")
+    path('jefe/anyadirUserMecanic/<int:id>', register_mecanic_user, name="registermecanic"),
+    path('login', do_login, name="login"),
 ]

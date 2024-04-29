@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, redirect
 
@@ -96,7 +97,7 @@ def registrar_user(request):
             cliente.save()
 
 
-            return redirect('plantillaMecanico')
+            return redirect('login')
 
 
 
@@ -114,3 +115,27 @@ def register_mecanic_user(request, id):
         return redirect('login')
     else:
         return redirect('plantillaMecanico')
+
+
+
+
+
+
+def do_login(request):
+    if request.method == "POST":
+        NombreUsuario = request.POST.get('nombreusuario')
+        contraseña = request.POST.get('contraseña')
+
+        usuario = authenticate(request, username=NombreUsuario, password=contraseña)
+
+        if usuario is not None:
+            login(request, usuario)
+
+            return redirect('newMecanic')
+        else:
+
+            return render(request, 'login.html', {"error": "No se ha podido iniciar sesión intentalo de nuevo"})
+
+
+    return render(request, 'login.html')
+
