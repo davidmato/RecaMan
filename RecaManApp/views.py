@@ -60,6 +60,10 @@ def plantilla_admin(request):
     list_admin = Producto.objects.all()
     return render(request, 'newProduct.html', {'admin': list_admin})
 
+def plantilla_product(request):
+    list_product = Producto.objects.all()
+    return render(request, 'PlantillaProducto.html', {'producto': list_product})
+
 def new_product(request):
     if request.method == 'GET':
         tipos_producto = Tipo_producto.objects.all()
@@ -78,13 +82,24 @@ def new_product(request):
 
         return redirect('newproduct')
 
-def edit_product(request):
+def edit_product(request, id):
     producto = Producto.objects.get(id=id)
+    tipos_producto = Tipo_producto.objects.all()
+    marca = MarcaCoche.objects.all()
     if request.method == 'GET':
-        return render(request, 'newProduct.html', {'producto': producto})
+        return render(request, 'newProduct.html', {'producto': producto, 'tipos_producto': tipos_producto, 'marca':marca})
     else:
-        producto.nombre = request.POST.get('productname')
+        producto.nombre = request.POST.get('nombre')
         producto.url = request.POST.get('url')
         producto.descripcion = request.POST.get('descripcion')
+        producto.marca = MarcaCoche.objects.get(id=request.POST.get('marca'))
+        producto.tipo_producto = Tipo_producto.objects.get(id=request.POST.get('tipos_producto'))
         producto.save()
-        return redirect('plantillaproducto')
+
+
+        return redirect('vistaproducto')
+
+def delete_product(request, id):
+    producto = Producto.objects.get(id=id)
+    producto.delete()
+    return redirect('vistaproducto')

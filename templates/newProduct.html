@@ -24,7 +24,7 @@
         <!-- Contenido de la barra lateral -->
         <ul>
           <li class="lateral_list"><a href="">Plantilla mecánico</a></li>
-          <li class="lateral_list"><a href="">Productos</a></li>
+          <li class="lateral_list"><a href="{% url 'vistaproducto' %}">Productos</a></li>
           <li class="lateral_list"><a href="">Citas</a></li>
         </ul>
 
@@ -43,12 +43,12 @@
 
             <div class="mb-3">
               <label for="productName" class="form-label">Nombre del producto</label>
-              <input type="text" class="form-control" id="productName" name="nombre">
+              <input type="text" class="form-control" id="productName" name="nombre" value="{{ producto.nombre }}">
             </div>
 
             <div class="mb-3">
               <label for="productDescription" class="form-label">Descripción del producto</label>
-              <textarea class="form-control" id="productDescription" name="descripcion"></textarea>
+              <textarea class="form-control" id="productDescription" name="descripcion">{{ producto.descripcion }}</textarea>
             </div>
 
             <div class="mb-3">
@@ -58,14 +58,18 @@
 
             <div class="mb-3">
               <label for="productUrl" class="form-label">URL del producto</label>
-              <input type="text" class="form-control" id="productUrl" name="url">
+              <input type="text" class="form-control" id="productUrl" name="url" value="{{ producto.url }}">
             </div>
 
             <div class="mb-3">
               <label for="productID" class="form-label">ID Marca</label>
               <select class="form-select" id="productID" name="marca">
                   {% for m in marca %}
-                    <option value="{{ m.id }}">{{ m.nombre }}</option>
+                    {% if producto.marca_id == m.id  %}
+                        <option value="{{ m.id }}" selected="selected">{{ m.nombre }}</option>
+                        {% else %}
+                        <option value="{{ m.id }}">{{ m.nombre }}</option>
+                      {% endif %}
                   {% endfor %}
               </select>
             </div>
@@ -75,7 +79,12 @@
               <select class="form-select" id="productCategory" name="tipos_producto">
 
                 {% for tipo in tipos_producto %}
-                    <option value="{{ tipo.id }}">{{ tipo.nombre }}</option>
+
+                    {% if producto.tipo_producto_id == tipo.id %}
+                        <option value="{{ tipo.id }}" selected="selected">{{ tipo.nombre }}</option>
+                        {% else %}
+                        <option value="{{ tipo.id }}">{{ tipo.nombre }}</option>
+                    {% endif %}
                 {% endfor %}
 
 
