@@ -63,6 +63,7 @@ def registrar_user(request):
         mail = request.POST.get('email-registro')
         NameUsuario = request.POST.get('nom-usuario')
         dicrection = request.POST.get('register-direccion')
+        fecha = request.POST.get('fecha-nacimiento')
         password = request.POST.get('contraseña-registro')
         repeatpassword = request.POST.get('confirmar')
 
@@ -86,9 +87,13 @@ def registrar_user(request):
 
         else:
             user = Usuarios.objects.create(nombreUsuario=NameUsuario, password=make_password(password), email=mail)
-            user.direccion=dicrection
+            cliente = Cliente.objects.create(nombre=name, direccion=dicrection, fecha_nacimiento=fecha)
+            cliente.fecha_nacimiento = fecha
+            cliente.nombre = name
+            cliente.direccion = dicrection
             user.nombre=name
             user.save()
+            cliente.save()
 
 
             return redirect('plantillaMecanico')
