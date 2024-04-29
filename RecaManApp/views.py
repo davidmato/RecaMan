@@ -94,6 +94,7 @@ def edit_product(request, id):
         producto.descripcion = request.POST.get('descripcion')
         producto.marca = MarcaCoche.objects.get(id=request.POST.get('marca'))
         producto.tipo_producto = Tipo_producto.objects.get(id=request.POST.get('tipos_producto'))
+        producto.precio = request.POST.get('precio', 0)
         producto.save()
 
 

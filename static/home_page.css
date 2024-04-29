@@ -1,3 +1,4 @@
+/* HEADER */
 .navbar-dark .nav-item .nav-link {
   color: #fff;
 }
@@ -52,7 +53,33 @@ ul, li{
 footer{
     margin-top: 15%;
 }
-#button_modal1{
-    font-style: none;
+
+/* BARRA LATERAL */
+
+#barra_lateral{
+    background: linear-gradient(180deg, rgba(0,0,0,1) 31%, rgba(129,0,15,1) 100%) !important;
+}
+
+.lateral_list{
+  color: white;
+}
+
+.lateral_list a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.lateral_list a:hover {
+  color: lightslategray;
+  text-decoration: none;
+}
+
+ul, li{
+  list-style: none;
+  margin-top: 15%;
+}
+
+#form_central{
+  padding-top: 2%;
 }
 
