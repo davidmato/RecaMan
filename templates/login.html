@@ -98,38 +98,38 @@
         }
     </style>
 </head>
+
+    {% include 'header_login.html' %}
 <body>
     <div class="container">
         <input type="checkbox" id="check">
         <div class="login form">
-          <header>Login</header>
+          <header>Iniciar sesion</header>
           <form id="loginForm">
-            <input  type="email" id="email" placeholder="Enter your email">
-            <input type="password" id="contraseña-login" placeholder="Enter your password">
-            <a href="#">Forgot password?</a>
-            <input type="submit" class="button" value="Login">
+            <input  type="email" id="email" placeholder="Introduzca su email">
+            <input type="password" id="contraseña-login" placeholder="Introduzca su contraseña">
+            <input type="submit" class="button" value="Iniciar sesion">
           </form>
           <div class="signup">
-            <span class="signup">Don't have an account?
-             <label for="check">Signup</label>
+            <span class="signup">¿no tienes una cuenta?
+             <label for="check">Registrarse</label>
             </span>
           </div>
         </div>
         <div class="registration form" style="margin-top: 35%;">
-          <header style="margin-top: 15%;">Signup</header>
+          <header style="margin-top: 15%;">Registrarse</header>
           <form id="registerForm">
-            <input type="text" id="email-registro" placeholder="Enter your email">
-            <input type="text" id="nombre-registro" placeholder="Introduce tu nombre">
-            <input type="text" id="apellido" placeholder="Introduce tu apellido">
+            <input type="text" id="email-registro" placeholder="Introduce tu email">
+            <input type="text" id="nombre-registro" placeholder="Introduce tu nombre completo">
             <input type="text" id="nom-usuario" placeholder="Introduce tu nombre de usuario">
             <input type="text" id="direccion" placeholder="Introduce tu direccion">
-            <input type="password" id="contraseña-registro" placeholder="Create a password">
-            <input type="password" id="confirmar" placeholder="Confirm your password">
-            <input type="submit" class="button" value="Signup">
+            <input type="password" id="contraseña-registro" placeholder="Create una contraseña">
+            <input type="password" id="confirmar" placeholder="Confirma la contraseña">
+            <input type="submit" class="button" value="Registrarse">
           </form>
           <div class="signup">
-            <span class="signup">Already have an account?
-             <label for="check">Login</label>
+            <span class="signup">¿Ya tienes una cuenta?
+             <label for="check">Inicia sesion</label>
             </span>
           </div>
         </div>
@@ -162,7 +162,6 @@
             event.preventDefault();
 
             var nombre = document.getElementById('nombre-registro').value;
-            var apellidos = document.getElementById('apellido').value;
             var email = document.getElementById('email-registro').value;
             var contrasena = document.getElementById('contraseña-registro').value;
             var confirmar = document.getElementById('confirmar').value;
@@ -170,7 +169,7 @@
             var direccion = document.getElementById('direccion').value;
 
 
-            if (!nombre || !apellidos || !email || !contrasena || !confirmar || !nom_usuario || !direccion) {
+            if (!nombre || !email || !contrasena || !confirmar || !nom_usuario || !direccion) {
                 alert('Por favor, rellene todos los campos.');
                 return;
             }

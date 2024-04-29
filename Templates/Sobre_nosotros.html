@@ -3,40 +3,81 @@
 <head>
     <link href=" {% static 'taller.png' %}">
 </head>
+<style>
+     @media (max-width: 768px) {
+        .responsive-container {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+</style>
 
 <body>
 
-<div class="row">
-    <div class="col-4">
-      <div id="list-example" class="list-group" style="font-size: medium;">
-        <a class="list-group-item list-group-item-action" href="#list-item-1">Inicios Brillantes en Sevilla</a>
-        <a class="list-group-item list-group-item-action" href="#list-item-2">Pioneros en Innovación Solar</a>
-        <a class="list-group-item list-group-item-action" href="#list-item-3"> Soluciones Personalizadas para Sevilla</a>
-        <a class="list-group-item list-group-item-action" href="#list-item-4"> Educando para un Futuro Sostenible</a>
-        <a class="list-group-item list-group-item-action" href="#list-item-4"> Alianzas Estratégicas para el Crecimiento</a>
-        <a class="list-group-item list-group-item-action" href="#list-item-4"> El Legado Verde de SolarEco</a>
-        <img src="{% static 'taller.png' %}" alt="" style="margin-top: 5%;">
-      </div>
-    </div>
-    <div class="col-8">
+<div class="">
+
+    <div class="col-10" style="margin-left: 2%" >
       <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0" >
-        <h4 id="list-item-1" style="font-size: medium;">En el año 2020, en la cálida ciudad de Sevilla, un grupo apasionado de emprendedores decidieron enfrentar los retos energéticos de su tiempo. Con backgrounds diversos en ingeniería, finanzas y sostenibilidad, nació SolarEco Innovations. Los fundadores, David, Elena, Luis y Marta, compartían una visión audaz de impulsar la transición hacia fuentes de energía más sostenibles en la región.</h4>
-        <p>...</p>
-        <h4 id="list-item-2" style="font-size: medium;">SolarEco Innovations decidió centrarse en la energía solar como la clave para un futuro más verde. Invirtieron en tecnología solar de vanguardia, desarrollando paneles solares altamente eficientes y sistemas de almacenamiento de energía innovadores. La empresa se comprometió a llevar la energía del sol a cada rincón de Sevilla, desde los tejados de los hogares hasta los grandes proyectos comerciales.</h4>
-        <p>...</p>
-        <h4 id="list-item-3" style="font-size: medium;">Con un enfoque único, SolarEco Innovations no solo proveía soluciones estándar, sino que también diseñaba sistemas personalizados para integrarse perfectamente con la arquitectura única de Sevilla. Desde la histórica Alcazaba hasta los modernos rascacielos, cada proyecto era una obra maestra de sostenibilidad y eficiencia.</h4>
-        <p>...</p>
-        <h4 id="list-item-4" style="font-size: medium;">Con el objetivo de empoderar a la comunidad sevillana, SolarEco Innovations lanzó programas educativos sobre energía renovable en escuelas y universidades locales. No solo estaban construyendo infraestructuras, sino también sembrando las semillas de un futuro donde la sostenibilidad era una parte integral de la vida cotidiana.</h4>
-        <p>...</p>
-        <h4 id="list-item-4" style="font-size: medium;">SolarEco Innovations forjó alianzas estratégicas con otras empresas locales, gobiernos municipales y organizaciones sin fines de lucro. Estas colaboraciones no solo impulsaron el crecimiento de la empresa, sino que también consolidaron a SolarEco como un líder en la revolución energética de Sevilla. Juntos, trabajaron en proyectos emblemáticos que transformaron la ciudad en un ejemplo de sostenibilidad.</h4>
-        <p>...</p>
-        <h4 id="list-item-4" style="font-size: medium;">Con el tiempo, SolarEco Innovations se convirtió en un nombre sinónimo de innovación y sostenibilidad en Sevilla. Su legado verde no solo se reflejaba en la energía limpia que generaban, sino también en la conciencia ambiental que fomentaban en la comunidad. Sevilla se transformó en una ciudad que abrazaba plenamente la energía renovable gracias al esfuerzo incansable de SolarEco Innovations, dejando un legado brillante y sostenible para las generaciones venideras.</h4>
-        <p>...</p>
+          <h5>En la vasta extensión de la Cañada Real, donde la vida fluye entre la tradición y la modernidad, se alzaba un taller de mecánica único en su tipo, conocido como "Recamán". Este taller, dirigido por una familia gitana, era mucho más que un lugar para reparar automóviles; era un centro de comunidad y un bastión de habilidades mecánicas excepcionales.</h5>
+
+            <h5>La familia que regentaba el taller, los González, eran conocidos en la Cañada Real por su destreza en el arte de la mecánica y su profundo respeto por las tradiciones gitanas. Don Manuel, el patriarca, era un hombre sabio con décadas de experiencia en reparaciones automotrices, y junto a su esposa, Doña Rosa, y sus hijos, llevaban adelante el negocio con orgullo y pasión.</h5>
+
+            <h5>Un día, llegó al taller un joven llamado Miguel, cuyo automóvil había sufrido una avería en mitad de la carretera. Desesperado por encontrar una solución, Miguel había escuchado hablar de la reputación de "Recamán" y decidió acudir en busca de ayuda.</h5>
+
+            <h5>Al llegar al taller, Miguel fue recibido con calidez por la familia González. Mientras Don Manuel y sus hijos inspeccionaban el vehículo, Doña Rosa invitó a Miguel a compartir un café y a escuchar las historias de la comunidad gitana. Entre risas y anécdotas, Miguel se sintió acogido como parte de la familia.</h5>
+
+            <h5>Con el sol comenzando a ocultarse en el horizonte, el equipo de "Recamán" trabajó incansablemente para reparar el automóvil de Miguel. Con habilidad y determinación, lograron solucionar el problema y devolverle a Miguel la movilidad que tanto necesitaba.</h5>
+
+            <h5>Agradecido por la ayuda recibida, Miguel decidió quedarse un tiempo en la Cañada Real, fascinado por la cultura gitana y el espíritu de comunidad que allí reinaba. Con el tiempo, se convirtió en un miembro más de la familia González, aprendiendo los secretos de la mecánica y compartiendo su conocimiento con la comunidad.</h5>
+
+            <h5>Así, el taller "Recamán" se convirtió en un símbolo de unidad y colaboración en la Cañada Real, donde las habilidades mecánicas se combinaban con el espíritu de la cultura gitana para ayudar a aquellos que lo necesitaban. Con cada automóvil reparado, la familia González demostraba que, más allá de las herramientas y las piezas, lo más importante era el corazón que ponían en cada tarea y la conexión con su comunidad.</h5>
       </div>
     </div>
-  </div>
+
+
+
+
+    <div class="responsive-container" style="display: flex; justify-content: space-around; margin-top: 4%">
+        <div><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d48656.003566039675!2d-3.635727756932094!3d40.342341061758994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd42259efcf26645%3A0xa7e52e6ee5d016bb!2sCa%C3%B1ada%20Real%20Galiana!5e0!3m2!1ses!2ses!4v1714139565742!5m2!1ses!2ses" width="350" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+
+        <div>
+            <form id="faqForm">
+                <h4>Haz una pregunta</h4>
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" placeholder="Escribe tu nombre">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Escribe tu email">
+                </div>
+                <div class="form-group">
+                    <label for="pregunta">Pregunta</label>
+                    <textarea class="form-control" id="pregunta" rows="3" placeholder="Escribe tu pregunta aquí"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Enviar pregunta</button>
+            </form>
+
+
+        </div>
+
+    </div>
+
+
+</div>
 
 
 </body>
+
+<script>
+    document.getElementById('faqForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var nombre = document.getElementById('nombre').value;
+        var email = document.getElementById('email').value;
+        var pregunta = document.getElementById('pregunta').value;
+        console.log(nombre, email, pregunta);
+        alert('Gracias por tu pregunta, te responderemos pronto');
+    });
+</script>
 
 {% include 'footer.html' %}
