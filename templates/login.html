@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/e3fd01f854.js" crossorigin="anonymous"></script>
+
+    <style>
+        .navbar-expand-lg{
+
+    background: rgb(0,0,0);
+    background: linear-gradient(90deg, rgba(0,0,0,1) 31%, rgba(129,0,15,1) 100%);
+}
+        main{
+            background: rgb(0,0,0);
+            background: linear-gradient(90deg, rgba(0,0,0,1) 31%, rgba(129,0,15,1) 100%);
+            display: flex;
+            justify-content: space-evenly;
+
+        }
+        .vertical-line {
+        width: 1px;
+        height: 32em; /* Ajusta la altura según tus necesidades */
+        background-color: #ccc;
+        margin: 0 20px;}
+        form{
+            width: 22%;
+            color: white;
+            padding: 2%;
+            margin-top: 5%;
+            border: 1px solid white;
+        }
+        .navbar-expand-lg{
+            justify-content: center;
+        }
+        .text-bg-light{
+            background: rgb(0,0,0);
+            background: linear-gradient(90deg, rgba(0,0,0,1) 31%, rgba(129,0,15,1) 100%);
+            color: white;
+            padding-top:8% ;
+        }
+    </style>
+</head>
+
+<body>
+    {%include 'header.html'%}
+    <main>
+
+        <form>
+            <h4>INICIA SESIÓN</h4>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Nombre de Usuario</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nombre de usuario">
+
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Contraseña</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Introduzca su contraseña">
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary">Iniciar Sesion</button>
+        </form>
+        <div class="vertical-line"></div>
+        <form>
+
+            <h4>REGÍSTRATE</h4>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Nombre</label>
+                <input type="text" class="form-control" id="exampleInput" placeholder="Escribe tu nombre">
+
+            </div>
+            <div class="form-group">
+                <label for="exampleInput">Apellidos</label>
+                <input type="text" class="form-control" id="exampleInput" placeholder="Escribe tus apellidos">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1"  placeholder="direccion de correo electronico">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Nombre Usuario</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Escribe tu nombre de Usuario">
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputPassword1">Direccion</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Introduce Direccion">
+            </div>
+
+            <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Crear una nueva contraseña">
+            </div>
+
+            <br>
+
+            <button type="submit" class="btn btn-primary">Registrarme</button>
+        </form>
+    </main>
+    <footer>
+        <div class="text-bg-light d-flex justify-content-center"  >
+            <p style="color: white">
+                2024 Recaman. Todos los derechos reservados.
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>

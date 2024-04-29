@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from RecaManApp.views import areajefe
+from RecaManApp.views import area_jefe
 
 urlpatterns = [
     path('admin/', admin.site.urls),

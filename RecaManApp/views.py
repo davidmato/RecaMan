@@ -50,6 +50,7 @@ def registrar_usuario(request):
         mail = request.POST.get('email-registro')
         NameUsuario = request.POST.get('nom-usuario')
         dicrection = request.POST.get('register-direccion')
+        fecha = request.POST.get('fecha-nacimiento')
         password = request.POST.get('contraseña-registro')
         repeatpassword = request.POST.get('confirmar')
         errores = []
@@ -65,9 +66,13 @@ def registrar_usuario(request):
             return render(request, 'register.html', {'errores':errores})
         else:
             user = Usuario.objects.create(nombreUsuario=NameUsuario, password=make_password(password), email=mail)
-            user.direccion=dicrection
+            cliente = Cliente.objects.create(nombre=name, direccion=dicrection, fecha_nacimiento=fecha)
+            cliente.nombre = name
+            cliente.fecha_nacimiento = fecha
+            cliente.direccion = dicrection
             user.nombre=name
             user.save()
+            cliente.save()
             return redirect('lista_mecanicos')
 
 def mostrar_citas(request):

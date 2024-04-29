@@ -56,7 +56,6 @@ class Usuario(AbstractBaseUser):
     nombreUsuario = models.CharField(max_length=150, unique=True)
     email = models.EmailField(max_length=150, unique=True)
     password = models.CharField(max_length=150)
-    direccion = models.CharField(max_length=150)
     rol = models.CharField(max_length=15, choices=Roles.choices, default=Roles.CLIENTE)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -70,11 +69,8 @@ class Usuario(AbstractBaseUser):
 
 class Cliente (models.Model):
     nombre = models.CharField(max_length=150)
-    nombreUsuario = models.CharField(max_length=150)
-    email = models.EmailField(max_length=150)
-    password = models.CharField(max_length=150)
+    fecha_nacimiento = models.DateField()
     direccion = models.CharField(max_length=150)
-    producto = models.ManyToManyField(Producto)
     def __str__(self):
         return self.nombre + ' ' + self.nombreUsuario + ' ' + self.email + ' ' + self.password + ' ' + self.direccion + ' ' + str(self.producto)
 
