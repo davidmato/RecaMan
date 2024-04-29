@@ -73,7 +73,7 @@ class Cliente(models.Model):
     nombre = models.CharField(max_length=150)
     fecha_nacimiento = models.DateField()
     direccion = models.CharField(max_length=150)
-    user = models.OneToOneField(Usuarios, null=True, on_delete=models.DO_NOTHING)
+
 
 class Mecanico (models.Model):
     nombre = models.CharField(max_length=150)
