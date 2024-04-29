@@ -10,19 +10,15 @@ class MarcaCoche(models.Model):
         return self.nombre + ' ' + self.url
 
 class Tipo_producto(models.Model):
-    liquido_mantenimiento = models.CharField(max_length=250)
-    sistema_motor = models.CharField(max_length=250)
-    sistema_frenos = models.CharField(max_length=250)
-    articulos_no_mecanicos = models.CharField(max_length=250)
-    sistema_refrigeracion = models.CharField(max_length=250)
+    nombre = models.CharField(max_length=150)
 
 
     def __str__(self):
-        return self.liquido_mantenimiento + ' ' + self.sistema_motor + ' ' + self.sistema_frenos + ' ' + self.articulos_no_mecanicos + ' ' + self.sistema_refrigeracion
+        return self.nombre
 
 class Roles(models.TextChoices):
     ADMIN = 'ADMIN', 'Administrador'
-    MECHANIC = 'MECHANIC','Mechanic'
+    MECANICO = 'MECANICO','Mecanico'
     CLIENTE = 'CLIENTE', 'Cliente'
 
 
@@ -52,27 +48,33 @@ class Producto (models.Model):
     descripcion = models.CharField(max_length=200)
     marca = models.ForeignKey(MarcaCoche, on_delete=models.CASCADE)
     tipo_producto = models.ForeignKey(Tipo_producto, on_delete=models.CASCADE)
+    precio = models.FloatField()
 
-class Usuario(AbstractBaseUser):
-    nombre= models.CharField(max_length=150)
+class Usuarios(AbstractBaseUser):
+    nombre = models.CharField(max_length=150)
     nombreUsuario = models.CharField(max_length=150, unique=True)
     email = models.EmailField(max_length=150, unique=True)
     password = models.CharField(max_length=150)
-    direccion = models.CharField(max_length=150)
     rol = models.CharField(max_length=15, choices=Roles.choices, default=Roles.CLIENTE)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    producto = models.ManyToManyField(Producto)
 
     USERNAME_FIELD = 'nombreUsuario'
     REQUIRED_FIELDS = ['password', 'email']
 
 
     def __str__(self):
-        return self.nombre + ' ' + self.apellido + ' ' + self.nombreUsuario + ' ' + self.email + ' ' + self.password + ' ' + self.direccion
+        return self.nombre + ' ' + ' ' + self.nombreUsuario + ' ' + self.email + ' ' + self.password + ' '
 
 
 
+class Cliente(models.Model):
+    nombre = models.CharField(max_length=150)
+    email = models.EmailField(max_length=150)
+    fecha_nacimiento = models.DateField()
+    direccion = models.CharField(max_length=150)
+    producto = models.ManyToManyField(Producto)
+    user = models.OneToOneField(Usuarios, null=True, on_delete=models.DO_NOTHING)
 
 class Mecanico (models.Model):
     nombre = models.CharField(max_length=150)
@@ -80,7 +82,7 @@ class Mecanico (models.Model):
     fecha_nacimiento = models.DateField()
     dni = models.CharField(max_length=9)
     url = models.CharField(max_length=500)
-    user = models.OneToOneField(Usuario, null=True, on_delete=models.DO_NOTHING)
+    user = models.OneToOneField(Usuarios, null=True, on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return self.nombre + ' ' + self.email + ' ' + str(self.fecha_nacimiento) + ' ' + self.dni + ' ' + self.url
@@ -90,33 +92,33 @@ class CocheCliente(models.Model):
     KM = models.IntegerField()
     ITV = models.BooleanField()
     marca = models.ForeignKey(MarcaCoche, on_delete=models.CASCADE)
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
 
 
     def __str__(self):
-        return self.modelo + ' ' + self.matricula + ' ' + str(self.KM) + ' ' + str(self.ITV) + ' ' + str(self.marca) + ' ' + str(self.usuario)
+        return self.modelo + ' ' + self.matricula + ' ' + str(self.KM) + ' ' + str(self.ITV) + ' ' + str(self.marca) + ' ' + str(self.cliente)
 
 class Citas (models.Model):
     fecha = models.DateField()
     hora = models.TimeField()
     motivo = models.CharField(max_length=200)
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     mecanico = models.ForeignKey(Mecanico, on_delete=models.CASCADE)
     cocheCliente = models.ForeignKey(CocheCliente, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.fecha) + ' ' + str(self.hora) + ' ' + self.motivo + ' ' + str(self.usuario) + ' ' + str(self.mecanico) + ' ' + str(self.cocheCliente)
+        return str(self.fecha) + ' ' + str(self.hora) + ' ' + self.motivo + ' ' + str(self.cliente) + ' ' + str(self.mecanico) + ' ' + str(self.cocheCliente)
 class Presupuesto (models.Model):
     fecha_compra = models.DateField()
     precio = models.IntegerField()
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     producto = models.ManyToManyField(Producto)
     cita = models.ForeignKey(Citas, on_delete=models.CASCADE)
 
 
 
     def __str__(self):
-        return str(self.fecha_compra) + ' ' + str(self.precio) + ' ' + str(self.usuario) + ' ' + str(self.cita) + ' ' + str(self.producto)
+        return str(self.fecha_compra) + ' ' + str(self.precio) + ' ' + str(self.cliente) + ' ' + str(self.cita) + ' ' + str(self.producto)
 
 
 class Fallos (models.Model):
@@ -129,8 +131,8 @@ class Fallos (models.Model):
 class Comentario (models.Model):
     puntuacion = models.IntegerField()
     comentario = models.CharField(max_length=200)
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.puntuacion) + ' ' + self.comentario + ' ' + str(self.usuario) + ' ' + str(self.producto)
+        return str(self.puntuacion) + ' ' + self.comentario + ' ' + str(self.cliente) + ' ' + str(self.producto)
