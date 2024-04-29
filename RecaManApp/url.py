@@ -8,5 +8,5 @@ urlpatterns = [
     path('jefe/plantilla/', plantilla_mecanicos, name="lista_mecanicos"),
     path('jefe/eliminar_mecanico/<int:id>', eliminar_mecanico, name="quitar_mecanico"),
     path('jefe/editar_mecanico/<int:id>', editar_mecanico, name="cambiar_mecanico"),
-    path('register', registrar_usuario, name="register")
+    path('registrar', registrar_usuario, name="register")
 ]
