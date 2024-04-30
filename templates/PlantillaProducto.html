@@ -38,8 +38,11 @@
                 <li class="list-group-item">{{ p.descripcion }}</li>
               </ul>
                <ul class="list-group list-group-flush">
-                   <li class="list-group-item">{{p.marca}}</li>
+                   <li class="list-group-item">{{p.marca.nombre}}</li>
                </ul>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">{{p.precio}}</li>
+                </ul>
               <div class="card-body">
                 <a href="{% url 'cambiar_producto' p.id %}" class="card-link"><img src={% static 'icons8-editar-24.png' %}></a>
                 <a href="{% url 'quitar_producto' p.id %}" class="card-link"><img src={% static 'icons8-papelera-24.png' %}></a>

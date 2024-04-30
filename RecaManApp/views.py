@@ -96,15 +96,15 @@ def nuevo_producto(request):
         new.descripcion = request.POST.get('descripcion')
         new.marca = MarcaCoche.objects.get(id=request.POST.get('marca'))
         new.tipo_producto = Tipo_producto.objects.get(id=request.POST.get('tipos_producto'))
-        new.precio = request.POST.get('price')
+        new.precio = request.POST.get('precio', 0.0)
         new.save()
 
-        return redirect('newproduct')
+        return redirect('añadir_producto')
 
 def eliminar_producto(request, id):
     producto = Producto.objects.get(id=id)
     producto.delete()
-    return redirect('vistaproducto')
+    return redirect('lista_productos')
 
 def editar_producto(request, id):
     producto = Producto.objects.get(id=id)
@@ -118,8 +118,8 @@ def editar_producto(request, id):
         producto.descripcion = request.POST.get('descripcion')
         producto.marca = MarcaCoche.objects.get(id=request.POST.get('marca'))
         producto.tipo_producto = Tipo_producto.objects.get(id=request.POST.get('tipos_producto'))
-        producto.precio = request.POST.get('precio', 0)
+        producto.precio = request.POST.get('precio', 0.0)
         producto.save()
 
 
-        return redirect('vistaproducto')
+        return redirect('lista_productos')
