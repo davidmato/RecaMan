@@ -54,12 +54,9 @@ class Producto (models.Model):
     precio = models.FloatField()
 
 class Usuarios(AbstractBaseUser):
-    nombre = models.CharField(max_length=150)
     nombreUsuario = models.CharField(max_length=150, unique=True)
-    email = models.EmailField(max_length=150, unique=True)
     password = models.CharField(max_length=150)
     rol = models.CharField(max_length=15, choices=Roles.choices, default=Roles.CLIENTE)
-    producto = models.ManyToManyField(Producto)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
@@ -78,7 +75,8 @@ class Cliente(models.Model):
     nombre = models.CharField(max_length=150)
     fecha_nacimiento = models.DateField()
     direccion = models.CharField(max_length=150)
-
+    email = models.EmailField(max_length=150, unique=True)
+    producto = models.ManyToManyField(Producto)
 
 class Mecanico (models.Model):
     nombre = models.CharField(max_length=150)

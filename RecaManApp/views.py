@@ -60,11 +60,9 @@ def registrar_user(request):
     if request.method == "GET":
         return render(request, 'register.html')
     else:
-        name = request.POST.get('nombre-registro')
-        mail = request.POST.get('email-registro')
+
+
         NameUsuario = request.POST.get('nom-usuario')
-        dicrection = request.POST.get('register-direccion')
-        fecha = request.POST.get('fecha-nacimiento')
         password = request.POST.get('contraseña-registro')
         repeatpassword = request.POST.get('confirmar')
 
@@ -78,23 +76,14 @@ def registrar_user(request):
         if existe_usuario:
             errores.append('Ya existe el nombre de ese usuario')
 
-        existe_email = Usuarios.object.filter(email=mail).exists()
 
-        if existe_email:
-            errores.append('Ya existe un Usuario con ese email')
 
         if len(errores) != 0:
             return render(request, 'register.html', {'errores':errores})
 
         else:
-            user = Usuarios.object.create(nombreUsuario=NameUsuario, password=make_password(password), email=mail)
-            cliente = Cliente.objects.create(nombre=name, fecha_nacimiento=fecha, direccion=dicrection)
-            user.nombre=name
-            cliente.nombre=name
-            cliente.fecha_nacimiento=fecha
-            cliente.direccion=dicrection
+            user = Usuarios.object.create(nombreUsuario=NameUsuario, password=make_password(password))
             user.save()
-            cliente.save()
             return redirect('login')
 
 
@@ -111,6 +100,8 @@ def register_mecanic_user(request, id):
         user.password = make_password(mecanic.dni)
         user.rol = Roles.MECANICO
         user.save()
+        mecanic.user_id = user.id
+        mecanic.save()
         return redirect('login')
     else:
         return redirect('plantillaMecanico')
@@ -123,9 +114,9 @@ def register_mecanic_user(request, id):
 def do_login(request):
     if request.method == "POST":
         NombreUsuario = request.POST.get('nombreusuario')
-        contraseña = request.POST.get('contraseña')
+        contrasenya = request.POST.get('contraseña')
 
-        usuario = authenticate(request, username=NombreUsuario, password=contraseña)
+        usuario = authenticate(request, username=NombreUsuario, password=contrasenya)
 
         if usuario is not None:
             login(request, usuario)
