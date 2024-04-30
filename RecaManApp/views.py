@@ -139,3 +139,7 @@ def do_login(request):
 
     return render(request, 'login.html')
 
+
+def mostrar_citas(request):
+    list_citas = Citas.objects.all()
+    return render(request, 'listado_citas.html', {'citas': list_citas})

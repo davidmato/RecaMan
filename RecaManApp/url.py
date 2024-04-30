@@ -12,4 +12,5 @@ urlpatterns = [
     path('registrar', registrar_user, name="register"),
     path('jefe/anyadirUserMecanic/<int:id>', register_mecanic_user, name="registermecanic"),
     path('login', do_login, name="login"),
+    path('jefe/citas/', mostrar_citas, name='citas_jefe'),
 ]
