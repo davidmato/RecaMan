@@ -60,7 +60,7 @@ class Usuarios(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
-    object = UserManager()
+    objects = UserManager()
 
     USERNAME_FIELD = 'nombreUsuario'
     REQUIRED_FIELDS = ['password', 'email']
@@ -76,6 +76,7 @@ class Cliente(models.Model):
     fecha_nacimiento = models.DateField()
     direccion = models.CharField(max_length=150)
     email = models.EmailField(max_length=150, unique=True)
+    user = models.ForeignKey(Usuarios, on_delete=models.DO_NOTHING, default=None)
     producto = models.ManyToManyField(Producto)
 
 class Mecanico (models.Model):
