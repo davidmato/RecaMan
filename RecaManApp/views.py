@@ -73,12 +73,12 @@ def registrar_user(request):
         if password != repeatpassword:
             errores.append('Las contraseñas no coinciden')
 
-        existe_usuario = Usuarios.objects.filter(nombreUsuario=NameUsuario).exists()
+        existe_usuario = Usuarios.object.filter(nombreUsuario=NameUsuario).exists()
 
         if existe_usuario:
             errores.append('Ya existe el nombre de ese usuario')
 
-        existe_email = Usuarios.objects.filter(email=mail).exists()
+        existe_email = Usuarios.object.filter(email=mail).exists()
 
         if existe_email:
             errores.append('Ya existe un Usuario con ese email')
@@ -87,16 +87,9 @@ def registrar_user(request):
             return render(request, 'register.html', {'errores':errores})
 
         else:
-            user = Usuarios.objects.create(nombreUsuario=NameUsuario, password=make_password(password), email=mail)
-            cliente = Cliente.objects.create(nombre=name, direccion=dicrection, fecha_nacimiento=fecha)
-            cliente.fecha_nacimiento = fecha
-            cliente.nombre = name
-            cliente.direccion = dicrection
+            user = Usuarios.object.create(nombreUsuario=NameUsuario, password=make_password(password), email=mail)
             user.nombre=name
             user.save()
-            cliente.save()
-
-
             return redirect('login')
 
 
@@ -108,6 +101,7 @@ def register_mecanic_user(request, id):
     if mecanic.user is None:
         user = Usuarios()
         user.nombre = mecanic.nombre.replace(" ","")
+        user.nombreUsuario = mecanic.nombre.replace(" ","")
         user.email = mecanic.email
         user.password = make_password(mecanic.dni)
         user.rol = Roles.MECANICO
