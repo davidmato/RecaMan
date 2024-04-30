@@ -88,8 +88,13 @@ def registrar_user(request):
 
         else:
             user = Usuarios.object.create(nombreUsuario=NameUsuario, password=make_password(password), email=mail)
+            cliente = Cliente.objects.create(nombre=name, fecha_nacimiento=fecha, direccion=dicrection)
             user.nombre=name
+            cliente.nombre=name
+            cliente.fecha_nacimiento=fecha
+            cliente.direccion=dicrection
             user.save()
+            cliente.save()
             return redirect('login')
 
 
