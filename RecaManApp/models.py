@@ -1,4 +1,4 @@
-import email
+
 
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
@@ -28,7 +28,8 @@ class UserManager(BaseUserManager):
     def create_user(self, mail,password=None, **extra_fields):
         if not mail:
             raise ValueError('El email es un campo obligatorio')
-        mail = self.normalize_email(email)
+        mail = self.normalize_email(mail)
+        user = self.model(email=mail, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -61,6 +62,8 @@ class Usuarios(AbstractBaseUser):
     producto = models.ManyToManyField(Producto)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+
+    object = UserManager()
 
     USERNAME_FIELD = 'nombreUsuario'
     REQUIRED_FIELDS = ['password', 'email']
