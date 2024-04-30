@@ -79,3 +79,47 @@ def mostrar_citas(request):
     list_citas = Citas.objects.all()
     return render(request, 'listado_citas.html', {'citas': list_citas})
 
+def plantilla_productos(request):
+    list_product = Producto.objects.all()
+    return render(request, 'PlantillaProducto.html', {'producto': list_product})
+
+def nuevo_producto(request):
+    if request.method == 'GET':
+        tipos_producto = Tipo_producto.objects.all()
+        marca = MarcaCoche.objects.all()
+        return render(request, 'newProduct.html', {'tipos_producto': tipos_producto, 'marca': marca})
+    else:
+
+        new = Producto()
+        new.nombre = request.POST.get('nombre')
+        new.url = request.POST.get('url')
+        new.descripcion = request.POST.get('descripcion')
+        new.marca = MarcaCoche.objects.get(id=request.POST.get('marca'))
+        new.tipo_producto = Tipo_producto.objects.get(id=request.POST.get('tipos_producto'))
+        new.precio = request.POST.get('price')
+        new.save()
+
+        return redirect('newproduct')
+
+def eliminar_producto(request, id):
+    producto = Producto.objects.get(id=id)
+    producto.delete()
+    return redirect('vistaproducto')
+
+def editar_producto(request, id):
+    producto = Producto.objects.get(id=id)
+    tipos_producto = Tipo_producto.objects.all()
+    marca = MarcaCoche.objects.all()
+    if request.method == 'GET':
+        return render(request, 'newProduct.html', {'producto': producto, 'tipos_producto': tipos_producto, 'marca':marca})
+    else:
+        producto.nombre = request.POST.get('nombre')
+        producto.url = request.POST.get('url')
+        producto.descripcion = request.POST.get('descripcion')
+        producto.marca = MarcaCoche.objects.get(id=request.POST.get('marca'))
+        producto.tipo_producto = Tipo_producto.objects.get(id=request.POST.get('tipos_producto'))
+        producto.precio = request.POST.get('precio', 0)
+        producto.save()
+
+
+        return redirect('vistaproducto')
