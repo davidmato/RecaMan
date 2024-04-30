@@ -27,7 +27,8 @@ class UserManager(BaseUserManager):
     def create_user(self, mail,password=None, **extra_fields):
         if not mail:
             raise ValueError('El email es un campo obligatorio')
-        user = self.model(mail=self.normalize_email(mail), **extra_fields)
+        user = self.normalize_email(mail)
+        user = self.model(mail=mail, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -52,25 +53,27 @@ class Producto (models.Model):
 
 
 class Usuario(AbstractBaseUser):
-    nombre= models.CharField(max_length=150)
     nombreUsuario = models.CharField(max_length=150, unique=True)
-    email = models.EmailField(max_length=150, unique=True)
     password = models.CharField(max_length=150)
     rol = models.CharField(max_length=15, choices=Roles.choices, default=Roles.CLIENTE)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    producto = models.ManyToManyField(Producto)
+    objects = UserManager()
 
     USERNAME_FIELD = 'nombreUsuario'
     REQUIRED_FIELDS = ['password', 'email']
 
     def __str__(self):
-        return self.nombre + ' ' + self.apellido + ' ' + self.nombreUsuario + ' ' + self.email + ' ' + self.password + ' ' + self.direccion
+        return self.nombreUsuario + ' ' + self.password + ' '
 
 class Cliente (models.Model):
     nombre = models.CharField(max_length=150)
     fecha_nacimiento = models.DateField()
     direccion = models.CharField(max_length=150)
+    email = models.EmailField(max_length=150)
+    user = models.ForeignKey(Usuario, null=True, on_delete=models.DO_NOTHING)
+    producto = models.ManyToManyField(Producto)
+
     def __str__(self):
         return self.nombre + ' ' + self.nombreUsuario + ' ' + self.email + ' ' + self.password + ' ' + self.direccion + ' ' + str(self.producto)
 

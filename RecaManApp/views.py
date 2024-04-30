@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, redirect
 
@@ -123,3 +124,39 @@ def editar_producto(request, id):
 
 
         return redirect('lista_productos')
+
+def registrar_mecanico_usuario(request, id):
+    mecanic = Mecanico.objects.get(id=id)
+
+    if mecanic.user is None:
+        user = Usuario()
+        user.nombre = mecanic.nombre.replace(" ","")
+        user.nombreUsuario = mecanic.nombre.replace(" ","")
+        user.email = mecanic.email
+        user.password = make_password(mecanic.dni)
+        user.rol = Roles.MECANICO
+        user.save()
+        mecanic.user_id = user.id
+        mecanic.save()
+        return redirect('login')
+    else:
+        return redirect('plantilla_mecanicos')
+
+def login_usuario(request):
+    if request.method == "POST":
+        NombreUsuario = request.POST.get('nombreusuario')
+        contrasenya = request.POST.get('contraseña')
+
+        usuario = authenticate(request, username=NombreUsuario, password=contrasenya)
+
+        if usuario is not None:
+            login(request, usuario)
+
+            return redirect('newMecanic')
+        else:
+
+            return render(request, 'login.html', {"error": "No se ha podido iniciar sesión intentalo de nuevo"})
+
+
+    return render(request, 'login.html')
+
