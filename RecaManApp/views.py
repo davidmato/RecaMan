@@ -60,9 +60,6 @@ def registrar_usuario(request):
         existe_usuario = Usuario.objects.filter(nombreUsuario=NameUsuario).exists()
         if existe_usuario:
             errores.append('Ya existe el nombre de ese usuario')
-        existe_email = Usuario.objects.filter(email=mail).exists()
-        if existe_email:
-            errores.append('Ya existe un Usuario con ese email')
         if len(errores) != 0:
             return render(request, 'register.html', {'errores':errores})
         else:
