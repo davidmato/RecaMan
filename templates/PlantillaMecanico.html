@@ -18,15 +18,7 @@
   <div class="container-fluid">
     <div class="row">
       <!-- Barra lateral -->
-      <div class="col-2" style="background: linear-gradient(180deg, rgba(0,0,0,1) 31%, rgba(129,0,15,1) 100%)">
-        <!-- Contenido de la barra lateral -->
-        <ul>
-          <li class="lateral_list"><a href="{% url 'añadir_mecanico' %}">Añadir Mecanico</a></li>
-          <li class="lateral_list"><a href="">Productos</a></li>
-          <li class="lateral_list"><a href="">Citas</a></li>
-        </ul>
-
-      </div>
+      {% include 'barraLateral.html' %}
         {% for e in mecanico %}
 
            <div class="card" style="width: 18rem;">

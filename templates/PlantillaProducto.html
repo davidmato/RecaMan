@@ -19,14 +19,7 @@
   <div class="container-fluid">
     <div class="row">
       <!-- Barra lateral -->
-      <div class="col-2" id="barra_lateral">
-        <!-- Contenido de la barra lateral -->
-        <ul>
-          <li class="lateral_list">Plantilla mecánico</li>
-          <li class="lateral_list">Productos</li>
-          <li class="lateral_list">Citas</li>
-        </ul>
-      </div>
+      {% include 'barraLateral.html' %}
         {% for p in producto %}
 
            <div class="card" style="width: 18rem;">

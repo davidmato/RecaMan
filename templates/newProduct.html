@@ -21,15 +21,7 @@
   <div class="container-fluid">
     <div class="row">
       <!-- Barra lateral -->
-      <div class="col-2" id="barra_lateral">
-        <!-- Contenido de la barra lateral -->
-        <ul>
-          <li class="lateral_list"><a href="{% url 'lista_mecanicos' %}">Plantilla mecánico</a></li>
-          <li class="lateral_list"><a href="{% url 'lista_productos' %}">Productos</a></li>
-          <li class="lateral_list"><a href="">Citas</a></li>
-        </ul>
-
-      </div>
+      {% include 'barraLateral.html' %}
 
       <!-- Contenido principal -->
 

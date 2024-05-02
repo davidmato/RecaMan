@@ -47,11 +47,7 @@ def registrar_usuario(request):
     if request.method == "GET":
         return render(request, 'register.html')
     else:
-        name = request.POST.get('nombre-registro')
-        mail = request.POST.get('email-registro')
         NameUsuario = request.POST.get('nom-usuario')
-        dicrection = request.POST.get('register-direccion')
-        fecha = request.POST.get('fecha-nacimiento')
         password = request.POST.get('contraseña-registro')
         repeatpassword = request.POST.get('confirmar')
         errores = []
@@ -63,14 +59,8 @@ def registrar_usuario(request):
         if len(errores) != 0:
             return render(request, 'register.html', {'errores':errores})
         else:
-            user = Usuario.objects.create(nombreUsuario=NameUsuario, password=make_password(password), email=mail)
-            cliente = Cliente.objects.create(nombre=name, direccion=dicrection, fecha_nacimiento=fecha)
-            cliente.nombre = name
-            cliente.fecha_nacimiento = fecha
-            cliente.direccion = dicrection
-            user.nombre=name
+            user = Usuario.objects.create(nombreUsuario=NameUsuario, password=make_password(password))
             user.save()
-            cliente.save()
             return redirect('lista_mecanicos')
 
 def mostrar_citas(request):
@@ -124,7 +114,6 @@ def editar_producto(request, id):
 
 def registrar_mecanico_usuario(request, id):
     mecanic = Mecanico.objects.get(id=id)
-
     if mecanic.user is None:
         user = Usuario()
         user.nombre = mecanic.nombre.replace(" ","")
@@ -143,17 +132,13 @@ def login_usuario(request):
     if request.method == "POST":
         NombreUsuario = request.POST.get('nombreusuario')
         contrasenya = request.POST.get('contraseña')
-
         usuario = authenticate(request, username=NombreUsuario, password=contrasenya)
-
         if usuario is not None:
             login(request, usuario)
-
-            return redirect('newMecanic')
+            return redirect('lista_mecanicos')
         else:
-
             return render(request, 'login.html', {"error": "No se ha podido iniciar sesión intentalo de nuevo"})
-
-
     return render(request, 'login.html')
+
+
 
