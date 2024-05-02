@@ -52,14 +52,6 @@ class CocheCliente(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
 
 
-    def necesita_cambio(self):
-        umbral_cambio = 10000  # Define tu umbral aquí
-        if self.KM >= umbral_cambio:
-            return f"Es necesario realizar un cambio en el coche con matrícula {self.matricula}. Ha recorrido {self.KM} kilómetros."
-        else:
-            return f"El coche con matrícula {self.matricula} ha recorrido {self.KM} kilómetros. Aún no es necesario realizar un cambio."
-    def __str__(self):
-        return self.modelo + ' ' + self.matricula + ' ' + str(self.KM) + ' ' + str(self.ITV) + ' ' + str(self.marca) + ' ' + str(self.usuario)
 
 class Citas (models.Model):
     fecha = models.DateField()

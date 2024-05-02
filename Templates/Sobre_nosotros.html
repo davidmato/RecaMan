@@ -1,83 +1,156 @@
+<!DOCTYPE html>
 {% load static %}
-{% include 'nav_sin_buscador.html' %}
+<html lang="es">
 <head>
-    <link href=" {% static 'taller.png' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contáctanos</title>
+
+    <!-- CSS de Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- JS de Bootstrap, jQuery y Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+         @media (max-width: 600px) {
+             .responsive-container {
+                 flex-direction: column;
+                 align-items: center;
+
+             }
+
+
+             .formulario {
+                 display: flex;
+                 justify-content: center;
+                 align-items: center;
+             }
+
+             .form-control {
+                 display: block;
+                 justify-content: center;
+                 align-items: center;
+                 width: 100%;
+                 height: calc(1.5em + .75rem + 2px);
+                 padding: .375rem .75rem;
+                 font-size: 1rem;
+                 font-weight: 400;
+                 line-height: 1.5;
+                 color: #495057;
+                 background-color: #fff;
+                 background-clip: padding-box;
+                 border: 1px solid #ced4da;
+                 border-radius: .25rem;
+                 transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+             }
+         }
+
+    
+    </style>
 </head>
-<style>
-     @media (max-width: 768px) {
-        .responsive-container {
-            flex-direction: column;
-            align-items: center;
-        }
-    }
-</style>
-
-<body>
-
-<div class="">
-
-    <div class="col-10" style="margin-left: 2%" >
-      <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0" >
-          <h5>En la vasta extensión de la Cañada Real, donde la vida fluye entre la tradición y la modernidad, se alzaba un taller de mecánica único en su tipo, conocido como "Recamán". Este taller, dirigido por una familia gitana, era mucho más que un lugar para reparar automóviles; era un centro de comunidad y un bastión de habilidades mecánicas excepcionales.</h5>
-
-            <h5>La familia que regentaba el taller, los González, eran conocidos en la Cañada Real por su destreza en el arte de la mecánica y su profundo respeto por las tradiciones gitanas. Don Manuel, el patriarca, era un hombre sabio con décadas de experiencia en reparaciones automotrices, y junto a su esposa, Doña Rosa, y sus hijos, llevaban adelante el negocio con orgullo y pasión.</h5>
-
-            <h5>Un día, llegó al taller un joven llamado Miguel, cuyo automóvil había sufrido una avería en mitad de la carretera. Desesperado por encontrar una solución, Miguel había escuchado hablar de la reputación de "Recamán" y decidió acudir en busca de ayuda.</h5>
-
-            <h5>Al llegar al taller, Miguel fue recibido con calidez por la familia González. Mientras Don Manuel y sus hijos inspeccionaban el vehículo, Doña Rosa invitó a Miguel a compartir un café y a escuchar las historias de la comunidad gitana. Entre risas y anécdotas, Miguel se sintió acogido como parte de la familia.</h5>
-
-            <h5>Con el sol comenzando a ocultarse en el horizonte, el equipo de "Recamán" trabajó incansablemente para reparar el automóvil de Miguel. Con habilidad y determinación, lograron solucionar el problema y devolverle a Miguel la movilidad que tanto necesitaba.</h5>
-
-            <h5>Agradecido por la ayuda recibida, Miguel decidió quedarse un tiempo en la Cañada Real, fascinado por la cultura gitana y el espíritu de comunidad que allí reinaba. Con el tiempo, se convirtió en un miembro más de la familia González, aprendiendo los secretos de la mecánica y compartiendo su conocimiento con la comunidad.</h5>
-
-            <h5>Así, el taller "Recamán" se convirtió en un símbolo de unidad y colaboración en la Cañada Real, donde las habilidades mecánicas se combinaban con el espíritu de la cultura gitana para ayudar a aquellos que lo necesitaban. Con cada automóvil reparado, la familia González demostraba que, más allá de las herramientas y las piezas, lo más importante era el corazón que ponían en cada tarea y la conexión con su comunidad.</h5>
-      </div>
-    </div>
-
-
-
-
-    <div class="responsive-container" style="display: flex; justify-content: space-around; margin-top: 4%">
-        <div><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d48656.003566039675!2d-3.635727756932094!3d40.342341061758994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd42259efcf26645%3A0xa7e52e6ee5d016bb!2sCa%C3%B1ada%20Real%20Galiana!5e0!3m2!1ses!2ses!4v1714139565742!5m2!1ses!2ses" width="350" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
-
-        <div>
-            <form id="faqForm">
-                <h4>Haz una pregunta</h4>
-                <div class="form-group">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" class="form-control" id="nombre" placeholder="Escribe tu nombre">
+{% include 'nav_sin_buscador.html' %}
+<body >
+    <!-- primera fila con texto a la izquierda e imagen a la derecha -->
+    <div class="container-fluid">
+        <div class="responsive-container">
+            <div class="row">
+                <div class="col-6">
+                    <p>En la vasta extensión de la Cañada Real, donde la vida fluye entre la tradición y la modernidad, se alzaba un taller de mecánica único en su tipo, conocido como "Recamán". Este taller, dirigido por una familia gitana, era mucho más que un lugar para reparar automóviles; era un centro de comunidad y un bastión de habilidades mecánicas excepcionales.</p>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="Escribe tu email">
-                </div>
-                <div class="form-group">
-                    <label for="pregunta">Pregunta</label>
-                    <textarea class="form-control" id="pregunta" rows="3" placeholder="Escribe tu pregunta aquí"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Enviar pregunta</button>
-            </form>
 
+                <!-- imagen -->
+                <div class="col-6">
 
+                    <img src="{% static 'foto_mecanica.jpg' %}" alt="" width="35%" height="60%" class="rounded-pill" style="border: black 8px outset; box-shadow: 5px -5px darkgray ;  ">
+                </div>
+            </div>
+
+            
+            <!-- segunda fila con imagen a la izquierda y texto a la derecha -->
+            <div class="row">
+                <div class="col-6">
+                    <!-- imagen -->
+                    <img src="{% static 'foto_mecanica.jpg' %}" alt="" width="35%" height="60%" class="rounded-pill" style="border: black 8px outset; box-shadow: 5px -5px darkgray ;  ">
+                </div>
+                <div class="col-6">
+                    <p>La familia que regentaba el taller, los González, eran conocidos en la Cañada Real por su destreza en el arte de la mecánica y su profundo respeto por las tradiciones gitanas. Don Manuel, el patriarca, era un hombre sabio con décadas de experiencia en reparaciones automotrices, y junto a su esposa, Doña Rosa, y sus hijos, llevaban adelante el negocio con orgullo y pasión.</p>
+                </div>
+            </div>
+
+            <br>
+            
+            <!-- tercera fila con iFrame -->
+            <div class="row" style="margin-bottom: 3%;">
+                <div style="display: flex; align-items: center; justify-content: center">
+
+                        <!-- ajustar ancho y alto o ajustar col -->
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.8354345096036!2d144.95373531550472!3d-37.817209979751864!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0x5045675218ce6e0!2sMelbourne%20VIC%2C%20Australia!5e0!3m2!1sen!2sus!4v1631233126325!5m2!1sen!2sus" width="300" height="250" ></iframe>
+
+                </div>
+
+            </div>
+            
+            <!-- botón para desplegar el formulario -->
+            <button id="mostrarFormulario" class="btn btn-primary;" style="margin-left: 50%;">Formulario</button>
+
+            <!-- formulario -->
+            <div class="row" id="formulario" style="display: none; ">
+                <div class="formulario">
+                    <form id = formula>
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" class="form-control" id="nombre">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="mensaje">Mensaje</label>
+                            <textarea class="form-control" id="mensaje" rows="3" placeholder="Escribe aquí..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </form>
+                </div>
+            </div>
         </div>
-
     </div>
-
-
-</div>
-
-
-</body>
-
+<!-- script para desplegar el formulario -->
 <script>
-    document.getElementById('faqForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        var nombre = document.getElementById('nombre').value;
-        var email = document.getElementById('email').value;
-        var pregunta = document.getElementById('pregunta').value;
-        console.log(nombre, email, pregunta);
-        alert('Gracias por tu pregunta, te responderemos pronto');
-    });
-</script>
 
-{% include 'footer.html' %}
+    /* document: llamo al documento */
+    /* getElementById: obtengo elemento por id */
+    /* addEventListener(click, function()) creo evento que funciona cuando hago click y desplega una funcion */
+    
+  document.getElementById("mostrarFormulario").addEventListener("click", function() {
+    
+    /* la variable formulario es igual al documento que se llama formulario */
+    let formulario = document.getElementById("formulario");
+    
+    /* si el formulario su estilo y display es none, muestrate, si es block desaparece */
+    if (formulario.style.display === "none") {
+      formulario.style.display = "block";
+    } else {
+      formulario.style.display = "none";
+    }
+  });
+
+
+  document.getElementById("formula").addEventListener("submit", function(event) {
+    event.preventDefault
+    let nombre  = document.getElementById("nombre").value
+    let email = document.getElementById("email").value
+    let mensaje = document.getElementById("mensaje").value
+    console.log(nombre, email, mensaje)
+
+    alert("Gracia por su mensaje, te responderemos pronto")
+  })
+;
+
+/* crear un alert al pulsar enviar */
+
+
+</script>
+</body>
+</html>

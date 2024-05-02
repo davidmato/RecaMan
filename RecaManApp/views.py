@@ -26,7 +26,6 @@ def home(request):
 
 
 
-
 def areaboss(request):
     return render(request, 'Area_Admin.html')
 
@@ -78,6 +77,13 @@ def recambio_coche(request):
     list_coches = CocheCliente.objects.all()
     mensajes = [coche.necesita_cambio() for coche in list_coches]
     return render(request, 'PlantillaMecanico.html', {'mecanico': list_mecanic, 'mensajes': mensajes})
+
+def necesita_cambio(self):
+    umbral_cambio = 10000  # Define tu umbral aquí
+    if self.KM >= umbral_cambio:
+        return f"Es necesario realizar un cambio en el coche con matrícula {self.matricula}. Ha recorrido {self.KM} kilómetros."
+    else:
+        return f"El coche con matrícula {self.matricula} ha recorrido {self.KM} kilómetros. Aún no es necesario realizar un cambio."
 
 
 # def add_to_cart(request, id):
