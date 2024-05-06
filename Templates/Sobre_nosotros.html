@@ -50,10 +50,10 @@
     
     </style>
 </head>
-{% include 'nav_sin_buscador.html' %}
+{% include 'header_sin_buscador.html' %}
 <body >
     <!-- primera fila con texto a la izquierda e imagen a la derecha -->
-    <div class="container-fluid">
+    <div class="container-fluid" style="margin-top: 3%">
         <div class="responsive-container">
             <div class="row">
                 <div class="col-6">
@@ -122,6 +122,9 @@
             </div>
         </div>
     </div>
+
+
+    {% include 'footer.html' %}
 <!-- script para desplegar el formulario -->
 <script>
 
@@ -142,14 +145,19 @@
     }
   });
 
-
+  //funcion para enviar el formulario y mostrar un alert
   document.getElementById("formula").addEventListener("submit", function(event) {
     event.preventDefault
+
+    //obtengo los valores de los inputs por su id
     let nombre  = document.getElementById("nombre").value
     let email = document.getElementById("email").value
     let mensaje = document.getElementById("mensaje").value
+
+    //muestro los valores en consola
     console.log(nombre, email, mensaje)
 
+   //muestro un alert con el mensaje
     alert("Gracia por su mensaje, te responderemos pronto")
   })
 ;
