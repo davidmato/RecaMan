@@ -171,4 +171,26 @@ def editar_marca(request, id):
         marca.save()
         return redirect('lista_marcas')
 
+def asignar_Usuario(request):
+    usuario_logeado = Usuario.objects.get(nombreUsuario=request.user.nombreUsuario)
+    cliente = None
+    if usuario_logeado is not None and usuario_logeado.rol == Roles.CLIENTE:
+        clientes = Cliente.objects.filter(user=usuario_logeado)
+        if len(clientes) != 0:
+            cliente = clientes[0]
+        if request.method == "GET":
+            if cliente is not None:
+                return render(request, 'verificarCliente.html')
+            else:
+                return render(request, 'verificarCliente.html')
+        else:
+            if "verificar" in request.POST:
+                cliente = Cliente()
+            cliente.nombre = request.POST.get('nombre')
+            cliente.email = request.POST.get('mail')
+            cliente.direccion = request.POST.get('direccion')
+            cliente.fecha_nacimiento = request.POST.get('fecha')
+            cliente.user = usuario_logeado
+            cliente.save()
+            return render(request, 'verificarCliente.html')
 

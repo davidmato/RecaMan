@@ -19,4 +19,5 @@ urlpatterns = [
     path('jefe/editar_marca/<int:id>', editar_marca, name='cambiar_marca'),
     path('registrar/', registrar_usuario, name="register"),
     path('login/', login_usuario, name="login"),
+    path('verificar/', asignar_Usuario, name="verificar"),
 ]

@@ -16,6 +16,11 @@ class Tipo_producto(models.Model):
     def __str__(self):
         return self.nombre + '' + self.url
 
+class EstadoCitas(models.TextChoices):
+    PENDIENTE = 'PENDIENTE', 'Pendiente'
+    FINALIZADA = 'FINALIZADA', 'Finalizada'
+    ACEPTADA = 'ACEPTADA', 'Aceptada'
+    RECHAZADA = 'RECHAZADA', 'Rechazada'
 
 class Roles(models.TextChoices):
     ADMIN = 'ADMIN', 'Administrador'
@@ -105,6 +110,7 @@ class Citas (models.Model):
     fecha = models.DateField()
     hora = models.TimeField()
     motivo = models.CharField(max_length=250)
+    estado = models.CharField(max_length=15, choices=EstadoCitas.choices, default=EstadoCitas.PENDIENTE)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     mecanico = models.ForeignKey(Mecanico, on_delete=models.CASCADE)
     cocheCliente = models.ForeignKey(CocheCliente, on_delete=models.CASCADE)
