@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div class="col-2" style="background: linear-gradient(180deg, rgba(0,0,0,1) 31%, rgba(129,0,15,1) 100%)">
+        <!-- Contenido de la barra lateral -->
+        <ul>
+          <li class="lateral_list"><a href="{% url 'lista_mecanicos' %}">Mecánicos</a></li>
+          <li class="lateral_list"><a href="{% url 'añadir_mecanico' %}">Añadir Mecánico</a></li>
+          <li class="lateral_list"><a href="{% url 'lista_productos' %}">Productos</a></li>
+          <li class="lateral_list"><a href="{% url 'añadir_producto' %}">Añadir Productos</a></li>
+          <li class="lateral_list"><a href="{% url 'lista_marcas' %}">Marcas</a></li>
+          <li class="lateral_list"><a href="{% url 'añadir_marca' %}">Añadir Marca</a></li>
+          <li class="lateral_list"><a href="{% url 'lista_citas' %}">Citas</a></li>
+        </ul>
+    </div>
+</body>
+</html>
