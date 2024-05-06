@@ -186,3 +186,7 @@ def editar_marca(request, id):
         return redirect('lista_marcas')
 
 
+def pagina_coches(request):
+    return render(request, 'pagina_coches.html')
+
+
