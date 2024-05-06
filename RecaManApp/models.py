@@ -18,6 +18,13 @@ class Tipo_producto(models.Model):
     def __str__(self):
         return self.nombre
 
+class EstadoCita(models.TextChoices):
+    PENDIENTE = 'PENDIENTE','Pendiente'
+    FINALIZADA = 'FINALIZADA','Finalizada'
+    ACEPTADA = 'ACEPTADA', 'Aceptada'
+    RECHAZADA = 'RECHAZADA','Rechazada'
+
+
 class Roles(models.TextChoices):
     ADMIN = 'ADMIN', 'Administrador'
     MECANICO = 'MECANICO','Mecanico'
@@ -53,7 +60,7 @@ class Producto (models.Model):
     tipo_producto = models.ForeignKey(Tipo_producto, on_delete=models.CASCADE)
     precio = models.FloatField()
 
-class Usuarios(AbstractBaseUser):
+class Usuario(AbstractBaseUser):
     nombreUsuario = models.CharField(max_length=150, unique=True)
     password = models.CharField(max_length=150)
     rol = models.CharField(max_length=15, choices=Roles.choices, default=Roles.CLIENTE)
@@ -67,7 +74,7 @@ class Usuarios(AbstractBaseUser):
 
 
     def __str__(self):
-        return self.nombre + ' ' + ' ' + self.nombreUsuario + ' ' + self.email + ' ' + self.password + ' '
+        return  self.nombreUsuario + ' '  + self.password + ' '
 
 
 
@@ -76,7 +83,7 @@ class Cliente(models.Model):
     fecha_nacimiento = models.DateField()
     direccion = models.CharField(max_length=150)
     email = models.EmailField(max_length=150, unique=True)
-    user = models.ForeignKey(Usuarios, on_delete=models.DO_NOTHING, default=None)
+    user = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING, default=None)
     producto = models.ManyToManyField(Producto)
 
 class Mecanico (models.Model):
@@ -85,7 +92,7 @@ class Mecanico (models.Model):
     fecha_nacimiento = models.DateField()
     dni = models.CharField(max_length=9)
     url = models.CharField(max_length=500)
-    user = models.OneToOneField(Usuarios, null=True, on_delete=models.DO_NOTHING)
+    user = models.OneToOneField(Usuario, null=True, on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return self.nombre + ' ' + self.email + ' ' + str(self.fecha_nacimiento) + ' ' + self.dni + ' ' + self.url
@@ -105,6 +112,7 @@ class Citas (models.Model):
     fecha = models.DateField()
     hora = models.TimeField()
     motivo = models.CharField(max_length=200)
+    estado = models.CharField(max_length=15, choices=EstadoCita.choices, default=EstadoCita.PENDIENTE)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     mecanico = models.ForeignKey(Mecanico, on_delete=models.CASCADE)
     cocheCliente = models.ForeignKey(CocheCliente, on_delete=models.CASCADE)

@@ -36,7 +36,7 @@ def new_meacanic(request):
 
 def delete_mecanic(request, id):
     mecanic = Mecanico.objects.get(id=id)
-    user = Usuarios.objects.get(id=mecanic.user_id)
+    user = Usuario.objects.get(id=mecanic.user_id)
     mecanic.delete()
     user.delete()
     return redirect('/recaman/jefe/plantilla')
@@ -73,7 +73,7 @@ def registrar_user(request):
         if password != repeatpassword:
             errores.append('Las contraseñas no coinciden')
 
-        existe_usuario = Usuarios.objects.filter(nombreUsuario=NameUsuario).exists()
+        existe_usuario = Usuario.objects.filter(nombreUsuario=NameUsuario).exists()
 
         if existe_usuario:
             errores.append('Ya existe el nombre de ese usuario')
@@ -84,7 +84,7 @@ def registrar_user(request):
             return render(request, 'register.html', {'errores':errores})
 
         else:
-            user = Usuarios.objects.create(nombreUsuario=NameUsuario, password=make_password(password))
+            user = Usuario.objects.create(nombreUsuario=NameUsuario, password=make_password(password))
             user.save()
             return redirect('login')
 
@@ -95,7 +95,7 @@ def registrar_mecanico_usuario(request, id):
     mecanic = Mecanico.objects.get(id=id)
 
     if mecanic.user is None:
-        user = Usuarios()
+        user = Usuario()
         user.nombre = mecanic.nombre.replace(" ","")
         user.nombreUsuario = mecanic.nombre.replace(" ","")
         user.email = mecanic.email
@@ -135,11 +135,11 @@ def do_login(request):
 
 def mostrar_citas(request):
     list_citas = Citas.objects.all()
-    return render(request, 'listado_citas.html', {'citas': list_citas})
+    return render(request, 'lista_citas.html', {'citas': list_citas})
 
 
 def asignar_Usuario(request):
-    usuario_logeado = Usuarios.objects.get(nombreUsuario=request.user.nombreUsuario)
+    usuario_logeado = Usuario.objects.get(nombreUsuario=request.user.nombreUsuario)
     cliente = None
 
     if usuario_logeado is not None and usuario_logeado.rol == Roles.CLIENTE:
@@ -225,3 +225,33 @@ def editar_producto(request, id):
 def plantilla_productos(request):
     list_product = Producto.objects.all()
     return render(request, 'PlantillaProducto.html', {'producto': list_product})
+
+
+def nueva_marca(request):
+    if request.method == 'GET':
+        return render(request, 'newMarca.html')
+    else:
+        new = MarcaCoche()
+        new.nombre = request.POST.get('nombre')
+        new.url = request.POST.get('url')
+        new.save()
+        return redirect('añadir_marca')
+
+def mostrar_marcas(request):
+    list_marcas = MarcaCoche.objects.all()
+    return render(request, 'listado_marcas.html', {'marcas': list_marcas})
+
+def eliminar_marca(request, id):
+    marca = MarcaCoche.objects.get(id=id)
+    marca.delete()
+    return redirect('lista_marcas')
+
+def editar_marca(request, id):
+    marca = MarcaCoche.objects.get(id=id)
+    if request.method == "GET":
+        return render(request, 'newMarca.html', {'marca':marca})
+    else:
+        marca.nombre = request.POST.get('nombre')
+        marca.url = request.POST.get('url')
+        marca.save()
+        return redirect('lista_marcas')
