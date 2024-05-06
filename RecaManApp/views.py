@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from RecaManApp.models import Mecanico, Usuario, Producto, Citas, MarcaCoche, Tipo_producto, Roles
+from RecaManApp.models import Mecanico, Usuario, Producto, Citas, MarcaCoche, Tipo_producto, Roles, CocheCliente
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, redirect
@@ -186,7 +186,16 @@ def editar_marca(request, id):
         return redirect('lista_marcas')
 
 
-def pagina_coches(request):
-    return render(request, 'pagina_coches.html')
+
+def nuevo_coche(request):
+    if request.method == 'GET':
+        return render(request, 'pagina_coches.html')
+    else:
+        new = CocheCliente()
+        new.modelo = request.POST.get('nombre')
+        new.matricula = request.POST.get('matricula')
+        new.KM = request.POST.get('kilometros')
+        new.save()
+        return redirect('mis_coches')
 
 

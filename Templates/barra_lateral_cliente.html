@@ -2,8 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>barra_lateral</title>
+    <style>
+        a{
+            text-decoration: none;
+            color: white;
 
+        }
+        .lateral_list{
+            list-style: none;
+            padding: 10px;
+            ;
+        }
+    </style>
 </head>
 <body>
     <div class="col-2" style="background: linear-gradient(180deg, rgba(0,0,0,1) 31%, rgba(129,0,15,1) 100%)">
@@ -18,5 +29,6 @@
           <li class="lateral_list"><a href="{% url 'lista_citas' %}">Citas</a></li>
         </ul>
     </div>
+
 </body>
 </html>

@@ -21,7 +21,7 @@ urlpatterns = [
     path('sobre_nosotros/', sobre_nosotros, name='sobre_nosotros'),
     path('footer/', footer, name='footer'),
     path('header/', header, name='header'),
-    path('cliente/mis_coches/', pagina_coches, name='mis_coches'),
+    path('cliente/mis_coches/', nuevo_coche(), name='mis_coches'),
 
     # path('showcart/', showcart, name='showcart'),
 ]
