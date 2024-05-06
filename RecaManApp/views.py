@@ -1,8 +1,25 @@
 from django.shortcuts import render
 
+from RecaManApp.models import Mecanico, Usuario, Producto, Citas, MarcaCoche, Tipo_producto, Roles
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.hashers import make_password
+from django.shortcuts import render, redirect
+
+
 # Create your views here.
 def area_jefe(request):
     return render(request, 'newMecanic.html')
+
+def sobre_nosotros(request):
+    return render(request, 'sobre_nosotros.html')
+
+def footer(request):
+    return render(request, 'footer.html')
+
+
+def header(request):
+    return render(request, 'header_admin.html')
+
 
 def plantilla_mecanicos(request):
     list_mecanic = Mecanico.objects.all()
