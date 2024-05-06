@@ -36,7 +36,9 @@ def new_meacanic(request):
 
 def delete_mecanic(request, id):
     mecanic = Mecanico.objects.get(id=id)
+    user = Usuarios.objects.get(id=mecanic.user_id)
     mecanic.delete()
+    user.delete()
     return redirect('/recaman/jefe/plantilla')
 
 
@@ -89,7 +91,7 @@ def registrar_user(request):
 
 
 
-def register_mecanic_user(request, id):
+def registrar_mecanico_usuario(request, id):
     mecanic = Mecanico.objects.get(id=id)
 
     if mecanic.user is None:
@@ -100,8 +102,9 @@ def register_mecanic_user(request, id):
         user.password = make_password(mecanic.dni)
         user.rol = Roles.MECANICO
         user.save()
-        mecanic.user_id = user.id
+        mecanic.user_id=user.id
         mecanic.save()
+
         return redirect('login')
     else:
         return redirect('plantillaMecanico')
@@ -121,7 +124,7 @@ def do_login(request):
         if usuario is not None:
             login(request, usuario)
 
-            return redirect('newMecanic')
+            return redirect('areausuario')
         else:
 
             return render(request, 'login.html', {"error": "No se ha podido iniciar sesión intentalo de nuevo"})
@@ -169,3 +172,56 @@ def asignar_Usuario(request):
 
 
 
+def areaUsuario(request):
+    return render(request, 'areaUsuario.html')
+
+def pedir_cita(request):
+    return render(request, 'pedircita.html')
+
+
+
+def nuevo_producto(request):
+    if request.method == 'GET':
+        tipos_producto = Tipo_producto.objects.all()
+        marca = MarcaCoche.objects.all()
+        return render(request, 'newProduct.html', {'tipos_producto': tipos_producto, 'marca': marca})
+    else:
+
+        new = Producto()
+        new.nombre = request.POST.get('nombre')
+        new.url = request.POST.get('url')
+        new.descripcion = request.POST.get('descripcion')
+        new.marca = MarcaCoche.objects.get(id=request.POST.get('marca'))
+        new.tipo_producto = Tipo_producto.objects.get(id=request.POST.get('tipos_producto'))
+        new.precio = request.POST.get('precio', 0.0)
+        new.save()
+
+        return redirect('añadir_producto')
+
+def eliminar_producto(request, id):
+    producto = Producto.objects.get(id=id)
+    producto.delete()
+    return redirect('lista_productos')
+
+def editar_producto(request, id):
+    producto = Producto.objects.get(id=id)
+    tipos_producto = Tipo_producto.objects.all()
+    marca = MarcaCoche.objects.all()
+    if request.method == 'GET':
+        return render(request, 'newProduct.html', {'producto': producto, 'tipos_producto': tipos_producto, 'marca':marca})
+    else:
+        producto.nombre = request.POST.get('nombre')
+        producto.url = request.POST.get('url')
+        producto.descripcion = request.POST.get('descripcion')
+        producto.marca = MarcaCoche.objects.get(id=request.POST.get('marca'))
+        producto.tipo_producto = Tipo_producto.objects.get(id=request.POST.get('tipos_producto'))
+        producto.precio = request.POST.get('precio', 0.0)
+        producto.save()
+
+
+        return redirect('lista_productos')
+
+
+def plantilla_productos(request):
+    list_product = Producto.objects.all()
+    return render(request, 'PlantillaProducto.html', {'producto': list_product})
