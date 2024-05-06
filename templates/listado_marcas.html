@@ -13,38 +13,23 @@
 </head>
 <body>
     {% include 'header.html' %}
-
-
   <div class="container-fluid">
     <div class="row">
       <!-- Barra lateral -->
       {% include 'barraLateral.html' %}
-        {% for e in mecanico %}
-
+        {% for m in marcas %}
            <div class="card" style="width: 18rem;">
-              <img src="{{ e.url }}" class="card-img-top" alt="...">
+              <img src="{{ m.url }}" class="card-img-top" alt="...">
               <div class="card-body">
-                <h5 class="card-title">{{ e.nombre }}</h5>
+                <h5 class="card-title">{{ m.nombre }}</h5>
               </div>
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">{{ e.fecha_nacimiento}}</li>
-                <li class="list-group-item">{{ e.dni }}</li>
-                <li class="list-group-item">{{ e.email }}</li>
-              </ul>
               <div class="card-body">
-                  <a href="{% url 'quitar_mecanico' id=e.id %}"><img src={% static 'icons8-papelera-24.png' %}></a>
-                  <a href="{% url 'cambiar_mecanico' id=e.id %}"><img src={% static 'icons8-editar-24.png' %}></a>
-                  <a href="{% url 'añadir_mecanico_usuario' id=e.id %}"><img src={% static 'icons8-añadir-24.png' %}></a>
+                  <a href="{% url 'quitar_marca' id=m.id %}"><img src={% static 'icons8-papelera-24.png' %}></a>
+                  <a href="{% url 'cambiar_marca' id=m.id %}"><img src={% static 'icons8-editar-24.png' %}></a>
               </div>
             </div>
         {% endfor %}
-
     </div>
-
     </div>
-
-
-
-
 </body>
 </html>

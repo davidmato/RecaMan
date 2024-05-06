@@ -12,7 +12,11 @@ urlpatterns = [
     path('jefe/plantilla_productos/', plantilla_productos, name="lista_productos"),
     path('jefe/eliminar_producto/<int:id>', eliminar_producto, name='quitar_producto'),
     path('jefe/editar_producto/<int:id>', editar_producto, name='cambiar_producto'),
-    path('jefe/nuevo_mecanico_automatico/', registrar_mecanico_usuario, name='añadir_mecanico_usuario'),
+    path('jefe/nuevo_mecanico_automatico/<int:id>', registrar_mecanico_usuario, name='añadir_mecanico_usuario'),
+    path('jefe/nueva_marca/', nueva_marca, name='añadir_marca'),
+    path('jefe/plantilla_marcas/', mostrar_marcas, name='lista_marcas'),
+    path('jefe/eliminar_marca/<int:id>', eliminar_marca, name='quitar_marca'),
+    path('jefe/editar_marca/<int:id>', editar_marca, name='cambiar_marca'),
     path('registrar/', registrar_usuario, name="register"),
     path('login/', login_usuario, name="login"),
 ]

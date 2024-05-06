@@ -26,7 +26,9 @@ def nuevo_meacanico(request):
 
 def eliminar_mecanico(request, id):
     mecanic = Mecanico.objects.get(id=id)
+    user = Usuario.objects.get(id=mecanic.user_id)
     mecanic.delete()
+    user.delete()
     return redirect('lista_mecanicos')
 
 def editar_mecanico(request, id):
@@ -140,5 +142,33 @@ def login_usuario(request):
             return render(request, 'login.html', {"error": "No se ha podido iniciar sesión intentalo de nuevo"})
     return render(request, 'login.html')
 
+def nueva_marca(request):
+    if request.method == 'GET':
+        return render(request, 'newMarca.html')
+    else:
+        new = MarcaCoche()
+        new.nombre = request.POST.get('nombre')
+        new.url = request.POST.get('url')
+        new.save()
+        return redirect('añadir_marca')
+
+def mostrar_marcas(request):
+    list_marcas = MarcaCoche.objects.all()
+    return render(request, 'listado_marcas.html', {'marcas': list_marcas})
+
+def eliminar_marca(request, id):
+    marca = MarcaCoche.objects.get(id=id)
+    marca.delete()
+    return redirect('lista_marcas')
+
+def editar_marca(request, id):
+    marca = MarcaCoche.objects.get(id=id)
+    if request.method == "GET":
+        return render(request, 'newMarca.html', {'marca':marca})
+    else:
+        marca.nombre = request.POST.get('nombre')
+        marca.url = request.POST.get('url')
+        marca.save()
+        return redirect('lista_marcas')
 
 
