@@ -13,7 +13,7 @@
     <title>Area Usuario</title>
 </head>
 <body>
-    {% include 'header.html' %}
+    {% include 'header_cliente.html' %}
 
     <br><br>
     <div class="row row-cols-1 row-cols-md-3 g-4 ms-2">
@@ -37,6 +37,7 @@
               </div>
             </div>
           </div>
+        {% if not cliente %}
           <div class="col">
             <div class="card h-100 w-75" >
               <img src="{% static 'coche.jpeg' %}" class="card-img-top" alt="...">
@@ -47,12 +48,23 @@
               </div>
             </div>
           </div>
+        {% endif %}
         <div class="col">
                 <div class="card h-100 w-75" >
                   <img src="{% static 'coche.jpeg' %}" class="card-img-top" alt="...">
                   <div class="card-body">
                     <h5 class="card-title">Mis presupuestos</h5>
                     <p class="card-text"><p> Consulta aqui tus presupuesto de compras </p>
+                  </div>
+                </div>
+        </div>
+        <div class="col">
+                <div class="card h-100 w-75" >
+                  <img src="{% static 'coche.jpeg' %}" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">Mis Citas</h5>
+                    <p class="card-text"><p> Consulta aqui tus citas </p>
+                      <a href="{% url 'vistacitacliente' %}">Tus citas</a>
                   </div>
                 </div>
         </div>

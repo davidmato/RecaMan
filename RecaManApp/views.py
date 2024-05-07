@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, redirect
 
@@ -173,9 +174,16 @@ def asignar_Usuario(request):
 
 
 
+@login_required
 def areaUsuario(request):
-    return render(request, 'areaUsuario.html')
+    usuario_logeado = request.user
 
+    try:
+        cliente = Cliente.objects.get(user=usuario_logeado)
+    except Cliente.DoesNotExist:
+        cliente = None
+
+    return render(request, 'areaUsuario.html', {'cliente': cliente})
 def pedir_cita(request):
     if request.method == 'GET':
         return render(request, 'pedircita.html')
@@ -268,3 +276,14 @@ def editar_marca(request, id):
         marca.url = request.POST.get('url')
         marca.save()
         return redirect('lista_marcas')
+
+def vistacitacliente(request):
+    usuario_logeado = request.user
+
+
+    cliente = Cliente.objects.get(user=usuario_logeado)
+
+
+    citas = Citas.objects.filter(cliente=cliente)
+
+    return render(request, 'vistacitascliente.html', {'citas': citas})
