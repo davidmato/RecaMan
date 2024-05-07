@@ -137,7 +137,19 @@ def do_login(request):
 def mostrar_citas(request):
     list_citas = Citas.objects.all()
     mecanicos = Mecanico.objects.all()
-    return render(request, 'lista_citas.html', {'citas': list_citas, 'mecanicos' : mecanicos})
+
+    if request.method == "GET":
+        return render(request, 'lista_citas.html', {'citas': list_citas, 'mecanicos' : mecanicos})
+
+    else:
+
+         cita = Citas()
+         cita.hora = request.POST.get('hora')
+         cita.mecanico = Mecanico.objects.get(id=request.POST.get('mecanicos'))
+         cita.estado = EstadoCita.ACEPTADA
+         cita.save()
+         return render(render, 'lista_citas.html')
+
 
 
 def asignar_Usuario(request):
@@ -287,3 +299,13 @@ def vistacitacliente(request):
     citas = Citas.objects.filter(cliente=cliente)
 
     return render(request, 'vistacitascliente.html', {'citas': citas})
+
+
+
+
+def eliminar_cita(request, id):
+    cita = Citas.objects.get(id=id)
+    cita.delete()
+    return redirect('vistacitacliente')
+
+

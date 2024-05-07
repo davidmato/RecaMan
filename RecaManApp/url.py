@@ -24,5 +24,6 @@ urlpatterns = [
     path('jefe/plantilla_marcas/', mostrar_marcas, name='lista_marcas'),
     path('jefe/eliminar_marca/<int:id>', eliminar_marca, name='quitar_marca'),
     path('jefe/editar_marca/<int:id>', editar_marca, name='cambiar_marca'),
-    path('vistacitacliente', vistacitacliente, name='vistacitacliente')
+    path('vistacitacliente', vistacitacliente, name='vistacitacliente'),
+    path('eliminar_producto/<int:id>', eliminar_cita, name='quitar_cita'),
 ]

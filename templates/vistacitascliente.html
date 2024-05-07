@@ -11,8 +11,8 @@
 
 </head>
 <body>
-    {% include "header.html" %}
-
+    {% include 'header_cliente.html' %}
+    <br>
   <div class="container-fluid">
     <div class="row">
 
@@ -28,6 +28,7 @@
                                 <th scope="col">Matricula Coche</th>
                                 <th scope="col">Mecánico</th>
                                 <th scope="col">Estado</th>
+                                <th scope="col">Gestion</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,6 +41,7 @@
                                 <td>{{ c.cocheCliente.modelo }}</td>
                                 <td>{{ c.mecanico}}</td>
                                 <td>{{ c.estado}}</td>
+                                <td><a href="{% url 'quitar_cita' c.id %}"><img src="{% static 'icons8-añadir-24.png' %}"></a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
