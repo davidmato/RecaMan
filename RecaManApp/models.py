@@ -95,7 +95,6 @@ class CocheCliente(models.Model):
     matricula = models.CharField(max_length=7)
     KM = models.IntegerField()
     ITV = models.BooleanField()
-    marca = models.ForeignKey(MarcaCoche, on_delete=models.CASCADE)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
 
     def __str__(self):

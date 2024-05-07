@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 
 from RecaManApp.models import Mecanico, Usuario, Producto, Citas, MarcaCoche, Tipo_producto, Roles, CocheCliente
@@ -187,15 +189,41 @@ def editar_marca(request, id):
 
 
 
+def listado_coches(request):
+    cocheCliente = CocheCliente.objects.all()
+    return render(request, 'listado_coches.html', {'coches': cocheCliente})
+
 def nuevo_coche(request):
+    coche = CocheCliente.objects.all()
     if request.method == 'GET':
-        return render(request, 'pagina_coches.html')
+        return render(request, 'newCoches.html' ,{'coches': coche})
     else:
-        new = CocheCliente()
-        new.modelo = request.POST.get('nombre')
-        new.matricula = request.POST.get('matricula')
-        new.KM = request.POST.get('kilometros')
-        new.save()
+        usuario_logeado = request.user
+        coche = CocheCliente()
+        coche.modelo = request.POST.get('modelo')
+        coche.matricula = request.POST.get('matricula')
+        coche.KM = request.POST.get('kilometros')
+        coche.ITV = request.POST.get('ITV')
+        coche.usuario_id = usuario_logeado.id
+        coche.save()
         return redirect('mis_coches')
 
+def eliminar_coche(request,id):
+    coche = CocheCliente.objects.get(id=id)
+    coche.delete()
+    return redirect('mis_coches')
 
+
+def editar_coche(request, id):
+    coche = CocheCliente.objects.get(id=id)
+    if request.method == "GET":
+        return render(request, 'newCoches.html', {'coches':coche})
+    else:
+        usuario_logeado = request.user
+        coche.modelo = request.POST.get('modelo')
+        coche.matricula = request.POST.get('matricula')
+        coche.KM = request.POST.get('kilometros')
+        coche.ITV = request.POST.get('ITV')
+        coche.usuario_id = usuario_logeado.id
+        coche.save()
+        return redirect('mis_coches')
