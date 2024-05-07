@@ -77,7 +77,7 @@ def new_product(request):
         new.descripcion = request.POST.get('descripcion')
         new.marca = MarcaCoche.objects.get(id=request.POST.get('marca'))
         new.tipo_producto = Tipo_producto.objects.get(id=request.POST.get('tipos_producto'))
-        new.precio = request.POST.get('price')
+        new.precio = request.POST.get('precio')
         new.save()
 
         return redirect('newproduct')
