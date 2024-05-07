@@ -36,11 +36,11 @@
             </div>
             <div class="mb-3">
               <label for = "kilometros" class="form-label">Kilometros</label>
-              <input type="text" class="form-control" name = "kilometros" id="kilometros" value="{{ coches.KM }}">
+              <input type="text" class="form-control" name = "kilometros" value="{{ coches.KM }}">
             </div>
             <div class="mb-3">
               <label for="ITV" class="form-label">ITV</label>
-              <select type="" class="form-select" id="ITV" name="ITV" >
+              <select type="boolean" class="form-select" id="ITV" name="ITV" >
                    <option value="True" {% if coche and coche.ITV %}selected{% endif %}>Si</option>
                   <option value="False" {% if coche and not coche.ITV %}selected{% endif %}>No</option>
               </select>
