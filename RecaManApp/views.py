@@ -31,7 +31,7 @@ def new_meacanic(request):
         nuevo.url = request.POST.get('url')
         nuevo.save()
 
-        return redirect('/recaman/jefe/plantilla')
+        return redirect('lista_mecanicos')
 
 
 def delete_mecanic(request, id):
@@ -39,7 +39,7 @@ def delete_mecanic(request, id):
     user = Usuario.objects.get(id=mecanic.user_id)
     mecanic.delete()
     user.delete()
-    return redirect('/recaman/jefe/plantilla')
+    return redirect('lista_mecanicos')
 
 
 def edit_mecanic(request, id):
@@ -55,7 +55,7 @@ def edit_mecanic(request, id):
         mecanic.url = request.POST.get('url')
         mecanic.save()
 
-        return redirect('/recaman/jefe/plantilla')
+        return redirect('lista_mecanicos')
 
 
 def registrar_user(request):
@@ -135,7 +135,8 @@ def do_login(request):
 
 def mostrar_citas(request):
     list_citas = Citas.objects.all()
-    return render(request, 'lista_citas.html', {'citas': list_citas})
+    mecanicos = Mecanico.objects.all()
+    return render(request, 'lista_citas.html', {'citas': list_citas, 'mecanicos' : mecanicos})
 
 
 def asignar_Usuario(request):
@@ -176,7 +177,19 @@ def areaUsuario(request):
     return render(request, 'areaUsuario.html')
 
 def pedir_cita(request):
-    return render(request, 'pedircita.html')
+    if request.method == 'GET':
+        return render(request, 'pedircita.html')
+    else:
+        usuario_logeado = request.user
+        cliente = Cliente.objects.get(user=usuario_logeado)
+        cita = Citas()
+        cita.motivo = request.POST.get('motivo')
+        cita.fecha = request.POST.get('fecha')
+        cita.estado = EstadoCita.PENDIENTE
+        cita.cliente = cliente
+        cita.save()
+
+        return redirect('pedircita')
 
 
 

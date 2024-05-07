@@ -19,8 +19,7 @@
     <div class="row">
       <!-- Barra lateral -->
      {% include 'barraLateral.html' %}
-      </div>
-        {% for e in mecanico %}
+         {% for e in mecanico %}
 
            <div class="card" style="width: 18rem;">
               <img src="{{ e.url }}" class="card-img-top" alt="...">
@@ -39,6 +38,8 @@
               </div>
             </div>
         {% endfor %}
+      </div>
+
 
     </div>
 

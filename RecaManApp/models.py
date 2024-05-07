@@ -110,12 +110,12 @@ class CocheCliente(models.Model):
 
 class Citas (models.Model):
     fecha = models.DateField()
-    hora = models.TimeField()
+    hora = models.TimeField(null=True)
     motivo = models.CharField(max_length=200)
     estado = models.CharField(max_length=15, choices=EstadoCita.choices, default=EstadoCita.PENDIENTE)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
-    mecanico = models.ForeignKey(Mecanico, on_delete=models.CASCADE)
-    cocheCliente = models.ForeignKey(CocheCliente, on_delete=models.CASCADE)
+    mecanico = models.ForeignKey(Mecanico, on_delete=models.CASCADE, null=True)
+    cocheCliente = models.ForeignKey(CocheCliente, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return str(self.fecha) + ' ' + str(self.hora) + ' ' + self.motivo + ' ' + str(self.cliente) + ' ' + str(self.mecanico) + ' ' + str(self.cocheCliente)

@@ -18,7 +18,6 @@
       <!-- Barra lateral -->
       {% include 'barraLateral.html' %}
 
-      </div>
         <div class="col-10">
             {% csrf_token %}
         <table class="table">
@@ -38,17 +37,24 @@
                 <tr>
                     <th scope="row">{{ c.id }}</th>
                     <td>{{ c.fecha }}</td>
-                    <td>{{ c.hora }}</td>
+                    <td><input type="time"></td>
                     <td>{{ c.motivo }}</td>
-                    <td>{{ c.cocheCliente.matricula }}</td>
-                    <td>{{ c.mecanico.nombre }}</td>
-                    <td>{{ c.usuario.nombreUsuario }}</td>
-                    <td><button><img src="{% static 'lapiz-icons8.png' %}"></button></td>
+                    <td>{{ c.cocheCliente.modelo }}</td>
+                    <td><select name="mecanico">
+                            {% for mecanico in mecanicos %}
+                                <option value="{{ mecanico.id }}">{{ mecanico.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                    <td>{{ c.cliente.nombre }}</td>
+                    <td><button><img src="{% static 'icons8-añadir-24.png' %}"></button></td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
         </div>
+      </div>
+
     </div>
   </div>
 </body>

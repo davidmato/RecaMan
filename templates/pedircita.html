@@ -25,15 +25,12 @@
               {% csrf_token %}
             <div class="mb-3">
               <label class="form-label">Motivo</label>
-              <input type="text" class="form-control" id="mecanicname" name="mecanicnamen" value="{{ mecanic.nombre }}">
+              <input type="text" class="form-control" name="motivo">
             </div>
-            <div class="mb-3">
-              <label class="form-label">Hora</label >
-              <input type="time" class="form-control" id="maili" name="mail" value="{{ mecanic.email }}">
-            </div>
+
             <div class="mb-3">
               <label  class="form-label">Fecha</label>
-              <input type="date" class="form-control" id="productPrice" name="birth" value="{{ mecanic.fecha_nacimiento|date:'Y-m-d' }}">
+              <input type="date" class="form-control" name="fecha">
             </div>
             <button type="submit" class="btn btn-dark">Realizar</button>
           </form>
