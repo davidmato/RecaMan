@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from RecaManApp.models import *
 # Create your views here.
 def area_jefe(request):
-    return render(request, 'newMecanic.html')
+    return render(request, 'AreaJefe.html')
 
 def plantilla_mecanicos(request):
     list_mecanic = Mecanico.objects.all()
