@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from RecaManApp.models import *
 # Create your views here.
 def area_jefe(request):
-    return render(request, 'newMecanic.html')
+    return render(request, 'AreaJefe.html')
 
 def plantilla_mecanicos(request):
     list_mecanic = Mecanico.objects.all()
@@ -194,3 +194,11 @@ def asignar_Usuario(request):
             cliente.save()
             return render(request, 'verificarCliente.html')
 
+def nuevo_tipo_producto(request):
+    if request.method == 'GET':
+        return render(request, 'newTipoProducto.html')
+    else:
+        new = Tipo_producto()
+        new.nombre = request.POST.get('nombre')
+        new.save()
+        return redirect('añadir_tipo_producto')

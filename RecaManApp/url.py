@@ -17,6 +17,7 @@ urlpatterns = [
     path('jefe/plantilla_marcas/', mostrar_marcas, name='lista_marcas'),
     path('jefe/eliminar_marca/<int:id>', eliminar_marca, name='quitar_marca'),
     path('jefe/editar_marca/<int:id>', editar_marca, name='cambiar_marca'),
+    path('jefe/nuevo_tipo_producto/', nuevo_tipo_producto, name='añadir_tipo_producto'),
     path('registrar/', registrar_usuario, name="register"),
     path('login/', login_usuario, name="login"),
     path('verificar/', asignar_Usuario, name="verificar"),
