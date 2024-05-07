@@ -99,23 +99,26 @@
     </style>
 </head>
 <body>
+
+
+
     <div class="container">
         <input type="checkbox" id="check">
         <div class="login form">
-          <header>Inicia Sesion</header>
-          <form  action="{% url 'login' %}"  method="post">
+          <header>Registrarse</header>
+          <form method="post" action="{% url 'register' %}">
               {% csrf_token %}
-            <input type="text" name="nombreusuario"  placeholder="Introduce tu nombre de Usuario">
-            <input type="password" name="contraseña" placeholder="Introduce tu contraseña">
-            <input type="submit" class="button" value="Inicia Sesion">
+              <input type="text" id="nom-usuario" name="nom-usuario" placeholder="Introduce tu nombre de usuario">
+              <input type="password" id="contraseña-registro" name="contraseña-registro" placeholder="Create una contraseña">
+              <input type="password" id="confirmar" name="confirmar" placeholder="Confirma la contraseña">
+
+              <input type="submit" class="button" value="Registrate">
           </form>
           <div class="signup">
-            <span class="signup">No tienes cuenta?
-             <a href="{% url 'register' %}">Registrate</a>
+             <a href="{% url 'login' %}">Inicie Sesion</a>
             </span>
           </div>
-
-            <p style="color:red;">{{ error }}</p>
+        </div>
         </div>
     </div>
 </body>

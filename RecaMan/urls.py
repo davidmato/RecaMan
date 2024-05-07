@@ -16,11 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from RecaManApp.views import new_product
 
+from RecaManApp.views import area_jefe
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('recaman/', include('RecaManApp.url')),
-
 ]

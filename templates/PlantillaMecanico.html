@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,15 +18,7 @@
   <div class="container-fluid">
     <div class="row">
       <!-- Barra lateral -->
-      <div class="col-2" style="background: linear-gradient(180deg, rgba(0,0,0,1) 31%, rgba(129,0,15,1) 100%)">
-        <!-- Contenido de la barra lateral -->
-        <ul>
-          <li class="lateral_list"><a href="{% url 'newMecanic' %}">Añadir Mecanico</a></li>
-          <li class="lateral_list"><a href="">Productos</a></li>
-          <li class="lateral_list"><a href="">Citas</a></li>
-        </ul>
-
-      </div>
+      {% include 'barraLateral.html' %}
         {% for e in mecanico %}
 
            <div class="card" style="width: 18rem;">
@@ -39,8 +32,9 @@
                 <li class="list-group-item">{{ e.email }}</li>
               </ul>
               <div class="card-body">
-                  <a href="{% url 'deleteMecanic' id=e.id %}"><button><img src={% static 'icons8-papelera-24.png' %}> </button></a>
-                  <a href="{% url 'editMecanic' id=e.id %}"><button> <img src={% static 'icons8-editar-24.png' %}> </button></a>
+                  <a href="{% url 'quitar_mecanico' id=e.id %}"><img src={% static 'icons8-papelera-24.png' %}></a>
+                  <a href="{% url 'cambiar_mecanico' id=e.id %}"><img src={% static 'icons8-editar-24.png' %}></a>
+                  <a href="{% url 'añadir_mecanico_usuario' id=e.id %}"><img src={% static 'icons8-añadir-24.png' %}></a>
               </div>
             </div>
         {% endfor %}
