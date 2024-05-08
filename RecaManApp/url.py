@@ -26,4 +26,5 @@ urlpatterns = [
     path('jefe/editar_marca/<int:id>', editar_marca, name='cambiar_marca'),
     path('vistacitacliente', vistacitacliente, name='vistacitacliente'),
     path('eliminar_producto/<int:id>', eliminar_cita, name='quitar_cita'),
+    path('error', error, name="error")
 ]

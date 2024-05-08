@@ -4,20 +4,24 @@ from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, redirect
 
 from RecaManApp.models import *
+from .decorators import *
 
 
 # Create your views here.
-
+@check_user_roles('ADMIN')
 def areaboss(request):
     return render(request, 'newMecanic.html')
 
 
+def error(request):
+    return render(request, 'errores.html')
 
+@check_user_roles('ADMIN')
 def plantillamecanic(request):
     list_mecanic = Mecanico.objects.all()
     return render(request, 'PlantillaMecanico.html',{'mecanico': list_mecanic})
 
-
+@check_user_roles('ADMIN')
 def new_meacanic(request):
 
     if request.method == 'GET':
@@ -34,15 +38,16 @@ def new_meacanic(request):
 
         return redirect('lista_mecanicos')
 
-
+@check_user_roles('ADMIN')
 def delete_mecanic(request, id):
     mecanic = Mecanico.objects.get(id=id)
     user = Usuario.objects.get(id=mecanic.user_id)
     mecanic.delete()
-    user.delete()
+    if mecanic.user_id == user:
+        user.delete()
     return redirect('lista_mecanicos')
 
-
+@check_user_roles('ADMIN')
 def edit_mecanic(request, id):
     mecanic = Mecanico.objects.get(id=id)
 
@@ -91,7 +96,7 @@ def registrar_user(request):
 
 
 
-
+@check_user_roles('ADMIN')
 def registrar_mecanico_usuario(request, id):
     mecanic = Mecanico.objects.get(id=id)
 
@@ -122,9 +127,12 @@ def do_login(request):
 
         usuario = authenticate(request, username=NombreUsuario, password=contrasenya)
 
-        if usuario is not None:
+        if usuario is not None and usuario.rol==Roles.ADMIN:
             login(request, usuario)
 
+            return redirect('añadir_mecanico')
+        elif usuario is not None and usuario.rol==Roles.CLIENTE:
+            login(request,usuario)
             return redirect('areausuario')
         else:
 
@@ -133,7 +141,7 @@ def do_login(request):
 
     return render(request, 'login.html')
 
-
+@check_user_roles('ADMIN')
 def mostrar_citas(request):
     list_citas = Citas.objects.all()
     mecanicos = Mecanico.objects.all()
@@ -151,7 +159,7 @@ def mostrar_citas(request):
          return render(render, 'lista_citas.html')
 
 
-
+@check_user_roles('ADMIN')
 def asignar_Usuario(request):
     usuario_logeado = Usuario.objects.get(nombreUsuario=request.user.nombreUsuario)
     cliente = None
@@ -212,7 +220,7 @@ def pedir_cita(request):
         return redirect('pedircita')
 
 
-
+@check_user_roles('ADMIN')
 def nuevo_producto(request):
     if request.method == 'GET':
         tipos_producto = Tipo_producto.objects.all()
@@ -230,12 +238,12 @@ def nuevo_producto(request):
         new.save()
 
         return redirect('añadir_producto')
-
+@check_user_roles('ADMIN')
 def eliminar_producto(request, id):
     producto = Producto.objects.get(id=id)
     producto.delete()
     return redirect('lista_productos')
-
+@check_user_roles('ADMIN')
 def editar_producto(request, id):
     producto = Producto.objects.get(id=id)
     tipos_producto = Tipo_producto.objects.all()
@@ -254,12 +262,12 @@ def editar_producto(request, id):
 
         return redirect('lista_productos')
 
-
+@check_user_roles('ADMIN')
 def plantilla_productos(request):
     list_product = Producto.objects.all()
     return render(request, 'PlantillaProducto.html', {'producto': list_product})
 
-
+@check_user_roles('ADMIN')
 def nueva_marca(request):
     if request.method == 'GET':
         return render(request, 'newMarca.html')
@@ -269,16 +277,16 @@ def nueva_marca(request):
         new.url = request.POST.get('url')
         new.save()
         return redirect('añadir_marca')
-
+@check_user_roles('ADMIN')
 def mostrar_marcas(request):
     list_marcas = MarcaCoche.objects.all()
     return render(request, 'listado_marcas.html', {'marcas': list_marcas})
-
+@check_user_roles('ADMIN')
 def eliminar_marca(request, id):
     marca = MarcaCoche.objects.get(id=id)
     marca.delete()
     return redirect('lista_marcas')
-
+@check_user_roles('ADMIN')
 def editar_marca(request, id):
     marca = MarcaCoche.objects.get(id=id)
     if request.method == "GET":
