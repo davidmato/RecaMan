@@ -9,7 +9,7 @@ from .decorators import *
 
 # Create your views here.
 @check_user_roles('ADMIN')
-def areaboss(request):
+def area_jefe(request):
     return render(request, 'newMecanic.html')
 
 
@@ -17,12 +17,12 @@ def error(request):
     return render(request, 'errores.html')
 
 @check_user_roles('ADMIN')
-def plantillamecanic(request):
+def plantilla_mecanicos(request):
     list_mecanic = Mecanico.objects.all()
     return render(request, 'PlantillaMecanico.html',{'mecanico': list_mecanic})
 
 @check_user_roles('ADMIN')
-def new_meacanic(request):
+def nuevo_mecanico(request):
 
     if request.method == 'GET':
         return render(request, 'newMecanic.html')
@@ -39,7 +39,7 @@ def new_meacanic(request):
         return redirect('lista_mecanicos')
 
 @check_user_roles('ADMIN')
-def delete_mecanic(request, id):
+def eliminar_mecanico(request, id):
     mecanic = Mecanico.objects.get(id=id)
     user = Usuario.objects.get(id=mecanic.user_id)
     mecanic.delete()
@@ -48,7 +48,7 @@ def delete_mecanic(request, id):
     return redirect('lista_mecanicos')
 
 @check_user_roles('ADMIN')
-def edit_mecanic(request, id):
+def editar_mecanico(request, id):
     mecanic = Mecanico.objects.get(id=id)
 
     if request.method == "GET":
