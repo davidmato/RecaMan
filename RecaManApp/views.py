@@ -126,7 +126,7 @@ def registrar_mecanico_usuario(request, id):
         user.save()
         mecanic.user_id = user.id
         mecanic.save()
-        return redirect('login')
+        return redirect('plantilla_mecanicos')
     else:
         return redirect('plantilla_mecanicos')
 
@@ -195,10 +195,25 @@ def asignar_Usuario(request):
             return render(request, 'verificarCliente.html')
 
 def nuevo_tipo_producto(request):
-    if request.method == 'GET':
-        return render(request, 'newTipoProducto.html')
-    else:
+    if request.method == 'POST':
         new = Tipo_producto()
         new.nombre = request.POST.get('nombre')
         new.save()
+        return redirect('añadir_tipo_producto')
+    list_tipos_productos = Tipo_producto.objects.all()
+    return render(request, 'newTipoProducto.html',{'tipos_productos': list_tipos_productos})
+
+def eliminar_tipo_producto(request, id):
+    tipo_producto = Tipo_producto.objects.get(id=id)
+    tipo_producto.delete()
+    return redirect('añadir_tipo_producto')
+
+def editar_tipo_producto(request, id):
+    tipo_producto = Tipo_producto.objects.get(id=id)
+    list_tipos_productos = Tipo_producto.objects.all()
+    if request.method == "GET":
+        return render(request, 'newTipoProducto.html', {'tipo_producto':tipo_producto, 'tipos_productos':list_tipos_productos})
+    else:
+        tipo_producto.nombre = request.POST.get('nombre')
+        tipo_producto.save()
         return redirect('añadir_tipo_producto')
