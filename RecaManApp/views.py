@@ -317,3 +317,22 @@ def eliminar_cita(request, id):
     return redirect('vistacitacliente')
 
 
+
+def eliminar_tipo_producto(request, id):
+    tipo_producto = Tipo_producto.objects.get(id=id)
+    tipo_producto.delete()
+    return redirect('añadir_tipo_producto')
+
+def editar_tipo_producto(request, id):
+    tipo_producto = Tipo_producto.objects.get(id=id)
+    list_tipos_productos = Tipo_producto.objects.all()
+    if request.method == "GET":
+        return render(request, 'newTipoProducto.html', {'tipo_producto':tipo_producto, 'tipos_productos':list_tipos_productos})
+    else:
+        tipo_producto.nombre = request.POST.get('nombre')
+        tipo_producto.save()
+        return redirect('añadir_tipo_producto')
+
+def mostrar_presupuestos(request):
+    list_presupuestos = Presupuesto.objects.all()
+    return render(request, 'listado_presupuestos.html', {'presupuesto': list_presupuestos})

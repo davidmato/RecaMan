@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,12 +12,13 @@
 </head>
 <body>
     {% include 'header.html' %}
-  <div class="container-fluid">
-    <div class="row">
+  <div class="container-fluid row">
       <!-- Barra lateral -->
       {% include 'barraLateral.html' %}
+        <!-- Contenido -->
+        <div class="col-10 d-flex flex-wrap">
         {% for m in marcas %}
-           <div class="card" style="width: 18rem;">
+           <div class="card" style="width: 18rem; margin: 2px;">
               <img src="{{ m.url }}" class="card-img-top" alt="...">
               <div class="card-body">
                 <h5 class="card-title">{{ m.nombre }}</h5>
@@ -31,6 +30,6 @@
             </div>
         {% endfor %}
     </div>
-    </div>
+  </div>
 </body>
 </html>

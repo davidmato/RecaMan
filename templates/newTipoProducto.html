@@ -16,32 +16,40 @@
     <div class="row">
       <!-- Barra lateral -->
       {% include 'barraLateral.html' %}
-
       <!-- Contenido principal -->
       <div class="col-10" id="form_central">
-
         <!-- FORMULARIO DE PRODUCTOS -->
-
         <div class="container-fluid">
           <form action="" method="post">
               {% csrf_token %}
             <div class="mb-3">
-              <label for="marcaname" class="form-label">Nombre Marca</label>
-              <input type="text" class="form-control" id="marcaname" name="nombre" value="{{ marca.nombre }}">
-            </div>
-            <div class="mb-3">
-              <label for="urlimg" class="form-label">Imagen</label>
-              <input type="text" class="form-control" id="urlimg" name="url" value="{{ marca.url }}">
+              <label for="marcaname" class="form-label">Categoría del producto</label>
+              <input type="text" class="form-control" id="marcaname" name="nombre" value="{{ tipo_producto.nombre }}">
             </div>
             <button type="submit" class="btn btn-dark">Guardar</button>
           </form>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nombre de la categoría</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tp in tipos_productos %}
+                    <tr>
+                        <th scope="row">{{ tp.id }}</th>
+                        <td>{{ tp.nombre }}</td>
+                        <td><a href="{% url 'quitar_tipo_producto' id=tp.id %}"><img src="{% static 'icons8-papelera-24.png' %}"></a></td>
+                        <td><a href="{% url 'cambiar_tipo_producto' id=tp.id %}"><img src="{% static 'icons8-editar-24.png' %}"></a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-
         <!-- Contenido principal -->
       </div>
     </div>
   </div>
 </body>
 </html>
-
-
