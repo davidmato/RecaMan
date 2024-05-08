@@ -20,6 +20,7 @@ urlpatterns = [
     path('jefe/nuevo_tipo_producto/', nuevo_tipo_producto, name='añadir_tipo_producto'),
     path('jefe/eliminar_tipo_producto/<int:id>', eliminar_tipo_producto, name='quitar_tipo_producto'),
     path('jefe/editar_tipo_producto/<int:id>', editar_tipo_producto, name='cambiar_tipo_producto'),
+    path('jefe/plantilla_presupuestos/', mostrar_presupuestos, name='lista_presupuestos'),
     path('registrar/', registrar_usuario, name="register"),
     path('login/', login_usuario, name="login"),
     path('verificar/', asignar_Usuario, name="verificar"),

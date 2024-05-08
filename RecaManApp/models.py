@@ -99,7 +99,7 @@ class CocheCliente(models.Model):
     matricula = models.CharField(max_length=7)
     KM = models.IntegerField()
     ITV = models.BooleanField()
-    marca = models.ForeignKey(MarcaCoche, on_delete=models.CASCADE)
+    marca = models.CharField(max_length=150)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -108,7 +108,7 @@ class CocheCliente(models.Model):
 
 class Citas (models.Model):
     fecha = models.DateField()
-    hora = models.TimeField()
+    hora = models.TimeField(null=True)
     motivo = models.CharField(max_length=250)
     estado = models.CharField(max_length=15, choices=EstadoCitas.choices, default=EstadoCitas.PENDIENTE)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
@@ -121,21 +121,14 @@ class Citas (models.Model):
 
 class Presupuesto (models.Model):
     fecha_compra = models.DateField()
+    fallos = models.CharField(max_length=500, null=True)
     precio = models.FloatField()
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     producto = models.ManyToManyField(Producto)
-    cita = models.ForeignKey(Citas, on_delete=models.CASCADE)
+    cita = models.ForeignKey(Citas, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return str(self.fecha_compra) + ' ' + str(self.precio) + ' ' + str(self.usuario) + ' ' + str(self.cita) + ' ' + str(self.producto)
-
-
-class Fallos (models.Model):
-    descripcion = models.CharField(max_length=250)
-    presupuesto = models.ForeignKey(Presupuesto, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.descripcion + ' ' + str(self.presupuesto)
 
 
 class Comentario (models.Model):

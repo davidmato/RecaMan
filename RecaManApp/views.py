@@ -126,9 +126,9 @@ def registrar_mecanico_usuario(request, id):
         user.save()
         mecanic.user_id = user.id
         mecanic.save()
-        return redirect('plantilla_mecanicos')
+        return redirect('login')
     else:
-        return redirect('plantilla_mecanicos')
+        return redirect('login')
 
 def login_usuario(request):
     if request.method == "POST":
@@ -217,3 +217,7 @@ def editar_tipo_producto(request, id):
         tipo_producto.nombre = request.POST.get('nombre')
         tipo_producto.save()
         return redirect('añadir_tipo_producto')
+
+def mostrar_presupuestos(request):
+    list_presupuestos = Presupuesto.objects.all()
+    return render(request, 'listado_presupuestos.html', {'presupuesto': list_presupuestos})
