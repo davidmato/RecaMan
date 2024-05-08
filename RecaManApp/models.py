@@ -91,10 +91,11 @@ class Mecanico (models.Model):
 
 
 class CocheCliente(models.Model):
-    modelo = models.CharField(max_length=150)
+    modelo = models.CharField(max_length=250)
     matricula = models.CharField(max_length=7)
     KM = models.IntegerField()
     ITV = models.BooleanField()
+    marca = models.CharField(max_length=150)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
 
     def __str__(self):

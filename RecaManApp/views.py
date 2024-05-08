@@ -201,6 +201,7 @@ def nuevo_coche(request):
         usuario_logeado = request.user
         coche = CocheCliente()
         coche.modelo = request.POST.get('modelo')
+        coche.marca = request.POST.get('marca')
         coche.matricula = request.POST.get('matricula')
         coche.KM = request.POST.get('kilometros')
         coche.ITV = request.POST.get('ITV')
@@ -221,9 +222,14 @@ def editar_coche(request, id):
     else:
         usuario_logeado = request.user
         coche.modelo = request.POST.get('modelo')
+        coche.marca = request.POST.get('marca')
         coche.matricula = request.POST.get('matricula')
         coche.KM = request.POST.get('kilometros')
         coche.ITV = request.POST.get('ITV')
         coche.usuario_id = usuario_logeado.id
         coche.save()
         return redirect('mis_coches')
+
+
+def recambio_coche(request):
+    return render(request,'recambio_coche.html')

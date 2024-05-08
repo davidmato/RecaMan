@@ -24,7 +24,8 @@ urlpatterns = [
     path('cliente/mis_coches/', listado_coches, name='mis_coches'),
     path('cliente/añadir_coche', nuevo_coche, name='añadir_coche'),
     path('cliente/eliminar_coche/<int:id>', eliminar_coche, name='quitar_coche'),
-    path('cliente/editar_coche/<int:id>', editar_coche, name='cambiar_coche')
+    path('cliente/editar_coche/<int:id>', editar_coche, name='cambiar_coche'),
+    path('cliente/recambio', recambio_coche, name='recambio')
 
 
     # path('showcart/', showcart, name='showcart'),
