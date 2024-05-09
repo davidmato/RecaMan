@@ -1,0 +1,56 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Bootstrap demo</title>
+        <link rel= "icon" type = "image/png" href = "{% static 'logo_recaman_definitivo.jpg'  %}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <style>
+            .navbar-expand-lg{
+                background: rgb(0,0,0);
+                background: linear-gradient(90deg, rgba(0,0,0,1) 31%, rgba(129,0,15,1) 100%);
+                box-shadow: 0px 0px 15px 0px #000000;
+            }
+        </style>
+    </head>
+  <header class="p-3 text-bg-dark navbar-expand-lg">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+          <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"></svg>
+        </a>
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li><img src="{% static 'logo_recaman_definitivo.jpg' %}" alt="" style="width: 40px; border-radius: 50%;"></li>
+          <li><a href="#" class="nav-link px-2 text-white"></a></li>
+          <li><a href="#" class="nav-link px-2 text-white">Tienda</a></li>
+          <li><a href="#" class="nav-link px-2 text-white">Citas</a></li>
+          <li><a href="#" class="nav-link px-2 text-white">Sobre nosotros</a></li>
+        </ul>
+        <div class="text-center" style="margin-right: 3%;">
+           <a href="" style="color: aliceblue;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-cart-dash-fill" viewBox="0 4 22 10">
+                    <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0M6.5 7h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1 0-1"/>
+
+                </svg>
+            </a>
+        </div>
+        <div class="text-end">
+          <button type="button" class="btn btn-outline-light me-2">Area cliente</button>
+          <button type="button" class="btn btn-warning">Registrarse</button>
+        </div>
+      </div>
+    </div>
+  </header>
+  <body>
+    <script>
+        const bsButton = new bootstrap.Button('#myButton')
+        document.querySelectorAll('.btn').forEach(buttonElement => {
+            const button = bootstrap.Button.getOrCreateInstance(buttonElement)
+            button.toggle()
+
+        })
+    </script>
+  </body>
+</html>

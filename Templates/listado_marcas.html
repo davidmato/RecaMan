@@ -12,11 +12,11 @@
 </head>
 <body>
     {% include 'header_admin.html' %}
-  <div class="container-fluid">
-    <div class="row">
+  <div class="container-fluid row">
       <!-- Barra lateral -->
       {% include 'barraLateral.html' %}
         {% for m in marcas %}
+        <div class="col-10 d-flex flex-wrap">
            <div class="card" style="width: 18rem;">
               <img src="{{ m.url }}" class="card-img-top" alt="...">
               <div class="card-body">
