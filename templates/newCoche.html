@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     {% load static %}
     <meta charset="UTF-8">
@@ -13,35 +13,37 @@
     {% include 'header_cliente.html' %}
   <div class="container-fluid">
     <div class="row">
-      <!-- Barra lateral -->
-      <div class="col-2" style="background: linear-gradient(180deg, rgba(0,0,0,1) 31%, rgba(129,0,15,1) 100%)">
-        <!-- Contenido de la barra lateral -->
-        <ul>
-        </ul>
-      </div>
+        {% include 'barra_lateral_cliente.html' %}
       <!-- Contenido principal -->
       <div class="col-10" id="form_central">
         <!-- FORMULARIO DE PRODUCTOS -->
-        <div class="container-fluid">
+        <div class="container-fluid" style="margin-top: 1%">
           <form action="" method="post">
               {% csrf_token %}
             <div class="mb-3">
-              <label for="mecanicname" class="form-label">Nombre</label>
-              <input type="text" class="form-control"  name="nombre">
+              <label for="modelo" class="form-label">Modelo</label>
+              <input type="text" class="form-control" name="modelo" value="{{ coches.modelo }}">
             </div>
             <div class="mb-3">
-              <label for="maili" class="form-label">Email</label>
-              <input type="text" class="form-control"  name="mail">
+              <label for="marca" class="form-label">Marca</label>
+              <input type="text" class="form-control" name="marca" value="{{ coches.marca }}">
             </div>
             <div class="mb-3">
-              <label for="productPrice" class="form-label">Fecha Nacimiento</label>
-              <input type="date" class="form-control"  name="fecha">
+              <label for="matricula" class="form-label">Matricula</label >
+              <input type="text" class="form-control" name="matricula" value="{{ coches.matricula }}">
             </div>
             <div class="mb-3">
-              <label for="dni" class="form-label">Direccion</label>
-              <input type="text" class="form-control"  name="direccion">
+              <label for = "kilometros" class="form-label">Kilometros</label>
+              <input type="text" class="form-control" name = "kilometros" value="{{ coches.KM }}">
             </div>
-            <button type="submit" name="verificar" class="btn btn-dark" value="verificar">Verificar</button>
+            <div class="mb-3">
+              <label for="ITV" class="form-label">ITV</label>
+              <select type="boolean" class="form-select" id="ITV" name="ITV" >
+                   <option value="True" {% if coche and coche.ITV %}selected{% endif %}>Si</option>
+                  <option value="False" {% if coche and not coche.ITV %}selected{% endif %}>No</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-dark">Guardar</button>
           </form>
         </div>
         <!-- Contenido principal -->

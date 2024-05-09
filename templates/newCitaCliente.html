@@ -13,12 +13,6 @@
     {% include 'header_cliente.html' %}
   <div class="container-fluid">
     <div class="row">
-      <!-- Barra lateral -->
-      <div class="col-2" style="background: linear-gradient(180deg, rgba(0,0,0,1) 31%, rgba(129,0,15,1) 100%)">
-        <!-- Contenido de la barra lateral -->
-        <ul>
-        </ul>
-      </div>
       <!-- Contenido principal -->
       <div class="col-10" id="form_central">
         <!-- FORMULARIO DE PRODUCTOS -->
@@ -26,22 +20,14 @@
           <form action="" method="post">
               {% csrf_token %}
             <div class="mb-3">
-              <label for="mecanicname" class="form-label">Nombre</label>
-              <input type="text" class="form-control"  name="nombre">
+              <label class="form-label">Motivo</label>
+              <input type="text" class="form-control" name="motivo">
             </div>
             <div class="mb-3">
-              <label for="maili" class="form-label">Email</label>
-              <input type="text" class="form-control"  name="mail">
+              <label  class="form-label">Fecha</label>
+              <input type="date" class="form-control" name="fecha">
             </div>
-            <div class="mb-3">
-              <label for="productPrice" class="form-label">Fecha Nacimiento</label>
-              <input type="date" class="form-control"  name="fecha">
-            </div>
-            <div class="mb-3">
-              <label for="dni" class="form-label">Direccion</label>
-              <input type="text" class="form-control"  name="direccion">
-            </div>
-            <button type="submit" name="verificar" class="btn btn-dark" value="verificar">Verificar</button>
+            <button type="submit" class="btn btn-dark">Realizar</button>
           </form>
         </div>
         <!-- Contenido principal -->
