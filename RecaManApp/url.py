@@ -7,11 +7,15 @@ urlpatterns = [
     path('jefe/plantilla_mecanicos/', plantilla_mecanicos, name="lista_mecanicos"),
     path('jefe/eliminar_mecanico/<int:id>', eliminar_mecanico, name="quitar_mecanico"),
     path('jefe/editar_mecanico/<int:id>', editar_mecanico, name="cambiar_mecanico"),
+    path('jefe/nuevo_mecanico_automatico/<int:id>', registrar_mecanico_usuario, name="registermecanic"),
+    path('jefe/citas/', mostrar_citas, name='lista_citas'),
+    path('verificar', asignar_Usuario, name='verificar'),
+    path('areausuario', areaUsuario, name='areausuario'),
+    path('pedircita', pedir_cita, name="pedircita"),
     path('jefe/nuevo_producto/', nuevo_producto, name='añadir_producto'),
     path('jefe/plantilla_productos/', plantilla_productos, name="lista_productos"),
     path('jefe/eliminar_producto/<int:id>', eliminar_producto, name='quitar_producto'),
     path('jefe/editar_producto/<int:id>', editar_producto, name='cambiar_producto'),
-    path('jefe/nuevo_mecanico_automatico/<int:id>', registrar_mecanico_usuario, name='añadir_mecanico_usuario'),
     path('jefe/nueva_marca/', nueva_marca, name='añadir_marca'),
     path('jefe/plantilla_marcas/', mostrar_marcas, name='lista_marcas'),
     path('jefe/eliminar_marca/<int:id>', eliminar_marca, name='quitar_marca'),
@@ -25,8 +29,8 @@ urlpatterns = [
     path('cliente/añadir_coche', nuevo_coche, name='añadir_coche'),
     path('cliente/eliminar_coche/<int:id>', eliminar_coche, name='quitar_coche'),
     path('cliente/editar_coche/<int:id>', editar_coche, name='cambiar_coche'),
-    path('cliente/recambio', recambio_coche, name='recambio')
-
-
-    # path('showcart/', showcart, name='showcart'),
+    path('cliente/recambio', recambio_coche, name='recambio'),
+    path('vistacitacliente', vistacitacliente, name='vistacitacliente'),
+    path('eliminar_cita/<int:id>', eliminar_cita, name='quitar_cita'),
+    path('error', error, name="error")
 ]

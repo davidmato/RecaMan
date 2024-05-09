@@ -1,7 +1,6 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
 
-
 # Create your models here.
 class MarcaCoche(models.Model):
     nombre = models.CharField(max_length=150)
@@ -23,6 +22,11 @@ class Roles(models.TextChoices):
     MECANICO = 'MECANICO','Mecanico'
     CLIENTE = 'CLIENTE', 'Cliente'
 
+class EstadoCita(models.TextChoices):
+    PENDIENTE = 'PENDIENTE','Pendiente'
+    FINALIZADA = 'FINALIZADA','Finalizada'
+    ACEPTADA = 'ACEPTADA', 'Aceptada'
+    RECHAZADA = 'RECHAZADA','Rechazada'
 
 class UserManager(BaseUserManager):
     def create_user(self, mail,password=None, **extra_fields):

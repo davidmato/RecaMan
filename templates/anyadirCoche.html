@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     {% load static %}
@@ -9,12 +10,10 @@
     <script src="https://kit.fontawesome.com/e3fd01f854.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    {% include 'header_admin.html' %}
+    {% include 'header.html' %}
 
   <div class="container-fluid">
     <div class="row">
-      <!-- Barra lateral -->
-      {% include 'barraLateral.html' %}
 
       <!-- Contenido principal -->
       <div class="col-10" id="form_central">
@@ -25,14 +24,18 @@
           <form action="" method="post">
               {% csrf_token %}
             <div class="mb-3">
-              <label for="marcaname" class="form-label">Nombre Marca</label>
-              <input type="text" class="form-control" id="marcaname" name="nombre" value="{{ marca.nombre }}">
+              <label class="form-label">Modelo</label>
+              <input type="text" class="form-control">
             </div>
             <div class="mb-3">
-              <label for="urlimg" class="form-label">Imagen</label>
-              <input type="text" class="form-control" id="urlimg" name="url" value="{{ marca.url }}">
+              <label class="form-label">Matricula</label >
+              <input type="text" class="form-control">
             </div>
-            <button type="submit" class="btn btn-dark">Guardar</button>
+            <div class="mb-3">
+              <label  class="form-label">Kilometros</label>
+              <input type="text" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-dark">Realizar</button>
           </form>
         </div>
 
@@ -40,5 +43,9 @@
       </div>
     </div>
   </div>
+
+
 </body>
 </html>
+
+
