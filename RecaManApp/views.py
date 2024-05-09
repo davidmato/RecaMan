@@ -2,7 +2,6 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, redirect
-
 from RecaManApp.models import *
 from .decorators import *
 
@@ -159,7 +158,7 @@ def mostrar_citas(request):
          return render(render, 'lista_citas.html')
 
 
-@check_user_roles('ADMIN')
+
 def asignar_Usuario(request):
     usuario_logeado = Usuario.objects.get(nombreUsuario=request.user.nombreUsuario)
     cliente = None
@@ -301,14 +300,16 @@ def vistacitacliente(request):
     usuario_logeado = request.user
 
 
-    cliente = Cliente.objects.get(user=usuario_logeado)
+    try:
+        cliente = Cliente.objects.get(user=usuario_logeado)
+    except Cliente.DoesNotExist:
+
+        return redirect('verificar')
 
 
     citas = Citas.objects.filter(cliente=cliente)
 
     return render(request, 'vistacitascliente.html', {'citas': citas})
-
-
 
 
 def eliminar_cita(request, id):
