@@ -120,7 +120,7 @@ def registrar_mecanico_usuario(request, id):
 
 
 
-def do_login(request):
+def login_usuario(request):
     if request.method == "POST":
         NombreUsuario = request.POST.get('nombreusuario')
         contrasenya = request.POST.get('contraseña')
