@@ -24,4 +24,7 @@ urlpatterns = [
     path('registrar/', registrar_usuario, name="register"),
     path('login/', login_usuario, name="login"),
     path('verificar/', asignar_Usuario, name="verificar"),
+    path('areausuario/', areaUsuario, name="areausuario"),
+    path('areausuario/pedir_cita', pedir_cita, name="pedircita"),
+    path('areausuario/vista_cita', vistacitacliente, name="vistacitacliente")
 ]

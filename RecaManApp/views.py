@@ -10,7 +10,7 @@ from .decorators import *
 # Create your views here.
 @check_user_roles('ADMIN')
 def area_jefe(request):
-    return render(request, 'newMecanic.html')
+    return render(request, 'AreaJefe.html')
 
 
 def error(request):
@@ -41,9 +41,9 @@ def nuevo_mecanico(request):
 @check_user_roles('ADMIN')
 def eliminar_mecanico(request, id):
     mecanic = Mecanico.objects.get(id=id)
-    user = Usuario.objects.get(id=mecanic.user_id)
+    user = Usuario.objects.filter(id=mecanic.user_id).first()
     mecanic.delete()
-    if mecanic.user_id == user:
+    if user is not None:
         user.delete()
     return redirect('lista_mecanicos')
 
@@ -64,7 +64,7 @@ def editar_mecanico(request, id):
         return redirect('lista_mecanicos')
 
 
-def registrar_user(request):
+def registrar_usuario(request):
     if request.method == "GET":
         return render(request, 'register.html')
     else:
@@ -130,7 +130,7 @@ def login_usuario(request):
         if usuario is not None and usuario.rol==Roles.ADMIN:
             login(request, usuario)
 
-            return redirect('añadir_mecanico')
+            return redirect('jefe')
         elif usuario is not None and usuario.rol==Roles.CLIENTE:
             login(request,usuario)
             return redirect('areausuario')
@@ -316,6 +316,14 @@ def eliminar_cita(request, id):
     cita.delete()
     return redirect('vistacitacliente')
 
+def nuevo_tipo_producto(request):
+    if request.method == 'POST':
+        new = Tipo_producto()
+        new.nombre = request.POST.get('nombre')
+        new.save()
+        return redirect('añadir_tipo_producto')
+    list_tipos_productos = Tipo_producto.objects.all()
+    return render(request, 'newTipoProducto.html',{'tipos_productos': list_tipos_productos})
 
 
 def eliminar_tipo_producto(request, id):
