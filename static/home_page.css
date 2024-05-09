@@ -3,7 +3,7 @@
   color: #fff;
 }
 .navbar-expand-lg{
-    
+
     background: rgb(0,0,0);
     background: linear-gradient(90deg, rgba(0,0,0,1) 31%, rgba(129,0,15,1) 100%);
 }
@@ -28,7 +28,9 @@ h6{
 }
 
 .lateral_list{
-  color: white; 
+  color: white;
+    list-style: none;
+    margin-top: 15%;
 }
 
 .lateral_list a {
@@ -41,10 +43,7 @@ h6{
   text-decoration: none;
 }
 
-ul, li{
-  list-style: none;
-  margin-top: 15%;
-}
+
 
 #form_central{
   padding-top: 2%;
@@ -53,6 +52,9 @@ ul, li{
 footer{
     margin-top: 15%;
 }
+
+/* HEADER INDEX, CONTACTUS, USUARIO, TIENDA */
+
 
 /* BARRA LATERAL */
 
@@ -74,7 +76,7 @@ footer{
   text-decoration: none;
 }
 
-ul, li{
+.lateral_list{
   list-style: none;
   margin-top: 15%;
 }
