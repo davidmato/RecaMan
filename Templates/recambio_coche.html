@@ -16,6 +16,7 @@
         {% include 'barra_lateral_cliente.html' %}
 
       <!-- Contenido principal -->
+
       <div class="col-10" id="form_central">
 
         <!-- FORMULARIO DE PRODUCTOS -->
@@ -56,6 +57,14 @@
 
         let kilometros = document.getElementById('kilometros').value;
         let motor = document.getElementById('motor').value;
+
+        if (kilometros < 15000){
+            let p = document.createElement('p')
+
+            p.innerHTML = 'No se recomienda cambiar nada'
+            p.style.color = 'red'
+            document.getElementById('form_central').appendChild(p)
+        }
 
         if (kilometros >= 15000){
             let p1 = document.createElement('p')
@@ -141,6 +150,13 @@
             let p11 = document.createElement('p')
 
             p11.innerHTML = 'Se recomienda cambiar el kit de distribucion, puede encontrar este producto en nuestra tienda'
+            p11.style.color = 'red'
+            document.getElementById('form_central').appendChild(p11)
+        }
+        if (kilometros > 1000000){
+            let p11 = document.createElement('p')
+
+            p11.innerHTML = 'Ya es hora de cambiar de coche churrita'
             p11.style.color = 'red'
             document.getElementById('form_central').appendChild(p11)
         }

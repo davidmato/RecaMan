@@ -208,7 +208,7 @@ def registrar_usuario(request):
         else:
             user = Usuario.objects.create(nombreUsuario=NameUsuario, password=make_password(password))
             user.save()
-            return redirect('lista_mecanicos')
+            return redirect('login')
 @check_user_roles('ADMIN')
 def mostrar_citas(request):
     list_citas = Citas.objects.all()
@@ -299,9 +299,9 @@ def login_usuario(request):
 
 
 def listado_coches(request):
-    cocheCliente = CocheCliente.objects.all()
+    cocheCliente = CocheCliente.objects.get(id=request.user.id)
     return render(request, 'listado_coches.html', {'coches': cocheCliente})
-
+@check_user_roles('CLIENTE')
 def nuevo_coche(request):
     coche = CocheCliente.objects.all()
     if request.method == 'GET':
@@ -317,13 +317,14 @@ def nuevo_coche(request):
         coche.usuario_id = usuario_logeado.id
         coche.save()
         return redirect('mis_coches')
+@check_user_roles('CLIENTE')
 
 def eliminar_coche(request,id):
     coche = CocheCliente.objects.get(id=id)
     coche.delete()
     return redirect('mis_coches')
 
-
+@check_user_roles('CLIENTE')
 def editar_coche(request, id):
     coche = CocheCliente.objects.get(id=id)
     if request.method == "GET":
@@ -338,6 +339,6 @@ def editar_coche(request, id):
         coche.usuario_id = usuario_logeado.id
         coche.save()
         return redirect('mis_coches')
-
+@check_user_roles('CLIENTE')
 def recambio_coche(request):
     return render(request,'recambio_coche.html')
