@@ -10,6 +10,9 @@ from RecaManApp.models import *
 def area_jefe(request):
     return render(request, 'AreaJefe.html')
 
+def error(request):
+    return render(request, 'errores.html')
+
 @check_user_roles('ADMIN')
 def plantilla_mecanicos(request):
     list_mecanic = Mecanico.objects.all()
@@ -34,7 +37,8 @@ def eliminar_mecanico(request, id):
     mecanic = Mecanico.objects.get(id=id)
     user = Usuario.objects.get(id=mecanic.user_id)
     mecanic.delete()
-    user.delete()
+    if user is not None:
+        user.delete()
     return redirect('lista_mecanicos')
 
 @check_user_roles('ADMIN')
@@ -73,18 +77,66 @@ def registrar_usuario(request):
             return redirect('login')
 
 @check_user_roles('ADMIN')
-def mostrar_citas(request):
-    list_citas = Citas.objects.all()
-    mecanicos = Mecanico.objects.all()
-    if request.method == "GET":
-        return render(request, 'listado_citas.html', {'citas': list_citas, 'mecanicos': mecanicos})
+def registrar_mecanico_usuario(request, id):
+    mecanic = Mecanico.objects.get(id=id)
+    if mecanic.user is None:
+        user = Usuario()
+        user.nombre = mecanic.nombre.replace(" ","")
+        user.nombreUsuario = mecanic.nombre.replace(" ","")
+        user.email = mecanic.email
+        user.password = make_password(mecanic.dni)
+        user.rol = Roles.MECANICO
+        user.save()
+        mecanic.user_id = user.id
+        mecanic.save()
+        return redirect('login')
     else:
-        cita = Citas()
-        cita.hora = request.POST.get('hora')
-        cita.mecanico = Mecanico.objects.get(id=request.POST.get('mecanicos'))
-        cita.estado = EstadoCitas.ACEPTADA
-        cita.save()
-        return render(request, 'listado_citas.html', {'citas': list_citas, 'mecanicos': mecanicos})
+        return redirect('plantilla_mecanicos')
+
+def login_usuario(request):
+    if request.method == "POST":
+        NombreUsuario = request.POST.get('nombreusuario')
+        contrasenya = request.POST.get('contraseña')
+        usuario = authenticate(request, username=NombreUsuario, password=contrasenya)
+        if usuario is not None:
+            login(request, usuario)
+            return redirect('cliente')
+        else:
+            return render(request, 'login.html', {"error": "No se ha podido iniciar sesión intentalo de nuevo"})
+    return render(request, 'login.html')
+
+@check_user_roles('ADMIN')
+def asignar_Usuario(request):
+    usuario_logeado = Usuario.objects.get(nombreUsuario=request.user.nombreUsuario)
+    cliente = None
+    if usuario_logeado is not None and usuario_logeado.rol == Roles.CLIENTE:
+        clientes = Cliente.objects.filter(user=usuario_logeado)
+        if len(clientes) != 0:
+            cliente = clientes[0]
+        if request.method == "GET":
+            if cliente is not None:
+                return render(request, 'verificarCliente.html')
+            else:
+                return render(request, 'verificarCliente.html')
+        else:
+            if "verificar" in request.POST:
+                cliente = Cliente()
+            cliente.nombre = request.POST.get('nombre')
+            cliente.email = request.POST.get('mail')
+            cliente.direccion = request.POST.get('direccion')
+            cliente.fecha_nacimiento = request.POST.get('fecha')
+            cliente.user = usuario_logeado
+            cliente.save()
+            return render(request, 'verificarCliente.html')
+
+@login_required
+def area_usuario(request):
+    usuario_logeado = request.user
+    try:
+        cliente = Cliente.objects.get(user=usuario_logeado)
+    except Cliente.DoesNotExist:
+        cliente = None
+    return render(request, 'areaUsuario.html', {'cliente': cliente})
 
 @check_user_roles('ADMIN')
 def plantilla_productos(request):
@@ -132,35 +184,6 @@ def editar_producto(request, id):
         return redirect('lista_productos')
 
 @check_user_roles('ADMIN')
-def registrar_mecanico_usuario(request, id):
-    mecanic = Mecanico.objects.get(id=id)
-    if mecanic.user is None:
-        user = Usuario()
-        user.nombre = mecanic.nombre.replace(" ","")
-        user.nombreUsuario = mecanic.nombre.replace(" ","")
-        user.email = mecanic.email
-        user.password = make_password(mecanic.dni)
-        user.rol = Roles.MECANICO
-        user.save()
-        mecanic.user_id = user.id
-        mecanic.save()
-        return redirect('login')
-    else:
-        return redirect('plantilla_mecanicos')
-
-def login_usuario(request):
-    if request.method == "POST":
-        NombreUsuario = request.POST.get('nombreusuario')
-        contrasenya = request.POST.get('contraseña')
-        usuario = authenticate(request, username=NombreUsuario, password=contrasenya)
-        if usuario is not None:
-            login(request, usuario)
-            return redirect('cliente')
-        else:
-            return render(request, 'login.html', {"error": "No se ha podido iniciar sesión intentalo de nuevo"})
-    return render(request, 'login.html')
-
-@check_user_roles('ADMIN')
 def nueva_marca(request):
     if request.method == 'GET':
         return render(request, 'newMarca.html')
@@ -193,30 +216,6 @@ def editar_marca(request, id):
         marca.save()
         return redirect('lista_marcas')
 
-@check_user_roles('ADMIN')
-def asignar_Usuario(request):
-    usuario_logeado = Usuario.objects.get(nombreUsuario=request.user.nombreUsuario)
-    cliente = None
-    if usuario_logeado is not None and usuario_logeado.rol == Roles.CLIENTE:
-        clientes = Cliente.objects.filter(user=usuario_logeado)
-        if len(clientes) != 0:
-            cliente = clientes[0]
-        if request.method == "GET":
-            if cliente is not None:
-                return render(request, 'verificarCliente.html')
-            else:
-                return render(request, 'verificarCliente.html')
-        else:
-            if "verificar" in request.POST:
-                cliente = Cliente()
-            cliente.nombre = request.POST.get('nombre')
-            cliente.email = request.POST.get('mail')
-            cliente.direccion = request.POST.get('direccion')
-            cliente.fecha_nacimiento = request.POST.get('fecha')
-            cliente.user = usuario_logeado
-            cliente.save()
-            return render(request, 'verificarCliente.html')
-
 def nuevo_tipo_producto(request):
     if request.method == 'POST':
         new = Tipo_producto()
@@ -248,14 +247,19 @@ def mostrar_presupuestos(request):
     list_presupuestos = Presupuesto.objects.all()
     return render(request, 'listado_presupuestos.html', {'presupuesto': list_presupuestos})
 
-@login_required
-def area_usuario(request):
-    usuario_logeado = request.user
-    try:
-        cliente = Cliente.objects.get(user=usuario_logeado)
-    except Cliente.DoesNotExist:
-        cliente = None
-    return render(request, 'areaUsuario.html', {'cliente': cliente})
+@check_user_roles('ADMIN')
+def mostrar_citas(request):
+    list_citas = Citas.objects.all()
+    mecanicos = Mecanico.objects.all()
+    if request.method == "GET":
+        return render(request, 'listado_citas.html', {'citas': list_citas, 'mecanicos': mecanicos})
+    else:
+        cita = Citas()
+        cita.hora = request.POST.get('hora')
+        cita.mecanico = Mecanico.objects.get(id=request.POST.get('mecanicos'))
+        cita.estado = EstadoCitas.ACEPTADA
+        cita.save()
+        return render(request, 'listado_citas.html')
 
 def pedir_cita(request):
     if request.method == 'GET':
@@ -281,9 +285,6 @@ def eliminar_cita(request, id):
     cita = Citas.objects.get(id=id)
     cita.delete()
     return redirect('lista_citas_cliente')
-
-def error(request):
-    return render(request, 'errores.html')
 
 @check_user_roles('CLIENTE')
 def mostrar_coches(request):
