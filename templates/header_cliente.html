@@ -46,8 +46,14 @@
 
 
         <div class="text-end">
-          <button type="button" class="btn btn-outline-light me-2">Area cliente</button>
-          <button type="button" class="btn btn-warning">Registrarse</button>
+            {% if user.is_authenticated %}
+
+                <h1>  {{ cliente.nombre }}</h1>
+                <a href="{% url 'cerrasesion' %}">  <button type="submit" class="btn btn-warning">Cerrar sesión</button> </a>
+             {% else %}
+              <button type="button" class="btn btn-outline-light me-2">Area cliente</button>
+              <button type="button" class="btn btn-warning">Inicie Sesion/Registrarse</button>
+             {% endif %}
         </div>
       </div>
     </div>

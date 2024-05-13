@@ -1,7 +1,7 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
-from django.shortcuts import render, redirect
+from django.shortcuts import render, get_object_or_404
 from RecaManApp.models import *
 from .decorators import *
 
@@ -33,6 +33,22 @@ def nuevo_mecanico(request):
         nuevo.fecha_nacimiento = request.POST.get('birth')
         nuevo.dni = request.POST.get('dni')
         nuevo.url = request.POST.get('url')
+        nuevo.save()
+
+        nombre_nuevo = nuevo.nombre.replace(" ", "")
+        nombre_nuevo_usuario = nombre_nuevo
+        contado = 1
+
+        while Usuario.objects.filter(nombreUsuario=new_username).exists():
+            new_username = nombre_nuevo_usuario + str(contado)
+            contado += 1
+
+        usuario = Usuario()
+        usuario.nombre = nuevo.nombre.replace(" ", "")
+        usuario.password = make_password(nuevo.dni)
+        usuario.rol = Roles.MECANICO
+        usuario.save()
+        nuevo.user_id = usuario.id
         nuevo.save()
 
         return redirect('lista_mecanicos')
@@ -95,25 +111,25 @@ def registrar_usuario(request):
 
 
 
-@check_user_roles('ADMIN')
-def registrar_mecanico_usuario(request, id):
-    mecanic = Mecanico.objects.get(id=id)
-
-    if mecanic.user is None:
-        user = Usuario()
-        user.nombre = mecanic.nombre.replace(" ","")
-        user.nombreUsuario = mecanic.nombre.replace(" ","")
-        user.email = mecanic.email
-        user.password = make_password(mecanic.dni)
-        user.rol = Roles.MECANICO
-        user.save()
-        mecanic.user_id=user.id
-        mecanic.save()
-
-        return redirect('login')
-    else:
-        return redirect('plantillaMecanico')
-
+# @check_user_roles('ADMIN')
+# def registrar_mecanico_usuario(request, id):
+#     mecanic = Mecanico.objects.get(id=id)
+#
+#     if mecanic.user is None:
+#         user = Usuario()
+#         user.nombre = mecanic.nombre.replace(" ","")
+#         user.nombreUsuario = mecanic.nombre.replace(" ","")
+#         user.email = mecanic.email
+#         user.password = make_password(mecanic.dni)
+#         user.rol = Roles.MECANICO
+#         user.save()
+#         mecanic.user_id=user.id
+#         mecanic.save()
+#
+#         return redirect('login')
+#     else:
+#         return redirect('plantillaMecanico')
+#
 
 
 
@@ -140,22 +156,22 @@ def login_usuario(request):
 
     return render(request, 'login.html')
 
+
+
+def cerrar_sesion(request):
+    logout(request)
+    return redirect('login')
+
 @check_user_roles('ADMIN')
 def mostrar_citas(request):
     list_citas = Citas.objects.all()
     mecanicos = Mecanico.objects.all()
 
-    if request.method == "GET":
-        return render(request, 'lista_citas.html', {'citas': list_citas, 'mecanicos' : mecanicos})
+    return render(request, 'lista_citas.html', {'citas': list_citas, 'mecanicos' : mecanicos})
 
-    else:
 
-         cita = Citas()
-         cita.hora = request.POST.get('hora')
-         cita.mecanico = Mecanico.objects.get(id=request.POST.get('mecanicos'))
-         cita.estado = EstadoCita.ACEPTADA
-         cita.save()
-         return render(render, 'lista_citas.html')
+
+
 
 
 
@@ -311,12 +327,12 @@ def vistacitacliente(request):
 
     return render(request, 'vistacitascliente.html', {'citas': citas})
 
-
+@login_required
 def eliminar_cita(request, id):
     cita = Citas.objects.get(id=id)
     cita.delete()
     return redirect('vistacitacliente')
-
+@check_user_roles('ADMIN')
 def nuevo_tipo_producto(request):
     if request.method == 'POST':
         new = Tipo_producto()
@@ -326,12 +342,12 @@ def nuevo_tipo_producto(request):
     list_tipos_productos = Tipo_producto.objects.all()
     return render(request, 'newTipoProducto.html',{'tipos_productos': list_tipos_productos})
 
-
+@check_user_roles('ADMIN')
 def eliminar_tipo_producto(request, id):
     tipo_producto = Tipo_producto.objects.get(id=id)
     tipo_producto.delete()
     return redirect('añadir_tipo_producto')
-
+@check_user_roles('ADMIN')
 def editar_tipo_producto(request, id):
     tipo_producto = Tipo_producto.objects.get(id=id)
     list_tipos_productos = Tipo_producto.objects.all()
@@ -341,7 +357,7 @@ def editar_tipo_producto(request, id):
         tipo_producto.nombre = request.POST.get('nombre')
         tipo_producto.save()
         return redirect('añadir_tipo_producto')
-
+@check_user_roles('ADMIN')
 def mostrar_presupuestos(request):
     list_presupuestos = Presupuesto.objects.all()
     return render(request, 'listado_presupuestos.html', {'presupuesto': list_presupuestos})

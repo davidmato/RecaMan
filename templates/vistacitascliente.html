@@ -41,7 +41,7 @@
                                 <td>{{ c.cocheCliente.modelo }}</td>
                                 <td>{{ c.mecanico}}</td>
                                 <td>{{ c.estado}}</td>
-                                <td><a href="{% url 'quitar_cita' c.id %}"><img src="{% static 'icons8-añadir-24.png' %}"></a></td>
+                                <td><a href="{% url 'quitarcita' c.id %}"><img src="{% static 'icons8-papelera-24.png' %}"></a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
