@@ -40,7 +40,7 @@
                     <td>{{ c.motivo }}</td>
                     <td>{{ c.cocheCliente.matricula }}</td>
                     <td>{{ c.mecanico.nombre }}</td>
-                    <td>{{ c.usuario.nombreUsuario }}</td>
+                    <td>{{ c.cliente.user.nombreUsuario }}</td>
                     <td><button><img src="{% static 'icons8-editar-24.png' %}"></button></td>
                 </tr>
                 {% endfor %}

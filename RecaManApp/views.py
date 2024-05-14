@@ -105,7 +105,6 @@ def login_usuario(request):
             return render(request, 'login.html', {"error": "No se ha podido iniciar sesión intentalo de nuevo"})
     return render(request, 'login.html')
 
-@check_user_roles('ADMIN')
 def asignar_Usuario(request):
     usuario_logeado = Usuario.objects.get(nombreUsuario=request.user.nombreUsuario)
     cliente = None
@@ -262,25 +261,30 @@ def mostrar_citas(request):
         return render(request, 'listado_citas.html')
 
 def pedir_cita(request):
+    coches = CocheCliente.objects.filter(usuario=request.user)
     if request.method == 'GET':
-        return render(request, 'newCitaCliente.html')
+        return render(request, 'newCitaCliente.html', {'coches': coches})
     else:
         usuario_logeado = request.user
         cliente = Cliente.objects.get(user=usuario_logeado)
         cita = Citas()
         cita.motivo = request.POST.get('motivo')
         cita.fecha = request.POST.get('fecha')
+        cita.cocheCliente = CocheCliente.objects.get(id=request.POST.get('coche'))
         cita.estado = EstadoCitas.PENDIENTE
+        cita.usuario = usuario_logeado
         cita.cliente = cliente
         cita.save()
         return redirect('añadir_cita_cliente')
 
 def vista_citas_cliente(request):
     usuario_logeado = request.user
-    cliente = Cliente.objects.get(user=usuario_logeado)
+    try:
+        cliente = Cliente.objects.get(user=usuario_logeado)
+    except Cliente.DoesNotExist:
+        return redirect('verificar')
     citas = Citas.objects.filter(cliente=cliente)
     return render(request, 'listado_citasCliente.html', {'citas': citas})
-
 def eliminar_cita(request, id):
     cita = Citas.objects.get(id=id)
     cita.delete()
@@ -336,3 +340,17 @@ def editar_coche(request, id):
 @check_user_roles('CLIENTE')
 def recambio_coche(request):
     return render(request,'recambio_coche.html')
+
+def nuevo_presupuesto(request):
+    list_citas = Citas.objects.filter(mecanico_id=request.user.id)
+    if request.method == 'GET':
+        return render(request, 'newPresupuesto.html', {'citas': list_citas})
+    else:
+        new = Presupuesto()
+        new.cita = Citas.objects.get(id=request.POST.get('cita'))
+        new.fallos = request.POST.get('fallos')
+        new.precio = request.POST.get('precio')
+        new.fecha_compra = new.cita.fecha
+        new.cliente_id = new.cita.cliente_id
+        new.save()
+        return redirect('listado_presupuestos')

@@ -34,4 +34,5 @@ urlpatterns = [
     path('cliente/eliminar_coche/<int:id>', eliminar_coche, name='quitar_coche'),
     path('cliente/editar_coche/<int:id>', editar_coche, name='cambiar_coche'),
     path('cliente/recambio_coche/', recambio_coche, name='recambios_coche'),
+    path('mecanico/nuevo_presupuesto/', nuevo_presupuesto, name='añadir_presupuesto'),
 ]

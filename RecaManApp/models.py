@@ -112,7 +112,7 @@ class Citas (models.Model):
     motivo = models.CharField(max_length=250)
     estado = models.CharField(max_length=15, choices=EstadoCitas.choices, default=EstadoCitas.PENDIENTE)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
-    mecanico = models.ForeignKey(Mecanico, on_delete=models.CASCADE)
+    mecanico = models.ForeignKey(Mecanico, on_delete=models.CASCADE, null=True)
     cocheCliente = models.ForeignKey(CocheCliente, on_delete=models.CASCADE)
 
     def __str__(self):
