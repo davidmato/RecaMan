@@ -343,3 +343,8 @@ def editar_tipo_producto(request, id):
 def mostrar_presupuestos(request):
     list_presupuestos = Presupuesto.objects.all()
     return render(request, 'listado_presupuestos.html', {'presupuesto': list_presupuestos})
+
+
+def sobre_nosotros(request):
+
+    return render(request, 'contactanos.html')

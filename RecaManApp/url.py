@@ -24,9 +24,10 @@ urlpatterns = [
     path('login/', login_usuario, name="login"),
     path('cerrarsesion/', cerrar_sesion, name="cerrasesion"),
     path('verificar/', asignar_Usuario, name="verificar"),
-    path('sobre_nosotros/', sobre_nosotros, name="sobre_nosotros")
+    path('sobre_nosotros/', sobre_nosotros, name="sobre_nosotros"),
     path('areausuario/', areaUsuario, name="areausuario"),
     path('areausuario/pedir_cita', pedir_cita, name="pedircita"),
     path('areausuario/vista_cita', vistacitacliente, name="vistacitacliente"),
-    path('areausuario/vista_cita/quitar_cita/<int:id>', eliminar_cita, name="quitarcita")
+    path('areausuario/vista_cita/quitar_cita/<int:id>', eliminar_cita, name="quitarcita"),
+    path('permision/', error, name="error")
 ]
