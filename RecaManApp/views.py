@@ -26,7 +26,6 @@ def nuevo_mecanico(request):
     if request.method == 'GET':
         return render(request, 'newMecanic.html')
     else:
-
         nuevo = Mecanico()
         nuevo.nombre = request.POST.get('mecanicnamen')
         nuevo.email = request.POST.get('mail')
@@ -35,19 +34,14 @@ def nuevo_mecanico(request):
         nuevo.url = request.POST.get('url')
         nuevo.save()
 
-        nombre_nuevo = nuevo.nombre.replace(" ", "")
-        nombre_nuevo_usuario = nombre_nuevo
-        contado = 1
-
-        while Usuario.objects.filter(nombreUsuario=new_username).exists():
-            new_username = nombre_nuevo_usuario + str(contado)
-            contado += 1
 
         usuario = Usuario()
-        usuario.nombre = nuevo.nombre.replace(" ", "")
+        usuario.nombreUsuario = nuevo.nombre.replace(" ","")
         usuario.password = make_password(nuevo.dni)
         usuario.rol = Roles.MECANICO
         usuario.save()
+
+
         nuevo.user_id = usuario.id
         nuevo.save()
 
