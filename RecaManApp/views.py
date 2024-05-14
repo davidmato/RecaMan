@@ -15,7 +15,7 @@ def plantilla_mecanicos(request):
     list_mecanic = Mecanico.objects.all()
     return render(request, 'PlantillaMecanico.html',{'mecanico': list_mecanic})
 def sobre_nosotros(request):
-    return render(request, 'sobreNosotros.html')
+    return render(request, 'Sobre_nosotros.html')
 @check_user_roles('ADMIN')
 def nuevo_meacanico(request):
     if request.method == 'GET':
