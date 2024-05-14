@@ -194,3 +194,5 @@ def asignar_Usuario(request):
             cliente.save()
             return render(request, 'verificarCliente.html')
 
+def sobre_nosotros (request):
+    return render(request, 'contactanos.html')
