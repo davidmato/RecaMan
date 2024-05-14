@@ -6,9 +6,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ContactUs</title>
     <link rel= "icon" type = "image/png" href = "{% static 'logo_recaman_definitivo.jpg'  %}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+
+        .navbar-expand-lg{
+            background: rgb(0,0,0);
+            background: linear-gradient(90deg, rgba(0,0,0,1) 31%, rgba(129,0,15,1) 100%);
+            box-shadow: 0px 0px 15px 0px #000000;
+        }
+
+        button.btn-dark{
+            background-color: #000000;
+        }
+
+        .zoom:hover {
+        transform: scale(1.1);
+        transition: transform .2s;
+        box-shadow: 0px 0px 15px 0px #000000;
+        }
+
+        .form-group{
+            margin-top: 2%;
+        }
+
+        #btn-enviar{
+            margin-top: 2%;
+        }
+
+    </style>
+
 </head>
 <body>
 
@@ -17,7 +43,7 @@
     <main class="container-md" style="margin-top: 1%;">
         <div class="row">
             <div class="col-sm-6 d-flex justify-content-center align-items-center">
-            <p class="text-center">En una pequeña comunidad a lo largo de la Cañada Real, un lugar donde la esperanza parecía esfumarse entre los susurros de adicción y la sombra de la pobreza, cinco mecánicos, David alías "er querubin", Rubén famoso gitano rubio criado entre peleas de gallos, Ale un famoso anciano asaltador de bancos en patinete, Mario, chique y jugadore de baloncesto frustrade y hormonade y Raúl un cáncer para la sociedad y para si mismo, se enfrentaban a sus propios demonios mientras luchaban por mantener a flote un modesto taller de reparación de automóviles.</p>
+                <p class="text-center">En una pequeña comunidad a lo largo de la Cañada Real, un lugar donde la esperanza parecía esfumarse entre los susurros de adicción y la sombra de la pobreza, cinco mecánicos —David, conocido como "el querubín" actual marido del famoso streamer Don Kiko Palomares; Rubén, el famoso gitano rubio criado entre peleas de gallos; Ale, un anciano que se peina por la espalda famoso por asaltar bancos en patinete; Mario, une chique jugadore de baloncesto frustrade y hormonade; y Raúl, <strong>un cáncer para la sociedad y para sí mismo</strong> — se enfrentaban a sus propios demonios mientras luchaban por mantener a flote un modesto taller de reparación de automóviles.</p>
             </div>
             <div class="col-sm-6 d-flex justify-content-center align-items-center">
             <img class="img-thumbnail zoom" src="{% static 'gitano_contact_us.png' %}" alt="" style="border-radius: 50px; height: 70%;">
@@ -39,7 +65,7 @@
 
         <!-- iframe -->
         <div class="row">
-            <h4 class="text-center">¡Ven a conocérnos!</h4>
+            <h4 class="text-center">¡Ven a conocernos!</h4>
             <br>
             <br>
             <div class="col-12 d-flex justify-content-center align-items-center">
@@ -81,6 +107,7 @@
         </div>
         </div>
     </main>
+
     <script>
 
         /* document: llamo al documento */
