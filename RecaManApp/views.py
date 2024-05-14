@@ -348,3 +348,6 @@ def mostrar_presupuestos(request):
 def sobre_nosotros(request):
 
     return render(request, 'contactanos.html')
+
+def index(request):
+    return render(request, 'index.html')
