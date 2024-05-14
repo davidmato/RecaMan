@@ -23,28 +23,33 @@
             <thead>
                 <tr>
                     <th scope="col">ID</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Hora</th>
-                        <th scope="col">Motivo</th>
-                        <th scope="col">Matricula</th>
+                        <th scope="col">Fecha Compra</th>
+                        <th scope="col">Importe</th>
+                        <th scope="col">Tipo de Presupuesto</th>
                         <th scope="col">Mecánico</th>
                         <th scope="col">Usuario</th>
                     </tr>
             </thead>
             <tbody>
-                {% for c in citas %}
-                    <tr>
-                        <th scope="row">{{ c.id }}</th>
-                        <td>{{ c.fecha }}</td>
-                        <td>{{ c.hora }}</td>
-                        <td>{{ c.motivo }}</td>
-                        <td>{{ c.cocheCliente.matricula }}</td>
-                        <td>{{ c.mecanico.nombre }}</td>
-                        <td>{{ c.usuario.nombreUsuario }}</td>
-                        <td>
-                            <button type="submit"><img src="{% static 'icons8-editar-24.png' %}"></button>
-                        </td>
-                    </tr>
+                {% for p in presupuesto %}
+                <tr>
+                    <th scope="row">{{ p.id }}</th>
+                    <td>{{ p.fecha_compra}}</td>
+                    <td>{{ p.precio }}€</td>
+                    {% if p.cita == null %}
+                    	<td>COMPRA EN TIENDA</td>
+                    {% endif %}
+                    {% if p.cita != null %}
+                    	<td>IMPORTE DE LA CITA</td>
+                    {% endif %}
+                    {% if p.cita == null %}
+                    	<td>------------</td>
+                    {% endif %}
+                    {% if p.cita != null %}
+                    	<td>{{ p.cita.mecanico.nombre }}</td>
+                    {% endif %}
+                    <td>{{ p.usuario.nombreUsuario }}</td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>

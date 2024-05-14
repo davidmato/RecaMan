@@ -14,7 +14,6 @@
 
   <div class="container-fluid">
     <div class="row">
-      <!-- Barra lateral -->
 
       <!-- Contenido principal -->
       <div class="col-10" id="form_central">
@@ -25,22 +24,15 @@
           <form action="" method="post">
               {% csrf_token %}
             <div class="mb-3">
-              <label for="mecanicname" class="form-label">Nombre</label>
-              <input type="text" class="form-control"  name="nombre">
+              <label class="form-label">Motivo</label>
+              <input type="text" class="form-control" name="motivo">
             </div>
+
             <div class="mb-3">
-              <label for="maili" class="form-label">Email</label>
-              <input type="text" class="form-control"  name="mail">
+              <label  class="form-label">Fecha</label>
+              <input type="date" class="form-control" name="fecha" min="2024-01-01">
             </div>
-            <div class="mb-3">
-              <label for="productPrice" class="form-label">Fecha Nacimiento</label>
-              <input type="date" class="form-control"  name="fecha">
-            </div>
-            <div class="mb-3">
-              <label for="dni" class="form-label">Direccion</label>
-              <input type="text" class="form-control"  name="direccion">
-            </div>
-            <button type="submit" name="verificar" class="btn btn-dark" value="verificar">Verificar</button>
+            <button type="submit" class="btn btn-dark">Realizar</button>
           </form>
         </div>
 

@@ -10,11 +10,10 @@
     <script src="https://kit.fontawesome.com/e3fd01f854.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    {% include 'header_cliente.html' %}
+    {% include 'header.html' %}
 
   <div class="container-fluid">
     <div class="row">
-      <!-- Barra lateral -->
 
       <!-- Contenido principal -->
       <div class="col-10" id="form_central">
@@ -25,22 +24,18 @@
           <form action="" method="post">
               {% csrf_token %}
             <div class="mb-3">
-              <label for="mecanicname" class="form-label">Nombre</label>
-              <input type="text" class="form-control"  name="nombre">
+              <label class="form-label">Modelo</label>
+              <input type="text" class="form-control">
             </div>
             <div class="mb-3">
-              <label for="maili" class="form-label">Email</label>
-              <input type="text" class="form-control"  name="mail">
+              <label class="form-label">Matricula</label >
+              <input type="text" class="form-control">
             </div>
             <div class="mb-3">
-              <label for="productPrice" class="form-label">Fecha Nacimiento</label>
-              <input type="date" class="form-control"  name="fecha">
+              <label  class="form-label">Kilometros</label>
+              <input type="text" class="form-control">
             </div>
-            <div class="mb-3">
-              <label for="dni" class="form-label">Direccion</label>
-              <input type="text" class="form-control"  name="direccion">
-            </div>
-            <button type="submit" name="verificar" class="btn btn-dark" value="verificar">Verificar</button>
+            <button type="submit" class="btn btn-dark">Realizar</button>
           </form>
         </div>
 
