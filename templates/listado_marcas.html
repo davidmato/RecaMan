@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,9 +17,10 @@
   <div class="container-fluid row">
       <!-- Barra lateral -->
       {% include 'barraLateral.html' %}
-        {% for m in marcas %}
+        <!-- Contenido -->
         <div class="col-10 d-flex flex-wrap">
-           <div class="card" style="width: 18rem;">
+        {% for m in marcas %}
+           <div class="card" style="width: 18rem; margin: 2px;">
               <img src="{{ m.url }}" class="card-img-top" alt="...">
               <div class="card-body">
                 <h5 class="card-title">{{ m.nombre }}</h5>

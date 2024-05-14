@@ -2,7 +2,7 @@
   color: #fff;
 }
 .navbar-expand-lg{
-    
+
     background: rgb(0,0,0);
     background: linear-gradient(90deg, rgba(0,0,0,1) 31%, rgba(129,0,15,1) 100%);
 }
@@ -82,9 +82,39 @@ footer{
     #form_central {
         padding-top: 2%;
     }
+
+/* BARRA LATERAL */
+
+#barra_lateral{
+    background: linear-gradient(180deg, rgba(0,0,0,1) 31%, rgba(129,0,15,1) 100%) !important;
+    padding-bottom: 100%;
+}
+
+.lateral_list{
+  color: white;
+}
+
+.lateral_list a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.lateral_list a:hover {
+  color: lightslategray;
+  text-decoration: none;
+}
+
+ul, li{
+  list-style: none;
+  margin-top: 15%;
+}
+
+#form_central{
+  padding-top: 2%;
 }
 
 #links_cartas_jefe{
     text-decoration: none;
 }
 
+}
