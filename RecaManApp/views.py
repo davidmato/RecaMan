@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import render, redirect
 
@@ -25,7 +26,6 @@ def nuevo_meacanico(request):
     if request.method == 'GET':
         return render(request, 'newMecanic.html')
     else:
-
         nuevo = Mecanico()
         nuevo.nombre = request.POST.get('mecanicnamen')
         nuevo.email = request.POST.get('mail')
@@ -34,16 +34,8 @@ def nuevo_meacanico(request):
         nuevo.url = request.POST.get('url')
         nuevo.save()
 
-        nombre_nuevo = nuevo.nombre.replace(" ", "")
-        nombre_nuevo_usuario = nombre_nuevo
-        contado = 1
-
-        while Usuario.objects.filter(nombreUsuario=new_username).exists():
-            new_username = nombre_nuevo_usuario + str(contado)
-            contado += 1
-
         usuario = Usuario()
-        usuario.nombre = nuevo.nombre.replace(" ", "")
+        usuario.nombreUsuario = nuevo.nombre.replace(" ", "")
         usuario.password = make_password(nuevo.dni)
         usuario.rol = Roles.MECANICO
         usuario.save()
@@ -223,20 +215,31 @@ def areaUsuario(request):
 
     return render(request, 'areaUsuario.html', {'cliente': cliente})
 def pedir_cita(request):
+
+    ## si hay fallo mirar en git de mario
     if request.method == 'GET':
         return render(request, 'pedircita.html')
     else:
         usuario_logeado = request.user
         cliente = Cliente.objects.get(user=usuario_logeado)
+
+        try:
+            coche_cliente = CocheCliente.objects.get(
+                usuario=usuario_logeado)  # Get the CocheCliente for the logged-in user
+        except ObjectDoesNotExist:
+            # Handle the case when the CocheCliente does not exist
+            # You can return an error message or create a new CocheCliente
+            return render(request, 'pedircita.html', {'error': 'CocheCliente does not exist'})
+
         cita = Citas()
         cita.motivo = request.POST.get('motivo')
         cita.fecha = request.POST.get('fecha')
-        cita.estado = EstadoCita.PENDIENTE
+        cita.estado = EstadoCitas.PENDIENTE
         cita.cliente = cliente
+        cita.cocheCliente_id = coche_cliente.id  # Set the cocheCliente_id
         cita.save()
 
         return redirect('pedircita')
-
 
 @check_user_roles('ADMIN')
 def nuevo_producto(request):
@@ -256,6 +259,15 @@ def nuevo_producto(request):
         new.save()
 
         return redirect('añadir_producto')
+
+def vista_citas_cliente(request):
+    usuario_logeado = request.user
+    try:
+        cliente = Cliente.objects.get(user=usuario_logeado)
+    except Cliente.DoesNotExist:
+        return redirect('verificar')
+    citas = Citas.objects.filter(cliente=cliente)
+    return render(request, 'listado_citasCliente.html', {'citas': citas})
 @check_user_roles('ADMIN')
 def eliminar_producto(request, id):
     producto = Producto.objects.get(id=id)
@@ -351,6 +363,7 @@ def mostrar_coches(request):
         if coche.usuario.nombreUsuario != request.user.nombreUsuario:
             cocheCliente = cocheCliente.exclude(id=coche.id)
     return render(request, 'listado_cochesCliente.html', {'coches': cocheCliente})
+
 
 @check_user_roles('CLIENTE')
 def nuevo_coche(request):
