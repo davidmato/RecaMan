@@ -1,3 +1,7 @@
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +17,11 @@
 <body>
     <!-- Navbar -->
 {% include 'header_admin.html' %}
-
+            <!-- buscador-->
+       <form method="GET" action="{% url 'buscar' %}">
+            <input type="text" name="q" placeholder="Search products...">
+            <input type="submit" value="Buscar">
+        </form>
 
   <div class="container-fluid">
 
@@ -21,28 +29,25 @@
       <!-- Barra lateral -->
       {% include 'barraLateral.html' %}
 
-        {% for p in producto %}
+        {% for product in productos %}
 
 
 
            <div class="card" style="width: 18rem;">
-              <img src="{{ p.url }}" class="card-img-top" alt="...">
+              <img src="{{ product.url }}" class="card-img-top" alt="...">
               <div class="card-body">
-                <h5 class="card-title">{{ p.nombre }}</h5>
+                <h5 class="card-title">{{ product.nombre }}</h5>
               </div>
               <ul class="list-group list-group-flush">
-                <li class="list-group-item">{{ p.descripcion }}</li>
+                <li class="list-group-item">{{ product.descripcion }}</li>
               </ul>
                <ul class="list-group list-group-flush">
-                   <li class="list-group-item">{{p.marca.nombre}}</li>
+                   <li class="list-group-item">{{product.marca.nombre}}</li>
                </ul>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">{{p.precio}}€</li>
+                    <li class="list-group-item">{{product.precio}}€</li>
                 </ul>
-              <div class="card-body">
-                <a href="{% url 'cambiar_producto' p.id %}" class="card-link"><img src={% static 'icons8-editar-24.png' %}></a>
-                <a href="{% url 'quitar_producto' p.id %}" class="card-link"><img src={% static 'icons8-papelera-24.png' %}></a>
-              </div>
+
             </div>
         {% endfor %}
 
@@ -55,3 +60,6 @@
 
 </body>
 </html>
+{% for product in productos %}
+    <p>{{ product.nombre }}</p>
+{% endfor %}

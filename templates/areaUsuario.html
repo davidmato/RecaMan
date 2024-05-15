@@ -8,67 +8,97 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
-
     <title>Area Usuario</title>
+    <style>
+        #carta{
+        border: 2px solid black;
+        box-shadow: 10px 5px 5px grey;
+        }
+        .hover-zoom:hover {
+            transform: scale(1.1);
+            transition: transform .2s;
+        }
+    </style>
+
 </head>
 <body>
     {% include 'header_cliente.html' %}
+    <h1 class="text-center mt-5 hover-zoom ">Bienvenido a tu area de usuario</h1>
 
-    <br><br>
-    <div class="row row-cols-1 row-cols-md-3 g-4 ms-2">
-          <div class="col">
-            <div class="card h-100 w-75">
-              <img src="{% static 'taller.png' %}" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Mis coches</h5>
-                <p class="card-text">Manten tus coches con nosotros</p>
-                  <a href=""></a>
-              </div>
+    <div class="d-flex flex-wrap justify-content-around mt-5">
+
+        <div id="carta" class="card d-flex justify-content-center align-items-center hover-zoom" style="width: 400px; height: 200px; margin: 10px;">
+            <a href="{% url 'lista_coches' %}" class="text-decoration-none">
+            <div class="d-flex justify-content-center align-items-center">
+                <img src="{% static 'icons8-coche-50.png' %}" class="card-img-top justify-content-center" alt="" style="width: 60px; height: 60px;">
             </div>
-          </div>
-          <div class="col">
-            <div class="card h-100 w-75" >
-              <img src="{% static 'taller.png' %}" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Mis Citas</h5>
-                <p class="card-text">Pide tu cita con nosotros en cualquier momento</p>
-                 <a href="{% url 'añadir_cita_cliente'%}"> Pide cita aqui</a>
-              </div>
-            </div>
-          </div>
-        {% if not cliente %}
-          <div class="col">
-            <div class="card h-100 w-75" >
-              <img src="{% static 'coche.jpeg' %}" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">Verificate</h5>
-                <p class="card-text">Verificate como usuario para realizar compras online y mucho mas!!!</p>
-                   <a href="{% url 'verificar'%}"> Verificate aqui</a>
-              </div>
-            </div>
-          </div>
-        {% endif %}
-        <div class="col">
-                <div class="card h-100 w-75" >
-                  <img src="{% static 'coche.jpeg' %}" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">Mis presupuestos</h5>
-                    <p class="card-text"><p> Consulta aqui tus presupuesto de compras </p>
-                  </div>
+                <div class="card-body">
+                    <h4 class="card-text" style="color: darkred">Mis Coches</h4>
                 </div>
+            </a>
         </div>
-        <div class="col">
-                <div class="card h-100 w-75" >
-                  <img src="{% static 'coche.jpeg' %}" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">Mis Citas</h5>
-                    <p class="card-text"><p> Consulta aqui tus citas </p>
-                      <a href="{% url 'lista_citas' %}">Tus citas</a>
-                  </div>
+
+
+        <div id="carta" class="card d-flex justify-content-center align-items-center hover-zoom" style="width: 400px; height: 200px; margin: 10px;">
+            <a href="{% url 'lista_citas_cliente' %}" class="text-decoration-none">
+            <div class="d-flex justify-content-center align-items-center">
+                <img src="{% static 'icons8-añadir-grupo-de-usuarios-hombre-hombre-50.png' %}" class="card-img-top justify-content-center" alt="" style="width: 60px; height: 60px;">
+            </div>
+                <div class="card-body">
+                    <h4 class="card-text" style="color: darkred">Mis Citas</h4>
                 </div>
+            </a>
+        </div>
+        <div id="carta" class="card d-flex justify-content-center align-items-center hover-zoom" style="width: 400px; height: 200px; margin: 10px;">
+            <a href="{% url 'lista_presupuestos' %}" class="text-decoration-none">
+            <div class="d-flex justify-content-center align-items-center">
+                <img src="{% static 'icons8-food-receiver-50.png' %}" class="card-img-top justify-content-center" alt="" style="width: 60px; height: 60px;">
+            </div>
+                <div class="card-body">
+                    <h4 class="card-text" style="color: darkred">Mis presupuestos</h4>
+                </div>
+            </a>
         </div>
 
     </div>
+    <div class="d-flex flex-wrap justify-content-around mt-5">
+
+
+
+         {% if not cliente %}
+        <div id="carta" class="card d-flex justify-content-center align-items-center hover-zoom" style="width: 400px; height: 200px; margin: 10px;">
+            <a href="{% url 'verificar' %}" class="text-decoration-none">
+            <div class="d-flex justify-content-center align-items-center">
+                <img src="{% static 'icons8-fast-moving-consumer-goods-50.png' %}" class="card-img-top justify-content-center" alt="" style="width: 60px; height: 60px;">
+            </div>
+                <div class="card-body">
+                    <h4 class="card-text" style="color: darkred">Verificate aqui</h4>
+                </div>
+            </a>
+        </div>
+        {% endif %}
+
+        <div id="carta" class="card d-flex justify-content-center align-items-center hover-zoom" style="width: 400px; height: 200px; margin: 10px;">
+            <a href="{% url 'añadir_cita_cliente' %}" class="text-decoration-none">
+            <div class="d-flex justify-content-center align-items-center">
+                <img src="{% static 'icons8-coche-50.png' %}" class="card-img-top justify-content-center" alt="" style="width: 60px; height: 60px;">
+            </div>
+                <div class="card-body">
+                    <h4 class="card-text" style="color: darkred">Pedir Citas</h4>
+                </div>
+            </a>
+        </div>
+        <div id="carta" class="card d-flex justify-content-center align-items-center hover-zoom" style="width: 400px; height: 200px; margin: 10px;">
+            <a href="{% url 'recambios_coche' %}" class="text-decoration-none">
+            <div class="d-flex justify-content-center align-items-center">
+                <img src="{% static 'icons8-agregar-coche-48.png' %}" class="card-img-top justify-content-center" alt="" style="width: 60px; height: 60px;">
+            </div>
+                <div class="card-body">
+                    <h4 class="card-text" style="color: darkred">Recambio Componentes</h4>
+                </div>
+            </a>
+        </div>
+    </div>
+
 </body>
 </html>

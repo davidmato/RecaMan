@@ -39,6 +39,7 @@ urlpatterns = [
     path('areausuario/nueva_cita/', pedir_cita, name='añadir_cita_cliente'),
     path('areausuario/plantilla_citas/', vista_citas_cliente, name='lista_citas_cliente'),
     path('areausuario/vista_cita', vistacitacliente, name="vistacitacliente"),
-    path('areausuario/vista_cita/quitar_cita/<int:id>', eliminar_cita, name="quitarcita")
+    path('areausuario/vista_cita/quitar_cita/<int:id>', eliminar_cita, name="quitarcita"),
+    path('buscar/', buscador, name='buscar'),
 
 ]

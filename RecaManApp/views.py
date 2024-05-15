@@ -162,7 +162,7 @@ def mostrar_citas(request):
         cita.mecanico = Mecanico.objects.get(id=request.POST.get('mecanicos'))
         cita.estado = EstadoCitas.ACEPTADA
         cita.save()
-        return render(request, 'listado_citas.html', {'citas': list_citas, 'mecanicos': mecanicos})
+        return render(request, 'listado_citas.html')
 
 @check_user_roles('ADMIN')
 def plantilla_productos(request):
@@ -217,30 +217,21 @@ def areaUsuario(request):
 def pedir_cita(request):
 
     ## si hay fallo mirar en git de mario
+    coches = CocheCliente.objects.filter(usuario=request.user)
     if request.method == 'GET':
-        return render(request, 'pedircita.html')
+        return render(request, 'newCitaCliente.html', {'coches': coches})
     else:
         usuario_logeado = request.user
         cliente = Cliente.objects.get(user=usuario_logeado)
-
-        try:
-            coche_cliente = CocheCliente.objects.get(
-                usuario=usuario_logeado)  # Get the CocheCliente for the logged-in user
-        except ObjectDoesNotExist:
-            # Handle the case when the CocheCliente does not exist
-            # You can return an error message or create a new CocheCliente
-            return render(request, 'pedircita.html', {'error': 'CocheCliente does not exist'})
-
         cita = Citas()
         cita.motivo = request.POST.get('motivo')
         cita.fecha = request.POST.get('fecha')
+        cita.cocheCliente = CocheCliente.objects.get(id=request.POST.get('coche'))
         cita.estado = EstadoCitas.PENDIENTE
+        cita.usuario = usuario_logeado
         cita.cliente = cliente
-        cita.cocheCliente_id = coche_cliente.id  # Set the cocheCliente_id
         cita.save()
-
-        return redirect('pedircita')
-
+        return redirect('añadir_cita_cliente')
 @check_user_roles('ADMIN')
 def nuevo_producto(request):
     if request.method == 'GET':
@@ -426,3 +417,11 @@ def editar_coche(request, id):
 @check_user_roles('CLIENTE')
 def recambio_coche(request):
     return render(request,'recambio_coche.html')
+
+def buscador(request):
+    query = request.GET.get('q')
+    if query:
+        productos = Producto.objects.filter(nombre__icontains=query)
+    else:
+        productos = Producto.objects.all()
+    return render(request, 'buscador.html', {'productos': productos})
