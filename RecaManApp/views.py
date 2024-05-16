@@ -1,19 +1,17 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
-from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import render, get_object_or_404
 from django.shortcuts import render, redirect
 
 from RecaManApp.decorators import *
 from RecaManApp.models import *
-from .decorators import *
-
-
 # Create your views here.
 @check_user_roles('ADMIN')
 def area_jefe(request):
     return render(request, 'AreaJefe.html')
+
+def error(request):
+    return render(request, 'errores.html')
 
 @check_user_roles('ADMIN')
 def plantilla_mecanicos(request):
@@ -56,7 +54,6 @@ def eliminar_mecanico(request, id):
 @check_user_roles('ADMIN')
 def editar_mecanico(request, id):
     mecanic = Mecanico.objects.get(id=id)
-
     if request.method == "GET":
         return render(request, 'newMecanic.html', {'mecanic':mecanic})
     else:
@@ -66,7 +63,6 @@ def editar_mecanico(request, id):
         mecanic.dni = request.POST.get('dni')
         mecanic.url = request.POST.get('url')
         mecanic.save()
-
         return redirect('lista_mecanicos')
 
 
@@ -74,27 +70,17 @@ def registrar_usuario(request):
     if request.method == "GET":
         return render(request, 'register.html')
     else:
-
-
         NameUsuario = request.POST.get('nom-usuario')
         password = request.POST.get('contraseña-registro')
         repeatpassword = request.POST.get('confirmar')
-
         errores = []
-
         if password != repeatpassword:
             errores.append('Las contraseñas no coinciden')
-
         existe_usuario = Usuario.objects.filter(nombreUsuario=NameUsuario).exists()
-
         if existe_usuario:
             errores.append('Ya existe el nombre de ese usuario')
-
-
-
         if len(errores) != 0:
             return render(request, 'register.html', {'errores':errores})
-
         else:
             user = Usuario.objects.create(nombreUsuario=NameUsuario, password=make_password(password))
             user.save()
@@ -214,24 +200,7 @@ def areaUsuario(request):
         cliente = None
 
     return render(request, 'areaUsuario.html', {'cliente': cliente})
-def pedir_cita(request):
 
-    ## si hay fallo mirar en git de mario
-    coches = CocheCliente.objects.filter(usuario=request.user)
-    if request.method == 'GET':
-        return render(request, 'newCitaCliente.html', {'coches': coches})
-    else:
-        usuario_logeado = request.user
-        cliente = Cliente.objects.get(user=usuario_logeado)
-        cita = Citas()
-        cita.motivo = request.POST.get('motivo')
-        cita.fecha = request.POST.get('fecha')
-        cita.cocheCliente = CocheCliente.objects.get(id=request.POST.get('coche'))
-        cita.estado = EstadoCitas.PENDIENTE
-        cita.usuario = usuario_logeado
-        cita.cliente = cliente
-        cita.save()
-        return redirect('añadir_cita_cliente')
 @check_user_roles('ADMIN')
 def nuevo_producto(request):
     if request.method == 'GET':
@@ -239,7 +208,6 @@ def nuevo_producto(request):
         marca = MarcaCoche.objects.all()
         return render(request, 'newProduct.html', {'tipos_producto': tipos_producto, 'marca': marca})
     else:
-
         new = Producto()
         new.nombre = request.POST.get('nombre')
         new.url = request.POST.get('url')
@@ -248,22 +216,14 @@ def nuevo_producto(request):
         new.tipo_producto = Tipo_producto.objects.get(id=request.POST.get('tipos_producto'))
         new.precio = request.POST.get('precio', 0.0)
         new.save()
-
         return redirect('añadir_producto')
 
-def vista_citas_cliente(request):
-    usuario_logeado = request.user
-    try:
-        cliente = Cliente.objects.get(user=usuario_logeado)
-    except Cliente.DoesNotExist:
-        return redirect('verificar')
-    citas = Citas.objects.filter(cliente=cliente)
-    return render(request, 'listado_citasCliente.html', {'citas': citas})
 @check_user_roles('ADMIN')
 def eliminar_producto(request, id):
     producto = Producto.objects.get(id=id)
     producto.delete()
     return redirect('lista_productos')
+
 @check_user_roles('ADMIN')
 def editar_producto(request, id):
     producto = Producto.objects.get(id=id)
@@ -279,10 +239,7 @@ def editar_producto(request, id):
         producto.tipo_producto = Tipo_producto.objects.get(id=request.POST.get('tipos_producto'))
         producto.precio = request.POST.get('precio', 0.0)
         producto.save()
-
-
         return redirect('lista_productos')
-
 
 @check_user_roles('ADMIN')
 def nueva_marca(request):
@@ -294,15 +251,18 @@ def nueva_marca(request):
         new.url = request.POST.get('url')
         new.save()
         return redirect('añadir_marca')
+
 @check_user_roles('ADMIN')
 def mostrar_marcas(request):
     list_marcas = MarcaCoche.objects.all()
     return render(request, 'listado_marcas.html', {'marcas': list_marcas})
+
 @check_user_roles('ADMIN')
 def eliminar_marca(request, id):
     marca = MarcaCoche.objects.get(id=id)
     marca.delete()
     return redirect('lista_marcas')
+
 @check_user_roles('ADMIN')
 def editar_marca(request, id):
     marca = MarcaCoche.objects.get(id=id)
@@ -344,8 +304,71 @@ def nuevo_tipo_producto(request):
     list_tipos_productos = Tipo_producto.objects.all()
     return render(request, 'newTipoProducto.html',{'tipos_productos': list_tipos_productos})
 
-def error(request):
-    return render(request, 'errores.html')
+@check_user_roles('ADMIN')
+def eliminar_tipo_producto(request, id):
+    tipo_producto = Tipo_producto.objects.get(id=id)
+    tipo_producto.delete()
+    return redirect('añadir_tipo_producto')
+
+@check_user_roles('ADMIN')
+def editar_tipo_producto(request, id):
+    tipo_producto = Tipo_producto.objects.get(id=id)
+    list_tipos_productos = Tipo_producto.objects.all()
+    if request.method == "GET":
+        return render(request, 'newTipoProducto.html', {'tipo_producto':tipo_producto, 'tipos_productos':list_tipos_productos})
+    else:
+        tipo_producto.nombre = request.POST.get('nombre')
+        tipo_producto.save()
+        return redirect('añadir_tipo_producto')
+
+@check_user_roles('ADMIN')
+def mostrar_presupuestos(request):
+    list_presupuestos = Presupuesto.objects.all()
+    return render(request, 'listado_presupuestos.html', {'presupuesto': list_presupuestos})
+
+@check_user_roles('ADMIN')
+def mostrar_citas(request):
+    list_citas = Citas.objects.all()
+    mecanicos = Mecanico.objects.all()
+    if request.method == "GET":
+        return render(request, 'listado_citas.html', {'citas': list_citas, 'mecanicos': mecanicos})
+    else:
+        cita = Citas()
+        cita.hora = request.POST.get('hora')
+        cita.mecanico = Mecanico.objects.get(id=request.POST.get('mecanicos'))
+        cita.estado = EstadoCitas.ACEPTADA
+        cita.save()
+        return render(request, 'listado_citas.html')
+
+def pedir_cita(request):
+    coches = CocheCliente.objects.filter(usuario=request.user)
+    if request.method == 'GET':
+        return render(request, 'newCitaCliente.html', {'coches': coches})
+    else:
+        usuario_logeado = request.user
+        cliente = Cliente.objects.get(user=usuario_logeado)
+        cita = Citas()
+        cita.motivo = request.POST.get('motivo')
+        cita.fecha = request.POST.get('fecha')
+        cita.cocheCliente = CocheCliente.objects.get(id=request.POST.get('coche'))
+        cita.estado = EstadoCitas.PENDIENTE
+        cita.usuario = usuario_logeado
+        cita.cliente = cliente
+        cita.save()
+        return redirect('añadir_cita_cliente')
+
+def vista_citas_cliente(request):
+    usuario_logeado = request.user
+    try:
+        cliente = Cliente.objects.get(user=usuario_logeado)
+    except Cliente.DoesNotExist:
+        return redirect('verificar')
+    citas = Citas.objects.filter(cliente=cliente)
+    return render(request, 'listado_citasCliente.html', {'citas': citas})
+def eliminar_cita(request, id):
+    cita = Citas.objects.get(id=id)
+    cita.delete()
+    return redirect('lista_citas_cliente')
 
 @check_user_roles('CLIENTE')
 def mostrar_coches(request):
@@ -354,7 +377,6 @@ def mostrar_coches(request):
         if coche.usuario.nombreUsuario != request.user.nombreUsuario:
             cocheCliente = cocheCliente.exclude(id=coche.id)
     return render(request, 'listado_cochesCliente.html', {'coches': cocheCliente})
-
 
 @check_user_roles('CLIENTE')
 def nuevo_coche(request):
@@ -417,6 +439,20 @@ def editar_coche(request, id):
 @check_user_roles('CLIENTE')
 def recambio_coche(request):
     return render(request,'recambio_coche.html')
+
+def nuevo_presupuesto(request):
+    list_citas = Citas.objects.filter(mecanico_id=request.user.id)
+    if request.method == 'GET':
+        return render(request, 'newPresupuesto.html', {'citas': list_citas})
+    else:
+        new = Presupuesto()
+        new.cita = Citas.objects.get(id=request.POST.get('cita'))
+        new.fallos = request.POST.get('fallos')
+        new.precio = request.POST.get('precio')
+        new.fecha_compra = new.cita.fecha
+        new.cliente_id = new.cita.cliente_id
+        new.save()
+        return redirect('listado_presupuestos')
 
 def buscador(request):
     query = request.GET.get('q')

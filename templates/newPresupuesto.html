@@ -10,37 +10,36 @@
     <script src="https://kit.fontawesome.com/e3fd01f854.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    {% include 'header_cliente.html' %}
+    {% include 'header.html' %}
   <div class="container-fluid">
     <div class="row">
-        {% include 'barra_lateral_cliente.html' %}
+      <!-- Barra lateral -->
+      {% include 'barraLateral.html' %}
       <!-- Contenido principal -->
       <div class="col-10" id="form_central">
+
         <!-- FORMULARIO DE PRODUCTOS -->
+
         <div class="container-fluid">
           <form action="" method="post">
               {% csrf_token %}
             <div class="mb-3">
-              <label class="form-label">Motivo de la cita</label>
-              <input type="text" class="form-control" name="motivo">
-            </div>
-            <div class="mb-3">
-              <label  class="form-label">Fecha en la que desea la cita</label>
-              <input type="date" class="form-control" name="fecha">
-            </div>
-            <div class="mb-3">
-              <label  class="form-label">Coche que desea revisar</label>
-                <select class="form-select" name="coche">
-                  {% for c in coches %}
-                    {% if citas.cocheCliente_id == c.id %}
-                        <option value="{{ c.id }}" selected="selected">{{ c.modelo }}, {{ c.marca }}</option>
-                        {% else %}
-                        <option value="{{ c.id }}">{{ c.modelo }}, {{ c.marca }}</option>
-                      {% endif %}
+              <label for="marcaname" class="form-label">Usuario que pidió la cita</label>
+              <select class="form-select" id="cita" name="cita">
+                  {% for c in citas %}
+                    <option value="{{ c.id }}">{{ c.cliente.user.nombreUsuario }}</option>
                   {% endfor %}
-                </select>
+              </select>
             </div>
-            <button type="submit" class="btn btn-dark">Realizar</button>
+            <div class="mb-3">
+              <label for="productPrice" class="form-label">Importe del presupuesto</label>
+              <input type="number" step="any" class="form-control" id="productPrice" name="precio">
+            </div>
+            <div class="mb-3">
+              <label for="productPrice" class="form-label">Fallos encontrados en la revisión</label>
+              <textarea id="IdFallos" name="fallos">Escribir aquí</textarea>
+            </div>
+            <button type="submit" class="btn btn-dark">Guardar</button>
           </form>
         </div>
         <!-- Contenido principal -->
@@ -49,3 +48,5 @@
   </div>
 </body>
 </html>
+
+

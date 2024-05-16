@@ -11,16 +11,13 @@
 </head>
 <body>
     {% include 'header_cliente.html' %}
-
   <div class="container-fluid">
     <div class="row">
       <!-- Barra lateral -->
-
+      {% include 'barra_lateral_cliente.html' %}
       <!-- Contenido principal -->
       <div class="col-10" id="form_central">
-
         <!-- FORMULARIO DE PRODUCTOS -->
-
         <div class="container-fluid">
           <form action="" method="post">
               {% csrf_token %}
@@ -43,14 +40,9 @@
             <button type="submit" name="verificar" class="btn btn-dark" value="verificar">Verificar</button>
           </form>
         </div>
-
         <!-- Contenido principal -->
       </div>
     </div>
   </div>
-
-
 </body>
 </html>
-
-

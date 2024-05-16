@@ -1,8 +1,9 @@
+/* HEADER */
 .navbar-dark .nav-item .nav-link {
   color: #fff;
 }
 .navbar-expand-lg{
-
+    
     background: rgb(0,0,0);
     background: linear-gradient(90deg, rgba(0,0,0,1) 31%, rgba(129,0,15,1) 100%);
 }
@@ -28,8 +29,8 @@ h6{
 
 .lateral_list{
   color: white;
-  list-style: none;
-  margin-top: 15%;
+    list-style: none;
+    margin-top: 15%;
 }
 
 .lateral_list a {
@@ -42,6 +43,10 @@ h6{
   text-decoration: none;
 }
 
+ul, li{
+  list-style: none;
+  margin-top: 15%;
+}
 
 #form_central{
   padding-top: 2%;
@@ -50,71 +55,35 @@ h6{
 footer{
     margin-top: 15%;
 }
-#button_modal1 {
-    font-style: none;
 
-    /* BARRA LATERAL */
+/* HEADER INDEX, CONTACTUS, USUARIO, TIENDA */
 
-    #barra_lateral {
-        background: linear-gradient(180deg, rgba(0, 0, 0, 1) 31%, rgba(129, 0, 15, 1) 100%) !important;
-        padding-bottom: 100%;
-    }
 
-    .lateral_list {
-        color: white;
-    }
+/* BARRA LATERAL */
 
-    .lateral_list a {
-        color: #fff;
-        text-decoration: none;
-    }
+#barra_lateral{
+    background: linear-gradient(180deg, rgba(0,0,0,1) 31%, rgba(129,0,15,1) 100%) !important;
+}
 
-    .lateral_list a:hover {
-        color: lightslategray;
-        text-decoration: none;
-    }
+.lateral_list{
+  color: white;
+}
 
-    ul, li {
-        list-style: none;
-        margin-top: 15%;
-    }
+.lateral_list a {
+  color: #fff;
+  text-decoration: none;
+}
 
-    #form_central {
-        padding-top: 2%;
-    }
+.lateral_list a:hover {
+  color: lightslategray;
+  text-decoration: none;
+}
 
-    /* BARRA LATERAL */
+.lateral_list{
+  list-style: none;
+  margin-top: 15%;
+}
 
-    #barra_lateral {
-        background: linear-gradient(180deg, rgba(0, 0, 0, 1) 31%, rgba(129, 0, 15, 1) 100%) !important;
-        padding-bottom: 100%;
-    }
-
-    .lateral_list {
-        color: white;
-    }
-
-    .lateral_list a {
-        color: #fff;
-        text-decoration: none;
-    }
-
-    .lateral_list a:hover {
-        color: lightslategray;
-        text-decoration: none;
-    }
-
-    ul, li {
-        list-style: none;
-        margin-top: 15%;
-    }
-
-    #form_central {
-        padding-top: 2%;
-    }
-
-    #links_cartas_jefe {
-        text-decoration: none;
-    }
-
+#form_central{
+  padding-top: 2%;
 }
