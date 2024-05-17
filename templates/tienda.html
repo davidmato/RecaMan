@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {%  load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda</title>
+
+    <style>
+
+        .card-title {
+            border-bottom: 1px solid #000;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .card {
+            margin: 10px;
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(0,0,0,1);
+        }
+
+    </style>
+</head>
+<body>
+
+    {% include 'headerTienda.html' %}
+
+
+    <div class="container-md d-flex" style="margin-top: 2%;">
+        <div class="container-sm col-md-12 d-flex flex-wrap justify-content-between">
+            {% for p in producto_tienda %}
+        <div class="card mb-3" style="max-width: 400px; min-width: 200px; margin: 2px; border: 2px solid black;">
+            <div class="row g-0">
+              <div class="col-md-4 d-flex align-items-center justify-content-center">
+                <img src="{{ p.url }}" class="img-fluid rounded-circle" alt="...">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title"> <strong>{{ p.nombre }} </strong></h5>
+                  <p class="card-text"> <strong>Descripción:</strong> {{ p.descripcion }}</p>
+                  <p class="card-text"><strong>Producto:</strong> {{ p.marca.nombre }}</p>
+                  <p class="card-text"><strong>Precio:</strong> {{ p.precio }}€</p>
+                </div>
+              </div>
+            </div>
+        </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>
