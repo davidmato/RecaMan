@@ -27,7 +27,8 @@
                         <th scope="col">Importe</th>
                         <th scope="col">Tipo de Presupuesto</th>
                         <th scope="col">Mecánico</th>
-                        <th scope="col">Usuario</th>
+                        <th scope="col">Cliente</th>
+                        <th scope="col">Nombre Usuario</th>
                     </tr>
             </thead>
             <tbody>
@@ -48,7 +49,8 @@
                     {% if p.cita != null %}
                     	<td>{{ p.cita.mecanico.nombre }}</td>
                     {% endif %}
-                    <td>{{ p.usuario.nombreUsuario }}</td>
+                    <td>{{ p.cliente.nombre }}</td>
+                    <td>{{ p.cliente.user.nombreUsuario }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

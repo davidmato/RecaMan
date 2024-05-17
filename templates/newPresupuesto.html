@@ -23,21 +23,13 @@
         <div class="container-fluid">
           <form action="" method="post">
               {% csrf_token %}
-            <div class="mb-3">
-              <label for="marcaname" class="form-label">Usuario que pidió la cita</label>
-              <select class="form-select" id="cita" name="cita">
-                  {% for c in citas %}
-                    <option value="{{ c.id }}">{{ c.cliente.user.nombreUsuario }}</option>
-                  {% endfor %}
-              </select>
-            </div>
-            <div class="mb-3">
+            <div class="mb-3 form-group">
               <label for="productPrice" class="form-label">Importe del presupuesto</label>
               <input type="number" step="any" class="form-control" id="productPrice" name="precio">
             </div>
-            <div class="mb-3">
+            <div class="mb-3 form-group">
               <label for="productPrice" class="form-label">Fallos encontrados en la revisión</label>
-              <textarea id="IdFallos" name="fallos">Escribir aquí</textarea>
+              <textarea class="form-control" id="IdFallos" name="fallos" placeholder="Escribir aquí"></textarea>
             </div>
             <button type="submit" class="btn btn-dark">Guardar</button>
           </form>

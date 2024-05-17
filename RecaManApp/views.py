@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, redirect
@@ -6,6 +6,9 @@ from django.shortcuts import render, redirect
 from RecaManApp.decorators import *
 from RecaManApp.models import *
 # Create your views here.
+def inicio(request):
+    return render(request, 'index.html')
+
 @check_user_roles('ADMIN')
 def area_jefe(request):
     return render(request, 'AreaJefe.html')
@@ -29,6 +32,12 @@ def nuevo_meacanico(request):
         nuevo.fecha_nacimiento = request.POST.get('birth')
         nuevo.dni = request.POST.get('dni')
         nuevo.url = request.POST.get('url')
+        usuario = Usuario()
+        usuario.nombreUsuario = nuevo.nombre.replace(" ","")
+        usuario.password = make_password(nuevo.dni)
+        usuario.rol = Roles.MECANICO
+        usuario.save()
+        nuevo.user_id = usuario.id
         nuevo.save()
         return redirect('añadir_mecanico')
 
@@ -55,7 +64,6 @@ def editar_mecanico(request, id):
         mecanic.save()
         return redirect('lista_mecanicos')
 
-#FALTA TERMINAR DE REDIRIGIR BIEN LA PAGINA A LAS AREAS CORRESPONDIENTES
 def registrar_usuario(request):
     if request.method == "GET":
         return render(request, 'register.html')
@@ -76,34 +84,28 @@ def registrar_usuario(request):
             user.save()
             return redirect('login')
 
-@check_user_roles('ADMIN')
-def registrar_mecanico_usuario(request, id):
-    mecanic = Mecanico.objects.get(id=id)
-    if mecanic.user is None:
-        user = Usuario()
-        user.nombre = mecanic.nombre.replace(" ","")
-        user.nombreUsuario = mecanic.nombre.replace(" ","")
-        user.email = mecanic.email
-        user.password = make_password(mecanic.dni)
-        user.rol = Roles.MECANICO
-        user.save()
-        mecanic.user_id = user.id
-        mecanic.save()
-        return redirect('login')
-    else:
-        return redirect('plantilla_mecanicos')
-
 def login_usuario(request):
     if request.method == "POST":
         NombreUsuario = request.POST.get('nombreusuario')
         contrasenya = request.POST.get('contraseña')
         usuario = authenticate(request, username=NombreUsuario, password=contrasenya)
         if usuario is not None:
-            login(request, usuario)
-            return redirect('cliente')
+            if usuario.rol == Roles.ADMIN:
+                login(request, usuario)
+                return redirect('jefe')
+            elif usuario.rol == Roles.MECANICO:
+                login(request, usuario)
+                return redirect('mecanico')
+            else:
+                login(request, usuario)
+                return redirect('cliente')
         else:
             return render(request, 'login.html', {"error": "No se ha podido iniciar sesión intentalo de nuevo"})
     return render(request, 'login.html')
+
+def cerrar_sesion(request):
+    logout(request)
+    return redirect('login')
 
 def asignar_Usuario(request):
     usuario_logeado = Usuario.objects.get(nombreUsuario=request.user.nombreUsuario)
@@ -139,7 +141,7 @@ def area_usuario(request):
 
 @check_user_roles('ADMIN')
 def plantilla_productos(request):
-    list_product = Producto.objects.all()
+    list_product = Producto.objects.all().order_by('-id')
     return render(request, 'PlantillaProducto.html', {'producto': list_product})
 
 @check_user_roles('ADMIN')
@@ -195,7 +197,7 @@ def nueva_marca(request):
 
 @check_user_roles('ADMIN')
 def mostrar_marcas(request):
-    list_marcas = MarcaCoche.objects.all()
+    list_marcas = MarcaCoche.objects.all().order_by('-id')
     return render(request, 'listado_marcas.html', {'marcas': list_marcas})
 
 @check_user_roles('ADMIN')
@@ -221,7 +223,7 @@ def nuevo_tipo_producto(request):
         new.nombre = request.POST.get('nombre')
         new.save()
         return redirect('añadir_tipo_producto')
-    list_tipos_productos = Tipo_producto.objects.all()
+    list_tipos_productos = Tipo_producto.objects.all().order_by('-id')
     return render(request, 'newTipoProducto.html',{'tipos_productos': list_tipos_productos})
 
 @check_user_roles('ADMIN')
@@ -243,12 +245,12 @@ def editar_tipo_producto(request, id):
 
 @check_user_roles('ADMIN')
 def mostrar_presupuestos(request):
-    list_presupuestos = Presupuesto.objects.all()
+    list_presupuestos = Presupuesto.objects.all().order_by('-id')
     return render(request, 'listado_presupuestos.html', {'presupuesto': list_presupuestos})
 
 @check_user_roles('ADMIN')
 def mostrar_citas(request):
-    list_citas = Citas.objects.all()
+    list_citas = Citas.objects.all().order_by('-id')
     mecanicos = Mecanico.objects.all()
     if request.method == "GET":
         return render(request, 'listado_citas.html', {'citas': list_citas, 'mecanicos': mecanicos})
@@ -260,6 +262,15 @@ def mostrar_citas(request):
         cita.save()
         return render(request, 'listado_citas.html')
 
+def asignar_cita_jefe(request, id):
+    cita = Citas.objects.get(id=id)
+    cita.hora = request.POST.get('hora')
+    cita.mecanico_id = Mecanico.objects.get(id=request.POST.get('mecanico'))
+    cita.estado = EstadoCitas.ACEPTADA
+    cita.save()
+    return redirect('lista_citas')
+
+@check_user_roles('CLIENTE')
 def pedir_cita(request):
     coches = CocheCliente.objects.filter(usuario=request.user)
     if request.method == 'GET':
@@ -283,8 +294,9 @@ def vista_citas_cliente(request):
         cliente = Cliente.objects.get(user=usuario_logeado)
     except Cliente.DoesNotExist:
         return redirect('verificar')
-    citas = Citas.objects.filter(cliente=cliente)
+    citas = Citas.objects.filter(cliente=cliente).order_by('-id')
     return render(request, 'listado_citasCliente.html', {'citas': citas})
+
 def eliminar_cita(request, id):
     cita = Citas.objects.get(id=id)
     cita.delete()
@@ -292,7 +304,7 @@ def eliminar_cita(request, id):
 
 @check_user_roles('CLIENTE')
 def mostrar_coches(request):
-    cocheCliente = CocheCliente.objects.all()
+    cocheCliente = CocheCliente.objects.all().order_by('-id')
     for coche in cocheCliente:
         if coche.usuario.nombreUsuario != request.user.nombreUsuario:
             cocheCliente = cocheCliente.exclude(id=coche.id)
@@ -300,9 +312,8 @@ def mostrar_coches(request):
 
 @check_user_roles('CLIENTE')
 def nuevo_coche(request):
-    coche = CocheCliente.objects.all()
     if request.method == 'GET':
-        return render(request, 'newCoche.html' ,{'coches': coche})
+        return render(request, 'newCoche.html')
     else:
         usuario_logeado = request.user
         coche = CocheCliente()
@@ -341,16 +352,38 @@ def editar_coche(request, id):
 def recambio_coche(request):
     return render(request,'recambio_coche.html')
 
-def nuevo_presupuesto(request):
-    list_citas = Citas.objects.filter(mecanico_id=request.user.id)
+@check_user_roles('MECANICO')
+def area_mecanico(request):
+    return render(request, 'AreaMecanico.html')
+
+def nuevo_presupuesto(request, id):
+    cita = Citas.objects.get(id=id)
     if request.method == 'GET':
-        return render(request, 'newPresupuesto.html', {'citas': list_citas})
+        return render(request, 'newPresupuesto.html', {'cita': cita})
     else:
         new = Presupuesto()
-        new.cita = Citas.objects.get(id=request.POST.get('cita'))
+        new.cita = cita
         new.fallos = request.POST.get('fallos')
         new.precio = request.POST.get('precio')
         new.fecha_compra = new.cita.fecha
         new.cliente_id = new.cita.cliente_id
+        cita.estado = EstadoCitas.FINALIZADA
+        cita.save()
         new.save()
-        return redirect('listado_presupuestos')
+        return redirect('lista_citas_mecanico')
+
+def vista_citas_mecanico(request):
+    usuario_logeado = request.user
+    mecanico = Mecanico.objects.get(user=usuario_logeado)
+    citas = Citas.objects.filter(mecanico=mecanico).order_by('-id')
+    for cita in citas:
+        if cita.estado == EstadoCitas.FINALIZADA:
+            citas = citas.exclude(id=cita.id)
+    return render(request, 'listado_citasMecanico.html', {'citas': citas})
+
+@check_user_roles('MECANICO')
+def mostrar_presupuesto_mecanico(request):
+    usuario_logeado = request.user
+    mecanico = Mecanico.objects.get(user=usuario_logeado)
+    presupuestos = Presupuesto.objects.filter(cita__mecanico=mecanico).order_by('-id')
+    return render(request, 'listado_presupuestosMecanico.html', {'presupuestos': presupuestos})

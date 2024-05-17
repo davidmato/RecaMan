@@ -2,8 +2,10 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
+    path('', inicio, name='inicio'),
     path('jefe/', area_jefe, name='jefe'),
     path('jefe/plantilla_citas/', mostrar_citas, name='lista_citas'),
+    path('jefe/asignar_cita_jefe/<int:id>', asignar_cita_jefe, name='asignar_cita_jefe'),
     path('jefe/nuevo_mecanico/', nuevo_meacanico, name="añadir_mecanico"),
     path('jefe/plantilla_mecanicos/', plantilla_mecanicos, name="lista_mecanicos"),
     path('jefe/eliminar_mecanico/<int:id>', eliminar_mecanico, name="quitar_mecanico"),
@@ -12,7 +14,6 @@ urlpatterns = [
     path('jefe/plantilla_productos/', plantilla_productos, name="lista_productos"),
     path('jefe/eliminar_producto/<int:id>', eliminar_producto, name='quitar_producto'),
     path('jefe/editar_producto/<int:id>', editar_producto, name='cambiar_producto'),
-    path('jefe/nuevo_mecanico_automatico/<int:id>', registrar_mecanico_usuario, name='añadir_mecanico_usuario'),
     path('jefe/nueva_marca/', nueva_marca, name='añadir_marca'),
     path('jefe/plantilla_marcas/', mostrar_marcas, name='lista_marcas'),
     path('jefe/eliminar_marca/<int:id>', eliminar_marca, name='quitar_marca'),
@@ -34,5 +35,9 @@ urlpatterns = [
     path('cliente/eliminar_coche/<int:id>', eliminar_coche, name='quitar_coche'),
     path('cliente/editar_coche/<int:id>', editar_coche, name='cambiar_coche'),
     path('cliente/recambio_coche/', recambio_coche, name='recambios_coche'),
-    path('mecanico/nuevo_presupuesto/', nuevo_presupuesto, name='añadir_presupuesto'),
+    path('mecanico/nuevo_presupuesto/<int:id>', nuevo_presupuesto, name='añadir_presupuesto'),
+    path('mecanico/', area_mecanico, name='mecanico'),
+    path('mecanico/plantilla_citas/', vista_citas_mecanico, name='lista_citas_mecanico'),
+    path('mecanico/plantilla_presupuestos/', mostrar_presupuesto_mecanico, name='lista_presupuestos_mecanico'),
+    path('logout/', cerrar_sesion, name='logout'),
 ]

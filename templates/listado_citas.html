@@ -29,20 +29,43 @@
                         <th scope="col">Matricula</th>
                         <th scope="col">Mecánico</th>
                         <th scope="col">Usuario</th>
+                        <th scope="col">Estado</th>
                     </tr>
             </thead>
             <tbody>
                 {% for c in citas %}
-                <tr>
-                    <th scope="row">{{ c.id }}</th>
-                    <td>{{ c.fecha }}</td>
-                    <td>{{ c.hora }}</td>
-                    <td>{{ c.motivo }}</td>
-                    <td>{{ c.cocheCliente.matricula }}</td>
-                    <td>{{ c.mecanico.nombre }}</td>
-                    <td>{{ c.cliente.user.nombreUsuario }}</td>
-                    <td><button><img src="{% static 'icons8-editar-24.png' %}"></button></td>
-                </tr>
+                <form method="post" action="{% url 'asignar_cita_jefe' c.id %}">
+                    {% csrf_token %}
+                    <tr>
+                        <th scope="row">{{ c.id }}</th>
+                        <td>{{ c.fecha }}</td>
+                        {% if c.hora %}
+                            <td>{{ c.hora }}</td>
+                        {% else %}
+                            <td><input type="time" name="hora"></td>
+                        {% endif %}
+                        <td>{{ c.motivo }}</td>
+                        <td>{{ c.cocheCliente.matricula }}</td>
+                        {% if c.mecanico %}
+                        <td>{{ c.mecanico.nombre }}</td>
+                        {% else %}
+                            <td>
+                                <select name="mecanico">
+                                    {% for m in mecanicos %}
+                                    <option value="{{ m.id }}">{{ m.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        {% endif %}
+                        <td>{{ c.cliente.user.nombreUsuario }}</td>
+                        <td>{{ c.estado }}</td>
+                        {% if c.estado == 'ACEPTADA' %}
+                        	<td><img src="{% static 'tick-verde.png' %}"></td>
+                        {% else %}
+                            <td><button type="submit"><img src="{% static 'icons8-editar-24.png' %}"></button></td>
+                        {% endif %}
+                    </tr>
+                </form>
                 {% endfor %}
             </tbody>
         </table>
