@@ -40,4 +40,6 @@ urlpatterns = [
     path('mecanico/plantilla_citas/', vista_citas_mecanico, name='lista_citas_mecanico'),
     path('mecanico/plantilla_presupuestos/', mostrar_presupuesto_mecanico, name='lista_presupuestos_mecanico'),
     path('logout/', cerrar_sesion, name='logout'),
+    path('sobre_nosotros/', sobre_nosotros, name="sobre_nosotros"),
+    path('tienda/', tienda, name='tienda'),
 ]

@@ -387,3 +387,11 @@ def mostrar_presupuesto_mecanico(request):
     mecanico = Mecanico.objects.get(user=usuario_logeado)
     presupuestos = Presupuesto.objects.filter(cita__mecanico=mecanico).order_by('-id')
     return render(request, 'listado_presupuestosMecanico.html', {'presupuestos': presupuestos})
+
+def sobre_nosotros(request):
+    return render(request, 'contactanos.html')
+
+def tienda(request):
+    producto_tienda = Producto.objects.all()
+    tipos_productos = Tipo_producto.objects.all()  # Obtiene todos los tipos de productos
+    return render(request, 'tienda.html', {'producto_tienda': producto_tienda, 'tipos_productos_tienda': tipos_productos})
