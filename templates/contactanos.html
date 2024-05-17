@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {%  load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ContactUs</title>
+    <link rel= "icon" type = "image/png" href = "{% static 'logo_recaman_definitivo.jpg'  %}">
+
+    <style>
+
+        .navbar-expand-lg{
+            background: rgb(0,0,0);
+            background: linear-gradient(90deg, rgba(0,0,0,1) 31%, rgba(129,0,15,1) 100%);
+            box-shadow: 0px 0px 15px 0px #000000;
+        }
+
+        button.btn-dark{
+            background-color: #000000;
+        }
+
+        .zoom:hover {
+        transform: scale(1.1);
+        transition: transform .2s;
+        box-shadow: 0px 0px 15px 0px #000000;
+        }
+
+        .form-group{
+            margin-top: 2%;
+        }
+
+        #btn-enviar{
+            margin-top: 2%;
+        }
+
+    </style>
+
+</head>
+<body>
+
+    {% include 'headerIndex.html' %}
+
+    <main class="container-md" style="margin-top: 1%;">
+        <div class="row">
+            <div class="col-sm-6 d-flex justify-content-center align-items-center">
+                <p class="text-center">En una pequeña comunidad a lo largo de la Cañada Real, un lugar donde la esperanza parecía esfumarse entre los susurros de adicción y la sombra de la pobreza, cinco mecánicos —David, conocido como "el querubín" actual marido del famoso streamer Don Kiko Palomares; Rubén, el famoso gitano rubio criado entre peleas de gallos; Ale, un anciano que se peina por la espalda famoso por asaltar bancos en patinete; Mario, une chique jugadore de baloncesto frustrade y hormonade; y Raúl, <strong>un cáncer para la sociedad y para sí mismo</strong> — se enfrentaban a sus propios demonios mientras luchaban por mantener a flote un modesto taller de reparación de automóviles.</p>
+            </div>
+            <div class="col-sm-6 d-flex justify-content-center align-items-center">
+            <img class="img-thumbnail zoom" src="{% static 'gitano_contact_us.png' %}" alt="" style="border-radius: 50px; height: 70%;">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 d-flex justify-content-center align-items-center">
+                <img class="img-thumbnail zoom" src="{% static 'ruben_gitano_dog.png' %}" alt="" style="border-radius: 50px; height: 70%;">
+            </div>
+            <div class="col-sm-6 d-flex justify-content-center align-items-center">
+                <p class="text-center">En un taller gitano, entre telas vibrantes y herramientas centenarias, se forjaba más que metal y hueso. Era un santuario de historias susurradas entre los pliegues de la noche. Los ancianos, con manos curtidas por la vida, enseñaban secretos ancestrales a los jóvenes ansiosos por aprender. Cada chispa era un recuerdo, cada martillazo una lección. En ese santuario de creatividad y tradición, el eco de risas y canciones resonaba, tejido en el tejido de un clan unido por más que sangre, unidos por un legado de magia y habilidad transmitido de generación en generación.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-center d-flex justify-content-center">
+                <hr class="w-50" style="border-color: black;">
+            </div>
+        </div>
+
+        <!-- iframe -->
+        <div class="row">
+            <h4 class="text-center">¡Ven a conocernos!</h4>
+            <br>
+            <br>
+            <div class="col-12 d-flex justify-content-center align-items-center">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d24328.00068733913!2d-3.6169047208984377!3d40.34234410000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd42259efcf26645%3A0xa7e52e6ee5d016bb!2sCa%C3%B1ada%20Real%20Galiana!5e0!3m2!1ses!2ses!4v1715625906583!5m2!1ses!2ses" width="400" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 text-center d-flex justify-content-center">
+                <hr class="w-50" style="border-color: black;">
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center align-items-center">
+            <button id="mostrarFormulario" class="btn btn-dark">¿Tienes alguna duda? ¡Pregunta!</button>
+        </div>
+
+        <div class="d-flex justify-content-center">
+        <div style="width: 50%;">
+        <div class="row" id="formulario" style="display: none;">
+            <div class="col-md-12">
+            <form>
+                <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" class="form-control form-control-sm" id="nombre">
+                </div>
+                <div class="form-group" style="margin-top: 2%">
+                <label for="email">Email</label>
+                <input type="email" class="form-control form-control-sm" id="email">
+                </div>
+                <div class="form-group" style="margin-top: 2%">
+                <label for="mensaje">Mensaje</label>
+                <textarea class="form-control" id="mensaje" rows="3" placeholder="Escribe aquí..."></textarea>
+                </div>
+                <button type="submit" id="btn-enviar" class="btn btn-dark" style="margin-top: 2%">Enviar</button>
+            </form>
+            </div>
+        </div>
+        </div>
+        </div>
+    </main>
+    {% include 'footer.html' %}
+    <script>
+
+        /* document: llamo al documento */
+        /* getElementById: obtengo elemento por id */
+        /* addEventListener(click, function()) creo evento que funciona cuando hago click y desplega una funcion */
+
+      document.getElementById("mostrarFormulario").addEventListener("click", function() {
+
+        /* la variable formulario es igual al documento que se llama formulario */
+        let formulario = document.getElementById("formulario");
+
+        /* si el formulario su estilo y display es none, muestrate, si es block desaparece */
+        if (formulario.style.display === "none") {
+          formulario.style.display = "block";
+        } else {
+          formulario.style.display = "none";
+        }
+      });
+    ;
+
+    /* crear un alert al pulsar enviar */
+
+    let btnEnviar = document.getElementById("btn-enviar");
+
+    btnEnviar.addEventListener("click", function() {
+        alert("Mensaje enviado con éxito. Gracias!");
+    });
+
+    </script>
+</body>
+</html>
