@@ -1,0 +1,65 @@
+{% include 'header_cliente.html' %}
+{% load static %}
+
+
+
+{% block content %}
+
+
+
+     <div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-10">
+            {% csrf_token %}
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Imagen</th>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Marca</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Descripcion</th>
+                            <th scope="col">Precio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for k,v in cart.items %}
+                            <tr>
+                                <td><img src="{{k.url}}" alt=""></td>
+                                <td>{{ k.nombre }}</td>
+                                <td>{{ k.marca.nombre }}</td>
+                                <td>{{ v }}
+                                    <a href="{% url 'incrementar_carrito' k.id %}">+</a>
+                                    <a href="{% url 'disminuir_carrito' k.id %}">-</a>
+                                </td>
+                                <td>{{k.descripcion}}</td>
+                                <td>{{ k.precio }}</td>
+                                <td><a class="icon-link" href="{% url 'eliminar_carrito' k.id %}"><img src="{% static 'icons8-papelera-24.png' %}"></a></td>
+                            </tr>
+                        {% endfor %}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><b>TOTAL</b></td>
+                            <td></td>
+                            <td>
+                                <b>{{ total }}</b>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+{% endblock %}
+
+

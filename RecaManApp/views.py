@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, redirect
@@ -461,3 +461,84 @@ def buscador(request):
     else:
         productos = Producto.objects.all()
     return render(request, 'buscador.html', {'productos': productos})
+
+def lista_productos_tienda(request):
+    productos = Producto.objects.all()
+    return render(request, 'tienda.html', {'producto': productos})
+def add_to_cart(request, id):
+    cart = {}
+
+    # Comprobar si hay ya un carrito en sesión
+    if "cart" in request.session:
+        cart = request.session.get("cart", {})
+
+    # Comprobar que el producto está o no está en el carrito
+    if str(id) in cart.keys():
+        cart[str(id)] = cart[str(id)] + 1
+    else:
+        cart[str(id)] = 1
+
+    request.session["cart"] = cart
+
+    return redirect('tienda')
+
+def show_cart(request):
+    cart = {}
+    session_cart = {}
+    total = 0.0
+
+    if 'cart' in request.session:
+        session_cart = request.session.get('cart', {})
+
+    for key in session_cart.keys():
+        product = Producto.objects.get(id=key)
+        amount = session_cart[key]
+        cart[product] = amount
+        total += amount * product.precio
+
+    return render(request, 'cart.html', {'cart': cart, 'total': total})
+
+def eliminar_producto_carrito(request, id):
+    # Comprobar si hay ya un carrito en sesión
+    if "cart" in request.session:
+        cart = request.session.get("cart", {})
+
+        # Comprobar que el producto está en el carrito
+        if str(id) in cart.keys():
+            del cart[str(id)]  # eliminar el producto del carrito
+
+        request.session["cart"] = cart  # guardar el carrito actualizado en la sesión
+
+    return redirect('show_cart')
+
+
+def incrementar_carrito(request, producto_id):
+    cart = {}
+
+    # Comprobar si hay ya un carrito en sesión
+    if "cart" in request.session:
+        cart = request.session.get("cart", {})
+
+    # Comprobar que el producto está o no está en el carrito
+    if str(producto_id) in cart.keys():
+        cart[str(producto_id)] = cart[str(producto_id)] + 1
+
+    request.session["cart"] = cart
+
+    return redirect('show_cart')
+
+def disminuir_carrito(request, producto_id):
+    cart = {}
+
+    # Comprobar si hay ya un carrito en sesión
+    if "cart" in request.session:
+        cart = request.session.get("cart", {})
+
+    # Comprobar que el producto está o no está en el carrito
+    if str(producto_id) in cart.keys():
+        if cart[str(producto_id)] > 1:
+            cart[str(producto_id)] = cart[str(producto_id)] - 1
+
+    request.session["cart"] = cart
+
+    return redirect('show_cart')

@@ -1,0 +1,61 @@
+{% include "header_cliente.html" %}
+{% load static %}
+
+<style>
+
+        #carta{
+        border: 2px solid black;
+        box-shadow: 10px 5px 5px grey;
+        }
+        .hover-zoom:hover {
+            transform: scale(1.1);
+            transition: transform .2s;
+        }
+</style>
+
+
+
+<br>
+<div class="columns is-mobile is-centered">
+    <p class="title is-2">List Items</p>
+</div>
+<br>
+
+{% for p in producto %}
+
+
+<div class="column is-one-third"> <!-- Cambiar a is-one-third para 3 elementos por fila -->
+    <div class="d-flex flex-wrap justify-content-around mt-5">
+
+        <div id="carta" class="card d-flex justify-content-center align-items-center hover-zoom" style="width: 400px; height: 200px; margin: 10px;">
+             <div class="d-flex justify-content-center align-items-center">
+                <img src="{{ p.url }}" class="card-img-top justify-content-center" alt="" style="width: 100px; height: 100px;">
+            </div>
+            <p class="title is-4">{{ p.nombre }}</p>
+            <p class="subtitle is-6">{{ p.marca.nombre }}</p>
+            <div class="content">
+                {{ p.precio }}€
+            </div>
+            <div class="content">
+                    {{ p.description }}
+            </div>
+        </div>
+
+    </div>
+
+        <div class="is-justify-content-end is-align-content-end is-flex">
+            <a href="{% url 'add_to_cart' id=p.id %}" class="has-text-dark">
+                            <span class="icon is-large">
+                                <img src="{% static 'icons8-añadir-24.png' %}" alt="Carrito">
+                            </span>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+{% endfor %}
+<br>
+
+
+
