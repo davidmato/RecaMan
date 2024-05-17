@@ -31,4 +31,5 @@ urlpatterns = [
     path('areausuario/vista_cita/quitar_cita/<int:id>', eliminar_cita, name="quitarcita"),
     path('permision/', error, name="error"),
     path('index/', index, name="index"),
+    path('tienda/', tienda, name='tienda'),
 ]

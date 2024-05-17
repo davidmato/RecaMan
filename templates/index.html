@@ -38,14 +38,7 @@
         .hover-card:hover {
             transform: scale(1.05);
             animation: vibrate 0.3s;
-        }
-
-        @keyframes vibrate {
-            0% { transform: translate(0); }
-            25% { transform: translate(-1px, 1px); }
-            50% { transform: translate(0); }
-            75% { transform: translate(1px, -1px); }
-            100% { transform: translate(0); }
+            box-shadow: 5px 5px 5px 5px black;
         }
 
         .hover-card .btn, .hover-card .card-text {
@@ -99,24 +92,21 @@
       </div>
       <div class="carousel-inner">
         <div class="carousel-item active justify-content-center" data-bs-interval="5000">
-          <img src="{% static 'gitano_contact_us.png' %}" class="d-block w-50" alt="...">
+          <img src="{% static 'rated_citas_spain.png' %}" class="d-block w-50" alt="...">
           <div class="carousel-caption d-none d-md-block">
-            <h5 style="color: white"><span id="back_span">¿Por qué energía solar?</span></h5>
-            <p style="color: white"><span id="back_span">Adoptar la energía solar promueve la sostenibilidad al reducir emisiones de carbono y depender de una fuente inagotable y limpia, contribuyendo así a un futuro más ecológico.</span></p>
+            <h5 style="color: white"><span id="back_span">¡Las citas mejor valoradas de España!</span></h5>
           </div>
         </div>
         <div class="carousel-item" data-bs-interval="5000">
-          <img src="{% static 'ruben_gitano_dog.png' %}" class="d-block w-50" alt="...">
+          <img src="{% static 'Designer.jpeg' %}" class="d-block w-50" alt="...">
           <div class="carousel-caption d-none d-md-block">
-            <h5 style="color: white"><span id="back_span">Nuestra atención al cliente nos avala</span></h5>
-            <p style="color: white"><span id="back_span">Ofrecemos el mejor servicio al cliente a nivel nacional, destacando por nuestra atención personalizada, eficiencia y compromiso constante con la satisfacción del cliente.</span></p>
+            <h5 style="color: white"><span id="back_span">¡Mantenimiento los 365 días del año!</span></h5>
           </div>
         </div>
         <div class="carousel-item" data-bs-interval="5000">
-          <img src="{% static 'ruben_gitano_dog.png' %}" class="d-block w-50" alt="...">
+          <img src="{% static 'gitanosunidos.jpg' %}" class="d-block w-50" alt="...">
           <div class="carousel-caption d-none d-md-block">
-            <h5 style="color: white"><span id="back_span">Nuestra atención al cliente nos avala</span></h5>
-            <p style="color: white"><span id="back_span">Ofrecemos el mejor servicio al cliente a nivel nacional, destacando por nuestra atención personalizada, eficiencia y compromiso constante con la satisfacción del cliente.</span></p>
+            <h5 style="color: white"><span id="back_span">¡Visítanos y conoce a los mejores mecánicos!</span></h5>
           </div>
         </div>
       </div>
@@ -136,36 +126,36 @@
       <div class="row">
         <div class="col-md-4">
           <div class="card hover-card">
-            <img src="{% static 'ruben_gitano_dog.png' %}" class="card-img-top" alt="...">
+            <img src="{% static 'primera-oferta.png' %}" class="card-img-top" alt="...">
             <div class="card-body">
-              <h5 class="card-title text-center">Card title</h5>
-              <p class="card-text text-center">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <h5 class="card-title text-center">¡Trae tu coche y ahorra en grande!</h5>
+              <p class="card-text text-center">¡Aprovecha nuestra oferta especial! Trae tu coche y obtén descuentos increíbles en nuestros productos. No pierdas esta oportunidad de ahorrar en grande. Visítanos hoy y descubre todo lo que tenemos para ti. ¡Te esperamos!</p>
               <div class="d-flex justify-content-center">
-                <button type="button" class="btn btn-dark"><a class="text-white" style="text-decoration: none;">Go somewhere</a></button>
+                <button type="button" class="btn btn-dark"><a href="{% url 'register' %}" class="text-white" style="text-decoration: none;">¡Regístrate!</a></button>
               </div>
             </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="card hover-card">
-            <img src="{% static 'ruben_gitano_dog.png' %}" class="card-img-top" alt="...">
+            <img src="{% static 'segunda-oferta.jpeg' %}" class="card-img-top" alt="...">
             <div class="card-body">
-              <h5 class="card-title text-center">Card title</h5>
-              <p class="card-text text-center">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <h5 class="card-title text-center">¡Ofertas en revisiones e ITV!</h5>
+              <p class="card-text text-center">¡No te pierdas nuestras ofertas especiales en revisiones anuales e ITV! Mantén tu coche en perfecto estado y ahorra con nosotros. ¡Visítanos hoy y aprovecha estos descuentos!</p>
               <div class="d-flex justify-content-center">
-                <button type="button" class="btn btn-dark"><a class="text-white" style="text-decoration: none;">Go somewhere</a></button>
+                <button type="button" class="btn btn-dark"><a href="{% url 'register' %}" class="text-white" style="text-decoration: none;">¡Regístrate!</a></button>
               </div>
             </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="card hover-card">
-            <img src="{% static 'ruben_gitano_dog.png' %}" class="card-img-top" alt="...">
+            <img src="{% static 'tercera-oferta.jpeg' %}" class="card-img-top" alt="...">
             <div class="card-body">
-              <h5 class="card-title text-center">Card title</h5>
-              <p class="card-text text-center">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <h5 class="card-title text-center">¡Revisamos kilometraje y te aconsejamos!</h5>
+              <p class="card-text text-center">¡Expertos en kilometraje automotriz! Recibes asesoramiento profesional para tu coche. Confía en nosotros para tomar las decisiones correctas.</p>
               <div class="d-flex justify-content-center">
-                <button type="button" class="btn btn-dark"><a class="text-white" style="text-decoration: none;">Go somewhere</a></button>
+                <button type="button" class="btn btn-dark"><a href="{% url 'register' %}" class="text-white" style="text-decoration: none;">¡Regístrate!</a></button>
               </div>
             </div>
           </div>

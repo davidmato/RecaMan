@@ -351,3 +351,8 @@ def sobre_nosotros(request):
 
 def index(request):
     return render(request, 'index.html')
+
+def tienda(request):
+    producto_tienda = Producto.objects.all()
+    tipos_productos = Tipo_producto.objects.all()  # Obtiene todos los tipos de productos
+    return render(request, 'tienda.html', {'producto_tienda': producto_tienda, 'tipos_productos_tienda': tipos_productos})
