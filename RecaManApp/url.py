@@ -43,5 +43,7 @@ urlpatterns = [
     path('tienda/cart/elminar/<int:id>', eliminar_producto_carrito, name='eliminar_carrito'),
     path('incrementar_carrito/<int:producto_id>/', incrementar_carrito, name='incrementar_carrito'),
     path('disminuir_carrito/<int:producto_id>/', disminuir_carrito, name='disminuir_carrito'),
+    path('contacto/', contacto, name='contacto'),
+    path('index/', index, name='index'),
 
 ]

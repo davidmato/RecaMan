@@ -1,61 +1,66 @@
-{% include "header_cliente.html" %}
-{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {%  load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda</title>
 
-<style>
+    <style>
 
-        #carta{
-        border: 2px solid black;
-        box-shadow: 10px 5px 5px grey;
+        .card-title {
+            border-bottom: 1px solid #000;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
         }
-        .hover-zoom:hover {
-            transform: scale(1.1);
-            transition: transform .2s;
+
+        .card {
+            margin: 10px;
+            transition: transform .2s, box-shadow .2s;
         }
-</style>
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(0,0,0,1);
+        }
+
+    </style>
+</head>
+<body>
+
+    {% include 'header_tienda.html' %}
 
 
+    <div class="container-md d-flex" style="margin-top: 2%;">
+        <div class="container-sm col-md-12 d-flex flex-wrap justify-content-between">
+            {% for p in producto %}
+        <div class="card mb-3" style="max-width: 400px; min-width: 200px; margin: 2px; border: 2px solid black;">
+            <div class="row g-0">
+              <div class="col-md-4 d-flex align-items-center justify-content-center">
+                <img src="{{ p.url }}" class="img-fluid rounded-circle" alt="...">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title"> <strong>{{ p.nombre }} </strong></h5>
+                  <p class="card-text"> <strong>Descripción:</strong> {{ p.descripcion }}</p>
+                  <p class="card-text"><strong>Producto:</strong> {{ p.marca.nombre }}</p>
+                  <p class="card-text"><strong>Precio:</strong> {{ p.precio }}€</p>
+                  <div class="is-justify-content-end is-align-content-end is-flex text-end">
+                        <span class="icon is-large">
+                            <a href="{% url 'add_to_cart' id=p.id %}" style="color: black"><i class="fas fa-shopping-cart fa-x"></i></a>
+                        </span>
+                    </a>
+                  </div>
+                </div>
 
-<br>
-<div class="columns is-mobile is-centered">
-    <p class="title is-2">List Items</p>
-</div>
-<br>
+              </div>
 
-{% for p in producto %}
-
-
-<div class="column is-one-third"> <!-- Cambiar a is-one-third para 3 elementos por fila -->
-    <div class="d-flex flex-wrap justify-content-around mt-5">
-
-        <div id="carta" class="card d-flex justify-content-center align-items-center hover-zoom" style="width: 400px; height: 200px; margin: 10px;">
-             <div class="d-flex justify-content-center align-items-center">
-                <img src="{{ p.url }}" class="card-img-top justify-content-center" alt="" style="width: 100px; height: 100px;">
             </div>
-            <p class="title is-4">{{ p.nombre }}</p>
-            <p class="subtitle is-6">{{ p.marca.nombre }}</p>
-            <div class="content">
-                {{ p.precio }}€
-            </div>
-            <div class="content">
-                    {{ p.description }}
-            </div>
+
         </div>
-
+            {% endfor %}
+        </div>
     </div>
 
-        <div class="is-justify-content-end is-align-content-end is-flex">
-            <a href="{% url 'add_to_cart' id=p.id %}" class="has-text-dark">
-                            <span class="icon is-large">
-                                <img src="{% static 'icons8-añadir-24.png' %}" alt="Carrito">
-                            </span>
-            </a>
-        </div>
-
-    </div>
-</div>
-
-{% endfor %}
-<br>
-
-
-
+</body>
+</html>

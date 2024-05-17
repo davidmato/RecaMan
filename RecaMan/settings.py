@@ -139,3 +139,11 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'RecaManApp.Usuario'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' #Esto le dice a Django que use SMTP para enviar correos electrónicos.
+EMAIL_HOST = 'smtp.gmail.com'  # por ejemplo: 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'recamansp@gmail.com' # Esta es la dirección de correo electrónico que tu aplicación usará para enviar correos electrónicos.
+EMAIL_HOST_PASSWORD = 'sebs kgxf figh nwal' # Esta es la contraseña de la dirección de correo electrónico que tu aplicación usará para enviar correos electrónicos.

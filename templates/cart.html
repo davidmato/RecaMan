@@ -1,4 +1,4 @@
-{% include 'header_cliente.html' %}
+{% include 'header_tienda.html' %}
 {% load static %}
 
 
@@ -26,7 +26,7 @@
                     <tbody>
                         {% for k,v in cart.items %}
                             <tr>
-                                <td><img src="{{k.url}}" alt=""></td>
+                                <td><img src="{{k.url}}" alt="" class="rounded-circle" style="height: 50px; width: 50px;"></td>
                                 <td>{{ k.nombre }}</td>
                                 <td>{{ k.marca.nombre }}</td>
                                 <td>{{ v }}

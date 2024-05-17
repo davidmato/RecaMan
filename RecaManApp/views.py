@@ -1,8 +1,11 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
+from django.contrib import messages
+from django.core.mail import EmailMessage
 from django.shortcuts import render, redirect
-
+from django.template.loader import render_to_string
+from RecaMan import settings
 from RecaManApp.decorators import *
 from RecaManApp.models import *
 # Create your views here.
@@ -12,6 +15,10 @@ def area_jefe(request):
 
 def error(request):
     return render(request, 'errores.html')
+
+
+def index(requerst):
+    return render(requerst, 'index.html')
 
 @check_user_roles('ADMIN')
 def plantilla_mecanicos(request):
@@ -460,11 +467,13 @@ def buscador(request):
         productos = Producto.objects.filter(nombre__icontains=query)
     else:
         productos = Producto.objects.all()
-    return render(request, 'buscador.html', {'productos': productos})
+    return render(request, 'tienda.html', {'producto': productos})
 
 def lista_productos_tienda(request):
     productos = Producto.objects.all()
     return render(request, 'tienda.html', {'producto': productos})
+
+@check_user_roles('CLIENTE')
 def add_to_cart(request, id):
     cart = {}
 
@@ -482,6 +491,7 @@ def add_to_cart(request, id):
 
     return redirect('tienda')
 
+@check_user_roles('CLIENTE')
 def show_cart(request):
     cart = {}
     session_cart = {}
@@ -497,7 +507,7 @@ def show_cart(request):
         total += amount * product.precio
 
     return render(request, 'cart.html', {'cart': cart, 'total': total})
-
+@check_user_roles('CLIENTE')
 def eliminar_producto_carrito(request, id):
     # Comprobar si hay ya un carrito en sesión
     if "cart" in request.session:
@@ -511,7 +521,7 @@ def eliminar_producto_carrito(request, id):
 
     return redirect('show_cart')
 
-
+@check_user_roles('CLIENTE')
 def incrementar_carrito(request, producto_id):
     cart = {}
 
@@ -527,6 +537,7 @@ def incrementar_carrito(request, producto_id):
 
     return redirect('show_cart')
 
+@check_user_roles('CLIENTE')
 def disminuir_carrito(request, producto_id):
     cart = {}
 
@@ -542,3 +553,29 @@ def disminuir_carrito(request, producto_id):
     request.session["cart"] = cart
 
     return redirect('show_cart')
+
+
+def contacto(request):
+   if request.method == 'POST':
+       nombre = request.POST.get('nombre')
+       mail = request.POST.get('mail')
+       direccion = request.POST.get('direccion')
+       fecha = request.POST.get('fecha')
+
+       templete = render_to_string('email_template.html', {'nombre': nombre, 'mail': mail, 'direccion': direccion, 'fecha': fecha})
+
+       mail = EmailMessage(
+              'Gracias por contactar con nosotros',
+           templete,
+           settings.EMAIL_HOST_USER,
+
+           [mail]
+       )
+
+       mail.fail_silently = False
+
+       mail.send()
+
+       messages.success(request, 'Mensaje enviado correctamente')
+
+       return redirect('verificar')
