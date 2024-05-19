@@ -5,36 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tienda</title>
-
     <style>
-
         .card-title {
             border-bottom: 1px solid #000;
             padding-bottom: 10px;
             margin-bottom: 10px;
         }
-
         .card {
             margin: 10px;
             transition: transform .2s, box-shadow .2s;
         }
-
         .card:hover {
             transform: scale(1.05);
             box-shadow: 0 0 10px rgba(0,0,0,1);
         }
-
     </style>
 </head>
 <body>
-
     {% include 'headerTienda.html' %}
-
-
     <div class="container-md d-flex" style="margin-top: 2%;">
         <div class="container-sm col-md-12 d-flex flex-wrap justify-content-between">
-            {% for p in producto_tienda %}
-        <div class="card mb-3" style="max-width: 400px; min-width: 200px; margin: 2px; border: 2px solid black;">
+            {% for p in producto %}
+        <div class="card mb-3" style="max-width: 400px; min-width: 200px; margin: 2px; border: 2px solid black; position: relative;">
             <div class="row g-0">
               <div class="col-md-4 d-flex align-items-center justify-content-center">
                 <img src="{{ p.url }}" class="img-fluid rounded-circle" alt="...">
@@ -45,6 +37,11 @@
                   <p class="card-text"> <strong>Descripción:</strong> {{ p.descripcion }}</p>
                   <p class="card-text"><strong>Producto:</strong> {{ p.marca.nombre }}</p>
                   <p class="card-text"><strong>Precio:</strong> {{ p.precio }}€</p>
+                  <div class="is-justify-content-end is-align-content-end is-flex text-end">
+                      <span class="icon is-large" style="position: absolute; bottom: 5px; right: 10px;">
+                          <a href="{% url 'añadir_al_carrito' id=p.id %}" style="color: black"><i class="fas fa-shopping-cart fa-2x"></i></a>
+                      </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -52,6 +49,42 @@
             {% endfor %}
         </div>
     </div>
-
+    <nav aria-label="Page navigation example" class="d-flex justify-content-center">
+        <ul class="pagination">
+            {% if producto.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ producto.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+            {% for num in producto.paginator.page_range %}
+                {% if producto.number == num %}
+                    <li class="page-item active"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                {% elif num > producto.number|add:'-3' and num < producto.number|add:'3' %}
+                    <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if producto.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ producto.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
 </body>
 </html>

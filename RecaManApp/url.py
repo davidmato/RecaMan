@@ -41,5 +41,11 @@ urlpatterns = [
     path('mecanico/plantilla_presupuestos/', mostrar_presupuesto_mecanico, name='lista_presupuestos_mecanico'),
     path('logout/', cerrar_sesion, name='logout'),
     path('sobre_nosotros/', sobre_nosotros, name="sobre_nosotros"),
-    path('tienda/', tienda, name='tienda'),
+    path('tienda/', lista_productos_tienda, name='tienda'),
+    path('cart/add/<int:id>', añadir_al_carrito, name='añadir_al_carrito'),
+    path('tienda/cart', mostrar_carrito, name='mostrar_carrito'),
+    path('tienda/cart/elminar/<int:id>', eliminar_producto_carrito, name='eliminar_carrito'),
+    path('incrementar_carrito/<int:producto_id>/', incrementar_carrito, name='incrementar_carrito'),
+    path('disminuir_carrito/<int:producto_id>/', disminuir_carrito, name='disminuir_carrito'),
+    path('contacto/', contacto, name='contacto'),
 ]

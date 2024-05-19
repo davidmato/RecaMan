@@ -18,6 +18,7 @@
                     <th scope="col">ID</th>
                         <th scope="col">Fecha</th>
                         <th scope="col">Importe</th>
+                        <th scope="col">Fallos</th>
                         <th scope="col">Cliente</th>
                         <th scope="col">Nombre Usuario</th>
                     </tr>
@@ -28,6 +29,7 @@
                     <th scope="row">{{ p.id }}</th>
                     <td>{{ p.fecha_compra}}</td>
                     <td>{{ p.precio }}€</td>
+                    <td>{{ p.fallos }}</td>
                     <td>{{ p.cliente.nombre }}</td>
                     <td>{{ p.cliente.user.nombreUsuario }}</td>
                 </tr>

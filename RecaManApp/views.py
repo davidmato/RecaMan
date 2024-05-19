@@ -1,8 +1,12 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
+from django.contrib import messages
+from django.core.mail import EmailMessage
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
-
+from django.template.loader import render_to_string
+from RecaMan import settings
 from RecaManApp.decorators import *
 from RecaManApp.models import *
 # Create your views here.
@@ -105,7 +109,7 @@ def login_usuario(request):
 
 def cerrar_sesion(request):
     logout(request)
-    return redirect('login')
+    return redirect('inicio')
 
 def asignar_Usuario(request):
     usuario_logeado = Usuario.objects.get(nombreUsuario=request.user.nombreUsuario)
@@ -391,7 +395,99 @@ def mostrar_presupuesto_mecanico(request):
 def sobre_nosotros(request):
     return render(request, 'contactanos.html')
 
-def tienda(request):
-    producto_tienda = Producto.objects.all()
-    tipos_productos = Tipo_producto.objects.all()  # Obtiene todos los tipos de productos
-    return render(request, 'tienda.html', {'producto_tienda': producto_tienda, 'tipos_productos_tienda': tipos_productos})
+def lista_productos_tienda(request):
+    query = request.GET.get('q')
+    if query:
+        productos_list = Producto.objects.filter(nombre__icontains=query)
+        paginator = Paginator(productos_list, 6)
+        page_number = request.GET.get('page')
+        productos = paginator.get_page(page_number)
+    else:
+        productos_list = Producto.objects.all()
+        paginator = Paginator(productos_list, 6)
+        page_number = request.GET.get('page')
+        productos = paginator.get_page(page_number)
+    return render(request, 'tienda.html', {'producto': productos})
+
+@check_user_roles('CLIENTE')
+def añadir_al_carrito(request, id):
+    cart = {}
+    if "cart" in request.session:
+        cart = request.session.get("cart", {})
+    if str(id) in cart.keys():
+        cart[str(id)] = cart[str(id)] + 1
+    else:
+        cart[str(id)] = 1
+    request.session["cart"] = cart
+    return redirect('tienda')
+
+@check_user_roles('CLIENTE')
+def mostrar_carrito(request):
+    cart = {}
+    session_cart = {}
+    total = 0.0
+    if 'cart' in request.session:
+        session_cart = request.session.get('cart', {})
+    for key in session_cart.keys():
+        product = Producto.objects.get(id=key)
+        amount = session_cart[key]
+        cart[product] = amount
+        total += amount * product.precio
+        total = round(total, 2)
+    return render(request, 'cart.html', {'cart': cart, 'total': total})
+
+@check_user_roles('CLIENTE')
+def eliminar_producto_carrito(request, id):
+    if "cart" in request.session:
+        cart = request.session.get("cart", {})
+        if str(id) in cart.keys():
+            del cart[str(id)]
+        request.session["cart"] = cart
+    return redirect('mostrar_carrito')
+
+@check_user_roles('CLIENTE')
+def incrementar_carrito(request, producto_id):
+    cart = {}
+    if "cart" in request.session:
+        cart = request.session.get("cart", {})
+    if str(producto_id) in cart.keys():
+        cart[str(producto_id)] = cart[str(producto_id)] + 1
+    request.session["cart"] = cart
+    return redirect('mostrar_carrito')
+
+@check_user_roles('CLIENTE')
+def disminuir_carrito(request, producto_id):
+    cart = {}
+    if "cart" in request.session:
+        cart = request.session.get("cart", {})
+    if str(producto_id) in cart.keys():
+        if cart[str(producto_id)] > 1:
+            cart[str(producto_id)] = cart[str(producto_id)] - 1
+    request.session["cart"] = cart
+    return redirect('mostrar_carrito')
+
+def contacto(request):
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        mail = request.POST.get('mail')
+        direccion = request.POST.get('direccion')
+        fecha = request.POST.get('fecha')
+        user_id = request.user.id
+        nuevo_cliente = Cliente()
+        nuevo_cliente.nombre = nombre
+        nuevo_cliente.email = mail
+        nuevo_cliente.direccion = direccion
+        nuevo_cliente.fecha_nacimiento = fecha
+        nuevo_cliente.user_id = user_id
+        nuevo_cliente.save()
+        templete = render_to_string('email_template.html', {'nombre': nombre, 'mail': mail, 'direccion': direccion, 'fecha': fecha})
+        mail = EmailMessage(
+            'Gracias por contactar con nosotros',
+            templete,
+            settings.EMAIL_HOST_USER,
+            [mail]
+        )
+        mail.fail_silently = False
+        mail.send()
+        messages.success(request, 'Verificación realizada correctamente')
+        return redirect('cliente')
