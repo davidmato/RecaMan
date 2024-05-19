@@ -19,33 +19,34 @@
       <div class="col-10" id="form_central">
         <!-- FORMULARIO DE PRODUCTOS -->
         <div class="container-fluid">
-          <form action="{% url 'contacto' %}" method="post">
-            {% csrf_token %}
-               {% if messages %}
+
+             <form action="{% url 'contacto' %}" method="post">
+                {% csrf_token %}
+                 {% if messages %}
                      {% for message in messages %}
                          <div class="alert alert-{{ message.tags }}">
                              {{ message }}
                       </div>
                     {% endfor %}
                 {% endif %}
-            <div class="mb-3">
-              <label for="mecanicname" class="form-label">Nombre</label>
-              <input type="text" class="form-control"  name="nombre">
-            </div>
-            <div class="mb-3">
-              <label for="maili" class="form-label">Email</label>
-              <input type="text" class="form-control"  name="mail">
-            </div>
-            <div class="mb-3">
-              <label for="productPrice" class="form-label">Fecha Nacimiento</label>
-              <input type="date" class="form-control"  name="fecha">
-            </div>
-            <div class="mb-3">
-              <label for="dni" class="form-label">Direccion</label>
-              <input type="text" class="form-control"  name="direccion">
-            </div>
-            <button type="submit" name="verificar" class="btn btn-dark" value="verificar">Verificar</button>
-          </form>
+                <div class="mb-3">
+                    <label for="mecanicname" class="form-label">Nombre</label>
+                    <input type="text" class="form-control"  name="nombre">
+                </div>
+                <div class="mb-3">
+                    <label for="maili" class="form-label">Email</label>
+                    <input type="text" class="form-control"  name="mail">
+                </div>
+                <div class="mb-3">
+                    <label for="productPrice" class="form-label">Fecha Nacimiento</label>
+                    <input type="date" class="form-control"  name="fecha">
+                </div>
+                <div class="mb-3">
+                    <label for="dni" class="form-label">Direccion</label>
+                    <input type="text" class="form-control"  name="direccion">
+                </div>
+                <button type="submit" name="verificar" class="btn btn-dark" value="verificar">Verificar</button>
+            </form>
         </div>
         <!-- Contenido principal -->
       </div>
