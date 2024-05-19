@@ -1,3 +1,5 @@
+from datetime import timezone
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
@@ -296,6 +298,7 @@ def vistacitacliente(request):
 
     return render(request, 'vistacitascliente.html', {'citas': citas})
 
+
 @login_required
 def eliminar_cita(request, id):
     cita = Citas.objects.get(id=id)
@@ -347,6 +350,7 @@ def mostrar_citas(request):
         cita.save()
         return render(request, 'listado_citas.html')
 
+@check_user_roles('CLIENTE')
 def pedir_cita(request):
     coches = CocheCliente.objects.filter(usuario=request.user)
     if request.method == 'GET':
@@ -364,6 +368,7 @@ def pedir_cita(request):
         cita.save()
         return redirect('añadir_cita_cliente')
 
+@check_user_roles('CLIENTE')
 def vista_citas_cliente(request):
     usuario_logeado = request.user
     try:
@@ -372,10 +377,6 @@ def vista_citas_cliente(request):
         return redirect('verificar')
     citas = Citas.objects.filter(cliente=cliente)
     return render(request, 'listado_citasCliente.html', {'citas': citas})
-def eliminar_cita(request, id):
-    cita = Citas.objects.get(id=id)
-    cita.delete()
-    return redirect('lista_citas_cliente')
 
 @check_user_roles('CLIENTE')
 def mostrar_coches(request):
@@ -556,26 +557,36 @@ def disminuir_carrito(request, producto_id):
 
 
 def contacto(request):
-   if request.method == 'POST':
-       nombre = request.POST.get('nombre')
-       mail = request.POST.get('mail')
-       direccion = request.POST.get('direccion')
-       fecha = request.POST.get('fecha')
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre')
+        mail = request.POST.get('mail')
+        direccion = request.POST.get('direccion')
+        fecha = request.POST.get('fecha')
 
-       templete = render_to_string('email_template.html', {'nombre': nombre, 'mail': mail, 'direccion': direccion, 'fecha': fecha})
+        user_id = request.user.id
 
-       mail = EmailMessage(
-              'Gracias por contactar con nosotros',
-           templete,
-           settings.EMAIL_HOST_USER,
+        # Crear una nueva instancia del modelo Cliente ya que al usar dos funciones de form en la misma página se pisan una con la otra (asigana_usuario)
+        nuevo_cliente = Cliente()
+        nuevo_cliente.nombre = nombre
+        nuevo_cliente.email = mail
+        nuevo_cliente.direccion = direccion
+        nuevo_cliente.fecha_nacimiento = fecha
+        nuevo_cliente.user_id = user_id
 
-           [mail]
-       )
+        nuevo_cliente.save()
 
-       mail.fail_silently = False
+        templete = render_to_string('email_template.html', {'nombre': nombre, 'mail': mail, 'direccion': direccion, 'fecha': fecha})
 
-       mail.send()
+        mail = EmailMessage(
+            'Gracias por contactar con nosotros',
+            templete,
+            settings.EMAIL_HOST_USER,
+            [mail]
+        )
 
-       messages.success(request, 'Mensaje enviado correctamente')
+        mail.fail_silently = False
+        mail.send()
 
-       return redirect('verificar')
+        messages.success(request, 'Verificación realizada correctamente')
+
+        return redirect('areausuario')
