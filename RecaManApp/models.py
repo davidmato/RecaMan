@@ -19,7 +19,7 @@ class Tipo_producto(models.Model):
     def __str__(self):
         return self.nombre
 
-class EstadoCita(models.TextChoices):
+class EstadoCitas(models.TextChoices):
     PENDIENTE = 'PENDIENTE','Pendiente'
     FINALIZADA = 'FINALIZADA','Finalizada'
     ACEPTADA = 'ACEPTADA', 'Aceptada'
@@ -113,7 +113,7 @@ class Citas (models.Model):
     fecha = models.DateField()
     hora = models.TimeField(null=True)
     motivo = models.CharField(max_length=200)
-    estado = models.CharField(max_length=15, choices=EstadoCita.choices, default=EstadoCita.PENDIENTE)
+    estado = models.CharField(max_length=15, choices=EstadoCitas.choices, default=EstadoCitas.PENDIENTE)
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     mecanico = models.ForeignKey(Mecanico, on_delete=models.CASCADE, null=True)
     cocheCliente = models.ForeignKey(CocheCliente, on_delete=models.CASCADE, null=True)

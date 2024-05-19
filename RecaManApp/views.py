@@ -4,6 +4,8 @@ from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, get_object_or_404, redirect
 from RecaManApp.models import *
 from .decorators import *
+from django.core.paginator import Paginator
+
 
 
 # Create your views here.
@@ -353,6 +355,106 @@ def index(request):
     return render(request, 'index.html')
 
 def tienda(request):
-    producto_tienda = Producto.objects.all()
-    tipos_productos = Tipo_producto.objects.all()  # Obtiene todos los tipos de productos
+    producto_tienda_list = Producto.objects.all()
+    tipos_productos = Tipo_producto.objects.all()
+
+    paginator = Paginator(producto_tienda_list, 6)
+    page_number = request.GET.get('page')
+    producto_tienda = paginator.get_page(page_number)
+
     return render(request, 'tienda.html', {'producto_tienda': producto_tienda, 'tipos_productos_tienda': tipos_productos})
+
+#codigo david carrito
+
+def buscador(request):
+    query = request.GET.get('q')
+    if query:
+        productos = Producto.objects.filter(nombre__icontains=query)
+    else:
+        productos = Producto.objects.all()
+    return render(request, 'tienda.html', {'producto': productos})
+
+def lista_productos_tienda(request):
+    productos = Producto.objects.all()
+    return render(request, 'tienda.html', {'producto': productos})
+
+@check_user_roles('CLIENTE')
+def add_to_cart(request, id):
+    cart = {}
+
+    # Comprobar si hay ya un carrito en sesión
+    if "cart" in request.session:
+        cart = request.session.get("cart", {})
+
+    # Comprobar que el producto está o no está en el carrito
+    if str(id) in cart.keys():
+        cart[str(id)] = cart[str(id)] + 1
+    else:
+        cart[str(id)] = 1
+
+    request.session["cart"] = cart
+
+    return redirect('tienda')
+
+@check_user_roles('CLIENTE')
+def show_cart(request):
+    cart = {}
+    session_cart = {}
+    total = 0.0
+
+    if 'cart' in request.session:
+        session_cart = request.session.get('cart', {})
+
+    for key in session_cart.keys():
+        product = Producto.objects.get(id=key)
+        amount = session_cart[key]
+        cart[product] = amount
+        total += amount * product.precio
+
+    return render(request, 'cart.html', {'cart': cart, 'total': total})
+@check_user_roles('CLIENTE')
+def eliminar_producto_carrito(request, id):
+    # Comprobar si hay ya un carrito en sesión
+    if "cart" in request.session:
+        cart = request.session.get("cart", {})
+
+        # Comprobar que el producto está en el carrito
+        if str(id) in cart.keys():
+            del cart[str(id)]  # eliminar el producto del carrito
+
+        request.session["cart"] = cart  # guardar el carrito actualizado en la sesión
+
+    return redirect('show_cart')
+
+@check_user_roles('CLIENTE')
+def incrementar_carrito(request, producto_id):
+    cart = {}
+
+    # Comprobar si hay ya un carrito en sesión
+    if "cart" in request.session:
+        cart = request.session.get("cart", {})
+
+    # Comprobar que el producto está o no está en el carrito
+    if str(producto_id) in cart.keys():
+        cart[str(producto_id)] = cart[str(producto_id)] + 1
+
+    request.session["cart"] = cart
+
+    return redirect('show_cart')
+
+@check_user_roles('CLIENTE')
+def disminuir_carrito(request, producto_id):
+    cart = {}
+
+    # Comprobar si hay ya un carrito en sesión
+    if "cart" in request.session:
+        cart = request.session.get("cart", {})
+
+    # Comprobar que el producto está o no está en el carrito
+    if str(producto_id) in cart.keys():
+        if cart[str(producto_id)] > 1:
+            cart[str(producto_id)] = cart[str(producto_id)] - 1
+
+    request.session["cart"] = cart
+
+    return redirect('show_cart')

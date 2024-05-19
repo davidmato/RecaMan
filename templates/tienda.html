@@ -31,10 +31,10 @@
     {% include 'headerTienda.html' %}
 
 
-    <div class="container-md d-flex" style="margin-top: 2%;">
-        <div class="container-sm col-md-12 d-flex flex-wrap justify-content-between">
+    <div class="container-fluid d-flex" style="margin-top: 2%;">
+        <div class="container-fluid col-md-12 d-flex flex-wrap justify-content-center">
             {% for p in producto_tienda %}
-        <div class="card mb-3" style="max-width: 400px; min-width: 200px; margin: 2px; border: 2px solid black;">
+        <div class="card mb-3" style="max-width: 400px; min-width: 200px; margin: 10px; border: 2px solid black;">
             <div class="row g-0">
               <div class="col-md-4 d-flex align-items-center justify-content-center">
                 <img src="{{ p.url }}" class="img-fluid rounded-circle" alt="...">
@@ -52,6 +52,28 @@
             {% endfor %}
         </div>
     </div>
+
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        {% if producto_tienda.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page=1">Primero</a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ producto_tienda.previous_page_number }}">Anterior</a></li>
+        {% endif %}
+
+        {% for num in producto_tienda.paginator.page_range %}
+          {% if producto_tienda.number == num %}
+            <li class="page-item active"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+          {% elif num > producto_tienda.number|add:'-3' and num < producto_tienda.number|add:'3' %}
+            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+          {% endif %}
+        {% endfor %}
+
+        {% if producto_tienda.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{ producto_tienda.next_page_number }}">Siguiente</a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ producto_tienda.paginator.num_pages }}">Último</a></li>
+        {% endif %}
+      </ul>
+    </nav>
 
 </body>
 </html>
