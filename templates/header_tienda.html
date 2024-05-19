@@ -62,9 +62,13 @@
                 </ul>
 
             </div>
-              <a  href=" {% url 'show_cart' %}" style="color: white; margin-right: 2%;"><i class="fas fa-shopping-cart fa-2x"></i></a>
-              <a href="{% url 'login' %}" style="color: white; margin-right: 2%;"><i class="fas fa-sign-in-alt fa-2x" ></i></a>
-              <a href="{% url 'register' %}" style="color: white; margin-right: 2%;" ><i class="fas fa-user-plus fa-2x" {% url 'register' %} ></i></a>
+                <a  href=" {% url 'show_cart' %}" style="color: white; margin-right: 2%;"><i class="fas fa-shopping-cart fa-2x"></i></a>
+                {% if user.is_authenticated %}
+                   <a href="{% url 'cerrasesion' %}"><button style="margin-left: 1%; width: 125px;" type="button" class="btn btn-md btn-dark">Cerrar Sesión</button></a>
+                {% else %}
+                  <a href="{% url 'login' %}" style="color: white; margin-right: 2%;"><i class="fas fa-sign-in-alt fa-2x" ></i></a>
+                  <a href="{% url 'register' %}" style="color: white; margin-right: 2%;" ><i class="fas fa-user-plus fa-2x" {% url 'register' %} ></i></a>
+                {% endif %}
           </div>
       </nav>
   </header>
