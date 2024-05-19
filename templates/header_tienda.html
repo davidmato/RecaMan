@@ -53,12 +53,14 @@
                     <li class="nav-item">
                         <a class="nav-link text-white" href="{% url 'sobre_nosotros' %} ">Sobre nosotros</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item ">
                         <form class="d-flex" method="GET" action="{% url 'buscar' %}">
                             <input class="form-control me-2" type="text" name="q" placeholder="Buscar...">
-                            <button class="btn btn-outline-success" type="submit">Buscar</button>                        </form>
+                            <button class="btn btn-outline-info" type="submit">Buscar</button>
+                        </form>
                     </li>
                 </ul>
+
             </div>
               <a  href=" {% url 'show_cart' %}" style="color: white; margin-right: 2%;"><i class="fas fa-shopping-cart fa-2x"></i></a>
               <a href="{% url 'login' %}" style="color: white; margin-right: 2%;"><i class="fas fa-sign-in-alt fa-2x" ></i></a>
