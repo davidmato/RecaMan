@@ -61,8 +61,12 @@
                         <td>{{ c.estado }}</td>
                         {% if c.estado == 'ACEPTADA' %}
                         	<td><img src="{% static 'tick-verde.png' %}"></td>
-                        {% else %}
-                            <td><button type="submit"><img src="{% static 'icons8-editar-24.png' %}"></button></td>
+                        {% endif %}
+                        {% if c.estado == 'RECHAZADA' or c.estado == 'FINALIZADA' %}
+                            <td><a href="{% url 'quitar_cita' c.id %}"><img  src="{% static 'icons8-papelera-24.png' %}"></a></td>
+                        {% endif %}
+                        {% if c.estado == 'PENDIENTE' %}
+                            <td><button type="submit" style="border: none; background-color: white"><img src="{% static 'icons8-editar-24.png' %}"></button></td>
                         {% endif %}
                     </tr>
                 </form>

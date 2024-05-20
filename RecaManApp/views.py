@@ -266,6 +266,11 @@ def mostrar_citas(request):
         cita.save()
         return render(request, 'listado_citas.html')
 
+def eliminar_cita(request, id):
+    cita = Citas.objects.get(id=id)
+    cita.delete()
+    return redirect('lista_citas')
+
 def asignar_cita_jefe(request, id):
     cita = Citas.objects.get(id=id)
     cita.hora = request.POST.get('hora')
@@ -301,9 +306,13 @@ def vista_citas_cliente(request):
     citas = Citas.objects.filter(cliente=cliente).order_by('-id')
     return render(request, 'listado_citasCliente.html', {'citas': citas})
 
-def eliminar_cita(request, id):
+def cancelar_cita(request, id):
     cita = Citas.objects.get(id=id)
-    cita.delete()
+    if cita.estado == EstadoCitas.PENDIENTE:
+        cita.delete()
+    else:
+        cita.estado = EstadoCitas.RECHAZADA
+        cita.save()
     return redirect('lista_citas_cliente')
 
 @check_user_roles('CLIENTE')
@@ -381,7 +390,7 @@ def vista_citas_mecanico(request):
     mecanico = Mecanico.objects.get(user=usuario_logeado)
     citas = Citas.objects.filter(mecanico=mecanico).order_by('-id')
     for cita in citas:
-        if cita.estado == EstadoCitas.FINALIZADA:
+        if cita.estado == EstadoCitas.FINALIZADA or cita.estado == EstadoCitas.RECHAZADA:
             citas = citas.exclude(id=cita.id)
     return render(request, 'listado_citasMecanico.html', {'citas': citas})
 
