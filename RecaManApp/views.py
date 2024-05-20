@@ -358,16 +358,6 @@ def sobre_nosotros(request):
 def index(request):
     return render(request, 'index.html')
 
-def tienda(request):
-    producto_tienda_list = Producto.objects.all()
-    tipos_productos = Tipo_producto.objects.all()
-
-    paginator = Paginator(producto_tienda_list, 6)
-    page_number = request.GET.get('page')
-    producto_tienda = paginator.get_page(page_number)
-
-    return render(request, 'tienda.html', {'producto_tienda': producto_tienda, 'tipos_productos_tienda': tipos_productos})
-
 #codigo david carrito
 
 def lista_productos_tienda(request):
