@@ -31,14 +31,13 @@ urlpatterns = [
     path('areausuario/vista_cita/quitar_cita/<int:id>', eliminar_cita, name="quitarcita"),
     path('permision/', error, name="error"),
     path('index/', index, name="index"),
-    path('tienda/', tienda, name='tienda'),
-    path('buscar/', buscador, name='buscar'),
     path('tienda/', lista_productos_tienda, name='tienda'),
-    path('cart/add/<int:id>', add_to_cart, name='add_to_cart'),
-    path('tienda/cart', show_cart, name='show_cart'),
+    path('cart/add/<int:id>', añadir_al_carrito, name='añadir_al_carrito'),
+    path('tienda/cart', mostrar_carrito, name='mostrar_carrito'),
     path('tienda/cart/elminar/<int:id>', eliminar_producto_carrito, name='eliminar_carrito'),
     path('incrementar_carrito/<int:producto_id>/', incrementar_carrito, name='incrementar_carrito'),
     path('disminuir_carrito/<int:producto_id>/', disminuir_carrito, name='disminuir_carrito'),
     path('areausuario/plantilla_citas/', vistacitacliente, name='lista_citas_cliente'),
+    path('contacto/', contacto, name='contacto'),
 
 ]
