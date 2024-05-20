@@ -1,0 +1,69 @@
+{% include "header_cliente.html" %}
+{% load static %}
+
+
+
+{% block content %}
+
+
+
+    <div class="columns is-mobile">
+        <div class="column is-half is-offset-one-quarter"
+             style="justify-content: center;  align-items:  center; display: flex;">
+            <table class="table">
+
+                <thead>
+
+                <tr>
+                    <th>Code</th>
+                    <th>Date</th>
+                    <th>Cost</th>
+                    <th></th>
+                </tr>
+
+                </thead>
+
+                <tbody>
+
+
+                {% for o in pedidos %}
+
+                    <tr>
+
+                        <td>
+                            {{ o.codigo  }}
+                        </td>
+                        <td>
+                            {{ o.fecha }}
+                        </td>
+                        <td>
+                           {{ o.precio }}
+                        </td>
+
+
+                    </tr>
+
+
+                {% endfor %}
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+{% endblock %}
+
+
+{% include "footer.html" %}

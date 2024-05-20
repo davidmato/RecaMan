@@ -5,8 +5,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from django.core.mail import EmailMessage
+from django.db.models import ExpressionWrapper, F, FloatField, Sum, Count
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
+import datetime
+import random
+import time
 from RecaMan import settings
 from RecaManApp.decorators import *
 from RecaManApp.models import *
@@ -506,6 +510,7 @@ def show_cart(request):
         amount = session_cart[key]
         cart[product] = amount
         total += amount * product.precio
+        total = round(total, 2)
 
     return render(request, 'cart.html', {'cart': cart, 'total': total})
 @check_user_roles('CLIENTE')
@@ -555,7 +560,6 @@ def disminuir_carrito(request, producto_id):
 
     return redirect('show_cart')
 
-
 def contacto(request):
     if request.method == 'POST':
         nombre = request.POST.get('nombre')
@@ -572,7 +576,6 @@ def contacto(request):
         nuevo_cliente.direccion = direccion
         nuevo_cliente.fecha_nacimiento = fecha
         nuevo_cliente.user_id = user_id
-
         nuevo_cliente.save()
 
         templete = render_to_string('email_template.html', {'nombre': nombre, 'mail': mail, 'direccion': direccion, 'fecha': fecha})
@@ -590,3 +593,54 @@ def contacto(request):
         messages.success(request, 'Verificación realizada correctamente')
 
         return redirect('areausuario')
+
+
+def comprar_carrito(request):
+    session_cart = {}
+
+    if 'cart' in request.session:
+        session_cart = request.session.get('cart', {})
+
+    id_logged_user = request.user.id
+    clientes = Cliente.objects.filter(user_id=id_logged_user)
+
+
+
+    if len(clientes) != 0:
+        cliente = clientes[0]
+        pedido = Pedido()
+        pedido.codigo = "CO-" + str(int(round(time.time() * 1000)))
+        pedido.fecha = datetime.date.today()
+        pedido.cliente = cliente
+        pedido.save()
+
+        for k in session_cart.keys():
+            linea_pedidos = LineaPedido()
+            linea_pedidos.producto = Producto.objects.get(id=k)
+            linea_pedidos.cantidad = session_cart.get(k)
+            linea_pedidos.precio = linea_pedidos.producto.precio
+            linea_pedidos.save()
+            pedido.linea_pedidos.add(linea_pedidos)  # Use linea_pedidos instead of order_lines
+
+        # vaciamos el carrito
+        request.session.pop('cart')
+
+        return redirect('tienda')
+
+    return redirect('show_cart')
+
+@check_user_roles('CLIENTE')
+def mis_pedidos(request):
+    usuario_logueado = Usuario.objects.get(id=request.user.id)
+    id_logged_user = request.user.id
+    cliente = Cliente.objects.get(user_id=id_logged_user)
+    pedidos_cliente = Pedido.objects.filter(cliente=cliente).annotate(
+        cost=Sum(
+            ExpressionWrapper(
+                F('linea_pedidos__cantidad') * F('linea_pedidos__producto__precio'),
+                output_field=FloatField()
+            )
+        ))
+
+    return render(request, 'mis_pedidos.html', {'pedidos': pedidos_cliente})
+

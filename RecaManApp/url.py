@@ -46,5 +46,7 @@ urlpatterns = [
     path('contacto/', contacto, name='contacto'),
     path('index/', index, name='index'),
     path('logout/', cerrar_sesion, name='cerrasesion'),
+    path('areausuario/mis_pedidos/', mis_pedidos, name='mis_pedidos'),
+    path('comprar/', comprar_carrito, name='comprar'),
 
 ]
