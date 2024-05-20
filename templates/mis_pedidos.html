@@ -37,9 +37,16 @@
                             {{ o.fecha }}
                         </td>
                         <td>
-                           {{ o.precio }}
+                           {{ o.coste }}
                         </td>
 
+                         <td>
+                           <a href="{% url 'detalles_pedidos' id=o.id %}" class="has-text-dark">
+                                <span class="icon">
+                                    <i class="fas fa-eye"></i>
+                                </span>
+                            </a>
+                        </td>
 
                     </tr>
 

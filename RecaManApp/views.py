@@ -1,5 +1,5 @@
 from datetime import timezone
-
+from dateutil.relativedelta import relativedelta
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
@@ -11,6 +11,7 @@ from django.template.loader import render_to_string
 import datetime
 import random
 import time
+from datetime import datetime
 from RecaMan import settings
 from RecaManApp.decorators import *
 from RecaManApp.models import *
@@ -113,15 +114,12 @@ def registrar_mecanico_usuario(request, id):
         user.password = make_password(mecanic.dni)
         user.rol = Roles.MECANICO
         user.save()
-        mecanic.user_id=user.id
+        mecanic.user_id = user.id
         mecanic.save()
 
         return redirect('login')
     else:
         return redirect('plantillaMecanico')
-
-
-
 
 
 
@@ -195,6 +193,15 @@ def asignar_Usuario(request):
             cliente.email = request.POST.get('mail')
             cliente.direccion = request.POST.get('direccion')
             cliente.fecha_nacimiento = request.POST.get('fecha')
+            edad = relativedelta(datetime.now(), cliente.fecha_nacimiento).years
+
+            if edad < 18:
+                messages.error(request, 'Debes ser mayor de 18 años para verificar.')
+                return redirect('verificar')
+            else:
+                # Continúa con la lógica de verificación si el usuario es mayor de 18 años
+                pass
+
             cliente.user = usuario_logeado
             cliente.save()
 
@@ -335,7 +342,10 @@ def editar_tipo_producto(request, id):
         tipo_producto.save()
         return redirect('añadir_tipo_producto')
 
-@check_user_roles('ADMIN')
+@check_user_roles('MECANICO')
+def area_mecanico(request):
+    return render(request, 'AreaMecanico.html')
+@check_user_roles('ADMIN' 'CLIENTE')
 def mostrar_presupuestos(request):
     list_presupuestos = Presupuesto.objects.all()
     return render(request, 'listado_presupuestos.html', {'presupuesto': list_presupuestos})
@@ -369,6 +379,10 @@ def pedir_cita(request):
         cita.estado = EstadoCitas.PENDIENTE
         cita.usuario = usuario_logeado
         cita.cliente = cliente
+
+        if cita.fecha < datetime.now().date():
+            return render(request, 'newCitaCliente.html', {'coches': coches})
+
         cita.save()
         return redirect('añadir_cita_cliente')
 
@@ -575,6 +589,15 @@ def contacto(request):
         nuevo_cliente.email = mail
         nuevo_cliente.direccion = direccion
         nuevo_cliente.fecha_nacimiento = fecha
+        nuevo_cliente.fecha_nacimiento = datetime.strptime(nuevo_cliente.fecha_nacimiento, '%Y-%m-%d')
+        edad = relativedelta(datetime.now(), nuevo_cliente.fecha_nacimiento).years
+
+        if edad < 18:
+            return redirect('verificar')
+        else:
+            # Continúa con la lógica de verificación si el usuario es mayor de 18 años
+            pass
+
         nuevo_cliente.user_id = user_id
         nuevo_cliente.save()
 
@@ -593,6 +616,23 @@ def contacto(request):
         messages.success(request, 'Verificación realizada correctamente')
 
         return redirect('areausuario')
+
+
+def vista_citas_mecanico(request):
+    usuario_logeado = request.user
+    mecanico = Mecanico.objects.get(user=usuario_logeado)
+    citas = Citas.objects.filter(mecanico=mecanico).order_by('-id')
+    for cita in citas:
+        if cita.estado == EstadoCitas.FINALIZADA:
+            citas = citas.exclude(id=cita.id)
+    return render(request, 'listado_citasMecanico.html', {'citas': citas})
+
+@check_user_roles('MECANICO')
+def mostrar_presupuesto_mecanico(request):
+    usuario_logeado = request.user
+    mecanico = Mecanico.objects.get(user=usuario_logeado)
+    presupuestos = Presupuesto.objects.filter(cita__mecanico=mecanico).order_by('-id')
+    return render(request, 'listado_presupuestosMecanico.html', {'presupuestos': presupuestos})
 
 
 def comprar_carrito(request):
@@ -635,7 +675,7 @@ def mis_pedidos(request):
     id_logged_user = request.user.id
     cliente = Cliente.objects.get(user_id=id_logged_user)
     pedidos_cliente = Pedido.objects.filter(cliente=cliente).annotate(
-        cost=Sum(
+        coste=Sum(
             ExpressionWrapper(
                 F('linea_pedidos__cantidad') * F('linea_pedidos__producto__precio'),
                 output_field=FloatField()
@@ -643,4 +683,18 @@ def mis_pedidos(request):
         ))
 
     return render(request, 'mis_pedidos.html', {'pedidos': pedidos_cliente})
+
+
+
+def detalles_pedidos(request, id):
+    pedido = Pedido.objects.filter(id=id).annotate(
+        coste=Sum(
+            ExpressionWrapper(
+                F('linea_pedidos__cantidad') * F('linea_pedidos__producto__precio'),
+                output_field=FloatField()
+            )
+        ))
+
+    return render(request, 'detalles_pedido.html', {'pedido': pedido[0]})
+
 
