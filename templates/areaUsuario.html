@@ -69,10 +69,23 @@
         <div id="carta" class="card d-flex justify-content-center align-items-center hover-zoom" style="width: 400px; height: 200px; margin: 10px;">
             <a href="{% url 'verificar' %}" class="text-decoration-none">
             <div class="d-flex justify-content-center align-items-center">
-                <img src="{% static 'icons8-fast-moving-consumer-goods-50.png' %}" class="card-img-top justify-content-center" alt="" style="width: 60px; height: 60px;">
+                <img src="{% static 'icons8-cuenta-verificada-tiktok-64.png' %}" class="card-img-top justify-content-center" alt="" style="width: 60px; height: 60px;">
             </div>
                 <div class="card-body">
                     <h4 class="card-text" style="color: darkred">Verificate aqui</h4>
+                </div>
+            </a>
+        </div>
+        {% endif %}
+
+        {% if cliente %}
+        <div id="carta" class="card d-flex justify-content-center align-items-center hover-zoom" style="width: 400px; height: 200px; margin: 10px;">
+            <a href="{% url 'añadir_cita_cliente' %}" class="text-decoration-none">
+            <div class="d-flex justify-content-center align-items-center">
+                <img src="{% static 'icons8-fast-moving-consumer-goods-50.png' %}" class="card-img-top justify-content-center" alt="" style="width: 60px; height: 60px;">
+            </div>
+                <div class="card-body">
+                    <h4 class="card-text" style="color: darkred">Mis Pedidos</h4>
                 </div>
             </a>
         </div>
