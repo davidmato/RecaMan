@@ -48,8 +48,10 @@ urlpatterns = [
     path('logout/', cerrar_sesion, name='cerrasesion'),
     path('areausuario/mis_pedidos/', mis_pedidos, name='mis_pedidos'),
     path('comprar/', comprar_carrito, name='comprar'),
-    path('detalles_pedidos/<int:id>', detalles_pedidos, name='detalles_pedidos'),
+    path('detalles_pedidos/<int:id>/', detalles_pedidos, name='detalles_pedidos'),
     path('mecanico/', area_mecanico, name='mecanico'),
     path('mecanico/plantilla_citas/', vista_citas_mecanico, name='lista_citas_mecanico'),
+    path('areausuario/crear_comentario/<int:id>/', pagina_valoraciones, name='pagina_valoraciones'),
+    path('areausuario/crear_valoracion/<int:id>/', crear_valoracion, name='crear_valoracion'),
 
 ]

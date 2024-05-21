@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMessage
 from django.db.models import ExpressionWrapper, F, FloatField, Sum, Count
 from django.shortcuts import render, redirect
@@ -15,6 +16,8 @@ from datetime import datetime
 from RecaMan import settings
 from RecaManApp.decorators import *
 from RecaManApp.models import *
+from django.shortcuts import render, get_object_or_404
+
 # Create your views here.
 @check_user_roles('ADMIN')
 def area_jefe(request):
@@ -696,5 +699,38 @@ def detalles_pedidos(request, id):
         ))
 
     return render(request, 'detalles_pedido.html', {'pedido': pedido[0]})
+
+
+
+def pagina_valoraciones(request, id):
+    try:
+        pedido = Pedido.objects.get(id=id)
+        lineas_pedido = pedido.linea_pedidos.all()  # Obtiene todas las líneas de pedido para este pedido
+        productos = [linea.producto for linea in lineas_pedido]  # Obtiene el producto para cada línea de pedido
+        return render(request, 'crear_valoracion.html', {'productos': productos})
+
+    except ObjectDoesNotExist:
+        messages.error(request, 'Valoracion realizada correctamente')
+        return redirect('detalles_pedidos', id=id)
+
+def crear_valoracion(request, id):
+    producto = Producto.objects.get(id=id)
+    cliente = Cliente.objects.get(user=request.user)
+
+
+    if request.method == 'POST':
+        puntuacion = request.POST.get('puntuacion')
+        comentario = request.POST.get('comentario')
+
+        Comentario.objects.create(puntuacion=puntuacion, comentario=comentario, producto=producto, cliente=cliente)
+
+        return redirect('pagina_valoraciones', id=id)
+
+
+
+    return render(request, 'crear_valoracion.html', {'producto': producto})
+
+
+# seguir probando con las valoraciones
 
 
