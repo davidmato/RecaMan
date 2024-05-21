@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lista_coches</title>
+</head>
+<body>
+    {% include 'header_cliente.html' %}
+
+  <div class="container-fluid">
+
+    <div class="row">
+            {% include 'barra_lateral_cliente.html' %}
+
+      <!-- Contenido principal -->
+      <div class="col-10 d-xl-flex justify-content-around" id="form_central" style="margin-top: 2%">
+        <!-- FORMULARIO DE PRODUCTOS -->
+        {% for c in coches %}
+               <div class="card" style="width: 18rem;">
+                  <div class="card-body">
+                    <h5 class="card-title">{{c.modelo}}</h5>
+                  </div>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">{{ c.matricula }}</li>
+                    <li class="list-group-item">{{ c.KM }} Kilometros</li>
+                    <li class="list-group-item">{{ c.ITV }}</li>
+                    <li class="list-group-item">{{ c.usuario_id }}</li>
+                  </ul>
+
+                   <div class="card-body">
+                      <a href="{% url 'quitar_coche' id=c.id %}"><img src={% static 'icons8-papelera-24.png' %}></a>
+                      <a href="{% url 'cambiar_coche' id=c.id %}"><img src={% static 'icons8-editar-24.png' %}></a>
+                  </div>
+
+               </div>
+        {% endfor %}
+        <!-- Contenido principal -->
+      </div>
+    </div>
+  </div>
+</body>
+</html>

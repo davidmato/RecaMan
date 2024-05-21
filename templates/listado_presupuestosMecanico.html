@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+    {% include 'header.html' %}
+      <div class="container-fluid">
+    <div class="row">
+      <!-- Barra lateral -->
+      {% include 'barraLateral.html' %}
+        <div class="col-10">
+            {% csrf_token %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Importe</th>
+                        <th scope="col">Cliente</th>
+                        <th scope="col">Nombre Usuario</th>
+                    </tr>
+            </thead>
+            <tbody>
+                {% for p in presupuestos %}
+                <tr>
+                    <th scope="row">{{ p.id }}</th>
+                    <td>{{ p.fecha_compra}}</td>
+                    <td>{{ p.precio }}€</td>
+                    <td>{{ p.cliente.nombre }}</td>
+                    <td>{{ p.cliente.user.nombreUsuario }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+  </div>
+</body>
+</html>

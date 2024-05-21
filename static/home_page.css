@@ -28,7 +28,7 @@ h6{
 }
 
 .lateral_list{
-  color: white;
+    color: white;
     list-style: none;
     margin-top: 15%;
 }
@@ -53,11 +53,13 @@ footer{
     margin-top: 15%;
 }
 
+/* HEADER INDEX, CONTACTUS, USUARIO, TIENDA */
+
+
 /* BARRA LATERAL */
 
 #barra_lateral{
     background: linear-gradient(180deg, rgba(0,0,0,1) 31%, rgba(129,0,15,1) 100%) !important;
-    padding-bottom: 100%;
 }
 
 .lateral_list{
@@ -74,10 +76,6 @@ footer{
   text-decoration: none;
 }
 
-.lateral_list{
-  list-style: none;
-  margin-top: 15%;
-}
 
 #form_central{
   padding-top: 2%;

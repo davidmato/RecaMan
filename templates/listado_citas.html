@@ -29,18 +29,16 @@
             </thead>
             <tbody>
                 {% for c in citas %}
-                    <tr>
-                        <th scope="row">{{ c.id }}</th>
-                        <td>{{ c.fecha }}</td>
-                        <td>{{ c.hora }}</td>
-                        <td>{{ c.motivo }}</td>
-                        <td>{{ c.cocheCliente.matricula }}</td>
-                        <td>{{ c.mecanico.nombre }}</td>
-                        <td>{{ c.usuario.nombreUsuario }}</td>
-                        <td>
-                            <button type="submit"><img src="{% static 'icons8-editar-24.png' %}"></button>
-                        </td>
-                    </tr>
+                <tr>
+                    <th scope="row">{{ c.id }}</th>
+                    <td>{{ c.fecha }}</td>
+                    <td>{{ c.hora }}</td>
+                    <td>{{ c.motivo }}</td>
+                    <td>{{ c.cocheCliente.matricula }}</td>
+                    <td>{{ c.mecanico.nombre }}</td>
+                    <td>{{ c.cliente.user.nombreUsuario }}</td>
+                    <td><button><img src="{% static 'icons8-editar-24.png' %}"></button></td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
