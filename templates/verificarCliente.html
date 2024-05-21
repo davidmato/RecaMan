@@ -19,8 +19,9 @@
         <!-- FORMULARIO DE PRODUCTOS -->
 
         <div class="container-fluid">
-          <form action="" method="post">
+          <form action="{% url 'contacto' %}" method="post">
               {% csrf_token %}
+              {% if messages %}
             <div class="mb-3">
               <label for="mecanicname" class="form-label">Nombre</label>
               <input type="text" class="form-control"  name="nombre">
