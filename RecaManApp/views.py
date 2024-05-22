@@ -33,7 +33,7 @@ def plantilla_mecanicos(request):
     list_mecanic = Mecanico.objects.all()
     return render(request, 'PlantillaMecanico.html',{'mecanico': list_mecanic})
 def sobre_nosotros(request):
-    return render(request, 'Sobre_nosotros.html')
+    return render(request, 'contactanos.html')
 @check_user_roles('ADMIN')
 def nuevo_meacanico(request):
     if request.method == 'GET':
@@ -671,35 +671,6 @@ def detalles_pedidos(request, id):
 
     return render(request, 'detalles_pedido.html', {'pedido': pedido[0]})
 
-
-
-def pagina_valoraciones(request, id):
-    try:
-        pedido = Pedido.objects.get(id=id)
-        lineas_pedido = pedido.linea_pedidos.all()  # Obtiene todas las líneas de pedido para este pedido
-        productos = [linea.producto for linea in lineas_pedido]  # Obtiene el producto para cada línea de pedido
-        return render(request, 'crear_valoracion.html', {'productos': productos})
-
-    except ObjectDoesNotExist:
-        messages.error(request, 'Valoracion realizada correctamente')
-        return redirect('detalles_pedidos', id=id)
-
-def crear_valoracion(request, id):
-    producto = Producto.objects.get(id=id)
-    cliente = Cliente.objects.get(user=request.user)
-
-
-    if request.method == 'POST':
-        puntuacion = request.POST.get('puntuacion')
-        comentario = request.POST.get('comentario')
-
-        Comentario.objects.create(puntuacion=puntuacion, comentario=comentario, producto=producto, cliente=cliente)
-
-        return redirect('pagina_valoraciones', id=id)
-
-
-
-    return render(request, 'crear_valoracion.html', {'producto': producto})
 
 def lista_productos_tienda(request):
     query = request.GET.get('q')
