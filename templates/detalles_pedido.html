@@ -1,0 +1,47 @@
+{% include "headerTienda.html" %}
+{% load static %}
+{% block content %}
+    <div class="columns is-mobile">
+        <div class="column is-half is-offset-one-quarter"
+             style="justify-content: center;  align-items:  center; display: flex;">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Descripción</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                </tr>
+                </thead>
+                <tbody>
+                {# se utiliza linea_pedidos por que se ha utilizado en la variables de la compra carrito y tiene que coger esos detalles y mostrarlos #}
+                {% for ol in pedido.linea_pedidos.all %}
+                    <tr>
+                        <td>
+                            <img class="rounded-circle " src="{{ ol.producto.url }}" alt="" style="height: 50px; width: 50px;">
+                        </td>
+                        <td>
+                            {{ ol.producto.nombre }} - {{ ol.producto.marca.nombre }}
+                        </td>
+                        <td>
+                            {{ ol.cantidad }}
+                        </td>
+                        <td>
+                            {{ ol.producto.precio }}€
+                        </td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td></td>
+                    <td><b>TOTAL</b></td>
+                    <td></td>
+                    <td>
+                        <b>{{ pedido.coste }}€</b>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        <!-- Formulario de valoración -->
+        </div>
+    </div>
+{% endblock %}

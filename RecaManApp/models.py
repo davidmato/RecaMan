@@ -139,3 +139,21 @@ class Comentario (models.Model):
 
     def __str__(self):
         return str(self.puntuacion) + ' ' + self.comentario + ' ' + str(self.usuario) + ' ' + str(self.producto)
+
+class LineaPedido(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad = models.IntegerField()
+    precio = models.FloatField()
+
+    def __str__(self):
+        return str(self.producto) + ' ' + str(self.cantidad) + ' ' + str(self.precio)
+
+
+class Pedido(models.Model):
+    codigo = models.CharField(max_length=100, blank=False)
+    fecha = models.DateField(null=False)
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    linea_pedidos = models.ManyToManyField(LineaPedido)
+
+    def __str__(self):
+        return self.codigo + ' ' + str(self.fecha) + ' ' + str(self.cliente) + ' ' + str(self.linea_pedidos)

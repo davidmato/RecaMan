@@ -5,18 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>recambio coche</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/e3fd01f854.js" crossorigin="anonymous"></script>
+
 </head>
 <body>
-    {% include 'header_cliente.html' %}
+    {% include 'headerTienda.html' %}
   <div class="container-fluid">
     <div class="row">
         {% include 'barra_lateral_cliente.html' %}
+
       <!-- Contenido principal -->
+
       <div class="col-10" id="form_central">
+
         <!-- FORMULARIO DE PRODUCTOS -->
+
         <div class="container-fluid" style="margin-top: 1%">
           <form id="recambio">
               {% csrf_token %}
@@ -40,97 +42,168 @@
           </form>
         </div>
         <!-- Contenido principal -->
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Recomendaciones</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body" id="modal-body">
+                <!-- Aquí se insertarán las recomendaciones -->
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
 <script>
+
     document.getElementById('recambio').addEventListener('submit',function (event){
-        event.preventDefault()
-        // esto sirve para borra las p una vez que le des al boton de guardar para que cada vez que le des no se vayan acumulando
-        let existingParagraphs = document.querySelectorAll('#form_central p');
-        existingParagraphs.forEach(p => p.remove());
+    event.preventDefault()
+
         let kilometros = document.getElementById('kilometros').value;
         let motor = document.getElementById('motor').value;
-        if (kilometros < 15000){
-            let p = document.createElement('p')
-            p.innerHTML = 'No se recomienda cambiar nada'
-            p.style.color = 'red'
-            document.getElementById('form_central').appendChild(p)
+
+        if (!kilometros) {
+            alert('Por favor, rellene el campo de kilometros.');
+            return;
         }
-        if (kilometros >= 15000){
-            let p1 = document.createElement('p')
-            p1.innerHTML = 'Se recomienda cambiar el filtro de habitaculo, puede encontrar este producto en nuestra tienda'
-            p1.style.color = 'red'
-            document.getElementById('form_central').appendChild(p1)
+
+        if (!motor) {
+            alert('Por favor, rellene el campo de motor.');
+            return;
         }
-        if (kilometros >= 20000){
-            let p2 = document.createElement('p')
-            p2.innerHTML = 'Se recomienda cambiar el Aire acondicionado, puede encontrar este producto en nuestra tienda'
-            p2.style.color = 'red'
-            document.getElementById('form_central').appendChild(p2)
-        }
-        if (kilometros >= 50000){
-            let p3 = document.createElement('p')
-            p3.innerHTML = 'Se recomienda cambiar el iluminacion, puede encontrar este producto en nuestra tienda'
-            p3.style.color = 'red'
-            document.getElementById('form_central').appendChild(p3)
-        }
-        if (kilometros >= 30000 && kilometros <= 60000){
-            let p4 = document.createElement('p')
-            p4.innerHTML = 'Se recomienda cambiar las bujias y los calentadores, puede encontrar este producto en nuestra tienda'
-            p4.style.color = 'red'
-            document.getElementById('form_central').appendChild(p4)
-        }
-         if (kilometros >= 20000){
-            let p5 = document.createElement('p')
-            p5.innerHTML = 'Se recomienda cambiar el freno de discos, puede encontrar este producto en nuestra tienda'
-            p5.style.color = 'red'
-            document.getElementById('form_central').appendChild(p5)
-        }
-        if (kilometros >= 80000){
-            let p6 = document.createElement('p')
-            p6.innerHTML = 'Se recomienda cambiar los frenos de tambor, puede encontrar este producto en nuestra tienda'
-            p6.style.color = 'red'
-            document.getElementById('form_central').appendChild(p6)
-        }
-        if (kilometros >= 65000){
-            let p7 = document.createElement('p')
-            p7.innerHTML = 'Se recomienda cambiar los amortiguadores (se aconseja hacer una revision cada 20000 kilometros), puede encontrar este producto en nuestra tienda'
-            p7.style.color = 'red'
-            document.getElementById('form_central').appendChild(p7)
-        }
-        if (kilometros >= 500000){
-            let p8 = document.createElement('p')
-            p8.innerHTML = 'Se recomienda cambiar los rodamientos de rueda, puede encontrar este producto en nuestra tienda'
-            p8.style.color = 'red'
-            document.getElementById('form_central').appendChild(p8)
-        }
-        if (kilometros >= 40000 &&  motor === 'diesel'){
-            let p9 = document.createElement('p')
-            p9.innerHTML = 'Se recomienda cambiar el aceite en motor diesel, puede encontrar este producto en nuestra tienda'
-            p9.style.color = 'red'
-            document.getElementById('form_central').appendChild(p9)
-        }
-        if (kilometros >= 60000 &&  motor === 'gasolina'){
-            let p10 = document.createElement('p')
-            p10.innerHTML = 'Se recomienda cambiar el aceite en motor gasolina, puede encontrar este producto en nuestra tienda'
-            p10.style.color = 'red'
-            document.getElementById('form_central').appendChild(p10)
-        }
-        if (kilometros >= 100000){
-            let p11 = document.createElement('p')
-            p11.innerHTML = 'Se recomienda cambiar el kit de distribucion, puede encontrar este producto en nuestra tienda'
-            p11.style.color = 'red'
-            document.getElementById('form_central').appendChild(p11)
-        }
-        if (kilometros > 1000000){
-            let p11 = document.createElement('p')
-            p11.innerHTML = 'Ya es hora de cambiar de coche churrita'
-            p11.style.color = 'red'
-            document.getElementById('form_central').appendChild(p11)
-        }
+
+        document.getElementById('recambio').addEventListener('submit',function (event){
+        event.preventDefault()
+
+            // esto sirve para borra las p una vez que le des al boton de guardar para que cada vez que le des no se vayan acumulando
+            let existingParagraphs = document.querySelectorAll('#form_central p');
+            existingParagraphs.forEach(p => p.remove());
+
+            let kilometros = document.getElementById('kilometros').value;
+            let motor = document.getElementById('motor').value;
+
+
+
+            if (kilometros <= 15000){
+                let p = document.createElement('p')
+
+                p.innerHTML = 'No se recomienda cambiar nada'
+                p.style.color = 'red'
+                document.getElementById('modal-body').appendChild(p)
+            }
+
+            if (kilometros >= 15000){
+                let p1 = document.createElement('p')
+
+                p1.innerHTML = 'Se recomienda cambiar el filtro de habitaculo, puede encontrar este producto en nuestra tienda'
+                p1.style.color = 'red'
+                document.getElementById('modal-body').appendChild(p1)
+            }
+
+            if (kilometros >= 20000){
+                let p2 = document.createElement('p')
+
+                p2.innerHTML = 'Se recomienda cambiar el Aire acondicionado, puede encontrar este producto en nuestra tienda'
+                p2.style.color = 'red'
+                document.getElementById('modal-body').appendChild(p2)
+            }
+
+            if (kilometros >= 50000){
+                let p3 = document.createElement('p')
+
+                p3.innerHTML = 'Se recomienda cambiar el iluminacion, puede encontrar este producto en nuestra tienda'
+                p3.style.color = 'red'
+                document.getElementById('modal-body').appendChild(p3)
+            }
+
+            if (kilometros >= 30000 && kilometros <= 60000){
+                let p4 = document.createElement('p')
+
+                p4.innerHTML = 'Se recomienda cambiar las bujias y los calentadores, puede encontrar este producto en nuestra tienda'
+                p4.style.color = 'red'
+                document.getElementById('modal-body').appendChild(p4)
+            }
+
+             if (kilometros >= 20000){
+                let p5 = document.createElement('p')
+
+                p5.innerHTML = 'Se recomienda cambiar el freno de discos, puede encontrar este producto en nuestra tienda'
+                p5.style.color = 'red'
+                document.getElementById('modal-body').appendChild(p5)
+            }
+
+            if (kilometros >= 80000){
+                let p6 = document.createElement('p')
+
+                p6.innerHTML = 'Se recomienda cambiar los frenos de tambor, puede encontrar este producto en nuestra tienda'
+                p6.style.color = 'red'
+                document.getElementById('modal-body').appendChild(p6)
+            }
+
+            if (kilometros >= 65000){
+                let p7 = document.createElement('p')
+
+                p7.innerHTML = 'Se recomienda cambiar los amortiguadores (se aconseja hacer una revision cada 20000 kilometros), puede encontrar este producto en nuestra tienda'
+                p7.style.color = 'red'
+                document.getElementById('modal-body').appendChild(p7)
+            }
+
+            if (kilometros >= 500000){
+                let p8 = document.createElement('p')
+
+                p8.innerHTML = 'Se recomienda cambiar los rodamientos de rueda, puede encontrar este producto en nuestra tienda'
+                p8.style.color = 'red'
+                document.getElementById('modal-body').appendChild(p8)
+            }
+
+            if (kilometros >= 40000 &&  motor === 'diesel'){
+                let p9 = document.createElement('p')
+
+                p9.innerHTML = 'Se recomienda cambiar el aceite en motor diesel, puede encontrar este producto en nuestra tienda'
+                p9.style.color = 'red'
+                document.getElementById('modal-body').appendChild(p9)
+            }
+
+            if (kilometros >= 60000 &&  motor === 'gasolina'){
+                let p10 = document.createElement('p')
+
+                p10.innerHTML = 'Se recomienda cambiar el aceite en motor gasolina, puede encontrar este producto en nuestra tienda'
+                p10.style.color = 'red'
+                document.getElementById('modal-body').appendChild(p10)
+            }
+
+            if (kilometros >= 100000){
+                let p11 = document.createElement('p')
+
+                p11.innerHTML = 'Se recomienda cambiar el kit de distribucion, puede encontrar este producto en nuestra tienda'
+                p11.style.color = 'red'
+                document.getElementById('modal-body').appendChild(p11)
+            }
+            if (kilometros > 1000000){
+                let p11 = document.createElement('p')
+
+                p11.innerHTML = 'Ya es hora de cambiar de coche churrita'
+                p11.style.color = 'red'
+                document.getElementById('modal-body').appendChild(p11)
+            }
+
+            // Al final, muestra el modal
+            $('#myModal').modal('show');
+
+        });
+
     });
+
 </script>
+
 </body>
 </html>

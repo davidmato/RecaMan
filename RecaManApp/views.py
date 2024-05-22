@@ -1,9 +1,14 @@
+import time
+from datetime import datetime
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMessage
 from django.core.paginator import Paginator
+from django.db.models import Sum, ExpressionWrapper, F, FloatField
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from RecaMan import settings
@@ -500,3 +505,39 @@ def contacto(request):
         mail.send()
         messages.success(request, 'Verificación realizada correctamente')
         return redirect('cliente')
+
+def comprar_carrito(request):
+    session_cart = {}
+    if 'cart' in request.session:
+        session_cart = request.session.get('cart', {})
+    id_logged_user = request.user.id
+    clientes = Cliente.objects.filter(user_id=id_logged_user)
+    if len(clientes) != 0:
+        cliente = clientes[0]
+        pedido = Pedido()
+        pedido.codigo = "CO-" + str(int(round(time.time() * 1000)))
+        pedido.fecha = datetime.today()
+        pedido.cliente = cliente
+        pedido.save()
+        for k in session_cart.keys():
+            linea_pedidos = LineaPedido()
+            linea_pedidos.producto = Producto.objects.get(id=k)
+            linea_pedidos.cantidad = session_cart.get(k)
+            linea_pedidos.precio = linea_pedidos.producto.precio
+            linea_pedidos.save()
+            pedido.linea_pedidos.add(linea_pedidos)
+        request.session.pop('cart')
+        return redirect('tienda')
+    return redirect('mostrar_carrito')
+
+@check_user_roles('CLIENTE')
+def mis_pedidos(request):
+    usuario_logueado = Usuario.objects.get(id=request.user.id)
+    id_logged_user = request.user.id
+    cliente = Cliente.objects.get(user_id=id_logged_user)
+    pedidos_cliente = Pedido.objects.filter(cliente=cliente).annotate(coste=Sum(ExpressionWrapper(F('linea_pedidos__cantidad') * F('linea_pedidos__producto__precio'), output_field=FloatField())))
+    return render(request, 'mis_pedidos.html', {'pedidos': pedidos_cliente})
+
+def detalles_pedidos(request, id):
+    pedido = Pedido.objects.filter(id=id).annotate(coste=Sum(ExpressionWrapper(F('linea_pedidos__cantidad') * F('linea_pedidos__producto__precio'), output_field=FloatField())))
+    return render(request, 'detalles_pedido.html', {'pedido': pedido[0]})
