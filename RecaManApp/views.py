@@ -1,5 +1,4 @@
 from datetime import timezone
-from dateutil.relativedelta import relativedelta
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
@@ -171,22 +170,16 @@ def asignar_Usuario(request):
             cliente.email = request.POST.get('mail')
             cliente.direccion = request.POST.get('direccion')
             cliente.fecha_nacimiento = request.POST.get('fecha')
-            edad = relativedelta(datetime.now(), cliente.fecha_nacimiento).years
-
-            if edad < 18:
-                messages.error(request, 'Debes ser mayor de 18 años para verificar.')
-                return redirect('verificar')
-            else:
-
-                pass
 
             cliente.user = usuario_logeado
             cliente.save()
 
             return render(request, 'verificarCliente.html')
 
-
-
+@check_user_roles('ADMIN')
+def plantilla_productos(request):
+    list_product = Producto.objects.all()
+    return render(request, 'PlantillaProducto.html', {'producto': list_product})
 
 @login_required
 def areaUsuario(request):
@@ -207,7 +200,7 @@ def pedir_cita(request):
         cita = Citas()
         cita.motivo = request.POST.get('motivo')
         cita.fecha = request.POST.get('fecha')
-        cita.estado = EstadoCita.PENDIENTE
+        cita.estado = EstadoCitas.PENDIENTE
         cita.cliente = cliente
         cita.save()
 
@@ -581,13 +574,6 @@ def contacto(request):
         nuevo_cliente.direccion = direccion
         nuevo_cliente.fecha_nacimiento = fecha
         nuevo_cliente.fecha_nacimiento = datetime.strptime(nuevo_cliente.fecha_nacimiento, '%Y-%m-%d')
-        edad = relativedelta(datetime.now(), nuevo_cliente.fecha_nacimiento).years
-
-        if edad < 18:
-            return redirect('verificar')
-        else:
-            # Continúa con la lógica de verificación si el usuario es mayor de 18 años
-            pass
 
         nuevo_cliente.user_id = user_id
         nuevo_cliente.save()

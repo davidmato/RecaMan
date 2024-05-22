@@ -12,12 +12,10 @@
 
         <!-- Left links -->
 
-  <div class="container-fluid">
-
-    <div class="row">
+  <div class="container-fluid row">
       <!-- Barra lateral -->
       {% include 'barraLateral.html' %}
-
+        <div class="col-sm-10 d-flex flex-wrap">
         {% for p in producto %}
 
            <div class="card" style="width: 18rem;">
@@ -41,12 +39,8 @@
             </div>
         {% endfor %}
 
+        </div>
     </div>
-
-    </div>
-
-
-
 
 </body>
 </html>
