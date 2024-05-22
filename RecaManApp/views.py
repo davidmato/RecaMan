@@ -1,6 +1,5 @@
 import time
 from datetime import datetime
-
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
@@ -16,7 +15,9 @@ from RecaManApp.decorators import *
 from RecaManApp.models import *
 # Create your views here.
 def inicio(request):
-    return render(request, 'index.html')
+    list_product = Producto.objects.all().order_by('?')[:10]
+    single_mecanico = Mecanico.objects.all().order_by('?')[:3]
+    return render(request, 'index.html', {'producto': list_product, 'single_mecanico': single_mecanico})
 
 @check_user_roles('ADMIN')
 def area_jefe(request):
@@ -48,7 +49,7 @@ def nuevo_meacanico(request):
         usuario.save()
         nuevo.user_id = usuario.id
         nuevo.save()
-        return redirect('añadir_mecanico')
+        return redirect('lista_mecanicos')
 
 @check_user_roles('ADMIN')
 def eliminar_mecanico(request, id):
