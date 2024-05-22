@@ -28,9 +28,6 @@ def error(request):
     return render(request, 'errores.html')
 
 
-def index(requerst):
-    return render(requerst, 'index.html')
-
 @check_user_roles('ADMIN')
 def plantilla_mecanicos(request):
     list_mecanic = Mecanico.objects.all()
@@ -717,6 +714,12 @@ def lista_productos_tienda(request):
         page_number = request.GET.get('page')
         productos = paginator.get_page(page_number)
     return render(request, 'tienda.html', {'producto': productos})
+
+
+def index(request):
+    list_product = Producto.objects.order_by('?')[:10]
+    single_mecanico = Mecanico.objects.order_by('?')[:3]
+    return render(request, 'index.html', {'producto': list_product, 'single_mecanico': single_mecanico})
 
 
 
