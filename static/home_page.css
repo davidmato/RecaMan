@@ -28,7 +28,7 @@ h6{
 }
 
 .lateral_list{
-  color: white;
+    color: white;
     list-style: none;
     margin-top: 15%;
 }
@@ -43,14 +43,12 @@ h6{
   text-decoration: none;
 }
 
-
-
 #form_central{
   padding-top: 2%;
 }
 
 footer{
-    margin-top: 15%;
+    margin-top: 10%;
 }
 
 /* HEADER INDEX, CONTACTUS, USUARIO, TIENDA */
@@ -76,11 +74,8 @@ footer{
   text-decoration: none;
 }
 
-.lateral_list{
-  list-style: none;
-  margin-top: 15%;
-}
 
 #form_central{
   padding-top: 2%;
 }
+

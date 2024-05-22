@@ -42,10 +42,46 @@
             </div>
             <button type="submit" class="btn btn-dark">Realizar</button>
           </form>
+        <div class="modal" tabindex="-1" id="fechaModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Verificación de Fecha</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p>La fecha de la cita debe ser posterior a la fecha actual.</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
         </div>
         <!-- Contenido principal -->
       </div>
     </div>
   </div>
+
+<script>
+
+    document.querySelector('form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        var fechaCita = document.querySelector('input[name="fecha"]').value;
+
+        var hoy = new Date();
+        var fechaCitaDate = new Date(fechaCita);
+        if (fechaCitaDate < hoy) {
+            var myModal = new bootstrap.Modal(document.getElementById('fechaModal'), {});
+            myModal.show();
+        } else {
+            event.target.submit();
+        }
+    });
+
+</script>
+
 </body>
 </html>

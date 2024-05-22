@@ -12,13 +12,9 @@
   <div class="container-fluid">
     <div class="row">
         {% include 'barra_lateral_cliente.html' %}
-
       <!-- Contenido principal -->
-
       <div class="col-10" id="form_central">
-
         <!-- FORMULARIO DE PRODUCTOS -->
-
         <div class="container-fluid" style="margin-top: 1%">
           <form id="recambio">
               {% csrf_token %}
@@ -62,7 +58,6 @@
       </div>
     </div>
   </div>
-
 <script>
 
     document.getElementById('recambio').addEventListener('submit',function (event){
@@ -202,8 +197,6 @@
         });
 
     });
-
 </script>
-
 </body>
 </html>
