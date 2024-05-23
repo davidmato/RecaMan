@@ -34,7 +34,10 @@
                     {% csrf_token %}
                     <tr>
                         <th scope="row">{{ c.id }}</th>
-                        <td>{{ c.fecha }}</td>
+                        <td>
+                            {{ c.fecha }}
+                            <input type="hidden" name="fecha" value="{{ c.fecha }}">
+                        </td>
                         {% if c.hora %}
                             <td>{{ c.hora }}</td>
                         {% else %}
@@ -72,5 +75,6 @@
         </div>
     </div>
   </div>
+    {% include 'alerts/alert.html' %}
 </body>
 </html>

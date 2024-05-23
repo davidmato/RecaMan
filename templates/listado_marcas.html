@@ -8,10 +8,10 @@
 </head>
 <body>
     {% include 'header.html' %}
-  <div class="container-fluid">
-    <div class="row">
+  <div class="container-fluid row">
+  {% include 'barraLateral.html' %}
+    <div class="col-10 d-flex flex-wrap">
       <!-- Barra lateral -->
-      {% include 'barraLateral.html' %}
         {% for m in marcas %}
            <div class="card" style="width: 18rem; margin: 2px;">
               <img src="{{ m.url }}" class="card-img-top" alt="...">

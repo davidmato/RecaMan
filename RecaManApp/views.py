@@ -1,6 +1,6 @@
 import time
 from datetime import datetime
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
@@ -279,11 +279,22 @@ def eliminar_cita(request, id):
 
 def asignar_cita_jefe(request, id):
     cita = Citas.objects.get(id=id)
-    cita.hora = request.POST.get('hora')
+    list_citas = Citas.objects.all().order_by('-id')
+    mecanicos = Mecanico.objects.all()
+    hora_elegida = request.POST.get('hora')
+    fecha = request.POST.get('fecha')
+    mecanico_elegido = request.POST.get('mecanico')
+    fecha_formateada = datetime.strptime(fecha, "%B %d, %Y").strftime("%Y-%m-%d")
+    if Citas.objects.filter(fecha=fecha_formateada,hora=hora_elegida,mecanico=mecanico_elegido).exists():
+        return render(request, 'listado_citas.html', {'citas': list_citas, 'mecanicos': mecanicos, 'alert': {'icon': 'error', 'message': 'Cita ya ha sido asignada a ese mecanico en esa fecha y hora'}})
+    cita.hora = hora_elegida
     cita.mecanico_id = Mecanico.objects.get(id=request.POST.get('mecanico'))
     cita.estado = EstadoCitas.ACEPTADA
     cita.save()
-    return redirect('lista_citas')
+    print(cita.mecanico_id)
+    return render(request, 'listado_citas.html', {'citas': list_citas, 'mecanicos': mecanicos, 'alert': {'icon': 'success', 'message': 'Cita asignada correctamente'}})
+
+
 
 @check_user_roles('CLIENTE')
 def pedir_cita(request):
@@ -331,19 +342,23 @@ def mostrar_coches(request):
 
 @check_user_roles('CLIENTE')
 def nuevo_coche(request):
+    coche = CocheCliente.objects.all()
     if request.method == 'GET':
-        return render(request, 'newCoche.html')
+        return render(request, 'newCoche.html' ,{'coches': coche})
     else:
-        usuario_logeado = request.user
-        coche = CocheCliente()
-        coche.modelo = request.POST.get('modelo')
-        coche.marca = request.POST.get('marca')
-        coche.matricula = request.POST.get('matricula')
-        coche.KM = request.POST.get('kilometros')
-        coche.ITV = request.POST.get('ITV')
-        coche.usuario_id = usuario_logeado.id
-        coche.save()
-        return redirect('añadir_coche')
+        try:
+            usuario_logeado = request.user
+            coche = CocheCliente()
+            coche.modelo = request.POST.get('modelo')
+            coche.marca = request.POST.get('marca')
+            coche.matricula = request.POST.get('matricula')
+            coche.KM = request.POST.get('kilometros')
+            coche.ITV = request.POST.get('ITV')
+            coche.usuario_id = usuario_logeado.id
+            coche.save()
+            return render(request, 'newCoche.html', {'coches': coche, 'alert': {'icon': 'success', 'message': 'Coche añadido correctamente'}})
+        except Exception as e:
+            return render(request, 'newCoche.html', {'coches': coche, 'alert': {'icon': 'error', 'message': 'Error al añadir coche'}})
 
 @check_user_roles('CLIENTE')
 def eliminar_coche(request,id):
