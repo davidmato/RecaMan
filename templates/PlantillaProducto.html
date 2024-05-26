@@ -12,16 +12,18 @@
 
         <!-- Left links -->
 
-  <div class="container-fluid row">
+  <div class="container-fluid">
+  
+    <div class="row">
       <!-- Barra lateral -->
       {% include 'barraLateral.html' %}
-        <div class="col-sm-10 d-flex flex-wrap">
+        <div class="col-md-10 d-flex flex-wrap">
         {% for p in producto %}
 
-           <div class="card" style="width: 18rem;">
-              <img src="{{ p.url }}" class="card-img-top" alt="...">
+           <div class="card" style="width: 16rem; margin: 5px;">
+              <img src="{{ p.url }}" class="card-img-top rounded" alt="..." style="width: 250px; height: 300px;">
               <div class="card-body">
-                <h5 class="card-title">{{ p.nombre }}</h5>
+                <h5 class="card-title text-center">{{ p.nombre }}</h5>
               </div>
               <ul class="list-group list-group-flush">
                 <li class="list-group-item">{{ p.descripcion }}</li>
@@ -32,15 +34,17 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">{{p.precio}}€</li>
                 </ul>
-              <div class="card-body">
+              <div class="card-body d-flex justify-content-center">
                 <a href="{% url 'cambiar_producto' p.id %}" class="card-link"><img src={% static 'icons8-editar-24.png' %}></a>
-                <a href="{% url 'quitar_producto' p.id %}" class="card-link"><img src={% static 'icons8-papelera-24.png' %}></a>
+                <a href="{% url 'quitar_producto' p.id %}" class="card-link confirmAlert"><img src={% static 'icons8-papelera-24.png' %}></a>
               </div>
             </div>
         {% endfor %}
 
         </div>
+        {% include 'alerts/alert.html' %}
+        {% include 'alerts/estaseguro.html' %}
     </div>
-
+  </div>
 </body>
 </html>

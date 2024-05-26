@@ -11,77 +11,54 @@
 </head>
 <body>
     {% include 'headerTienda.html' %}
-  <div class="container-fluid">
-    <div class="row">
-        {% include 'barra_lateral_cliente.html' %}
-      <!-- Contenido principal -->
-      <div class="col-10" id="form_central">
-        <!-- FORMULARIO DE PRODUCTOS -->
-        <div class="container-fluid">
-          <form action="" method="post">
-              {% csrf_token %}
-            <div class="mb-3">
-              <label class="form-label">Motivo de la cita</label>
-              <input type="text" class="form-control" name="motivo">
+      <div class="container-fluid">
+        <div class="row">
+            {% include 'barra_lateral_cliente.html' %}
+          <!-- Contenido principal -->
+          <div class="col-md-10" id="form_central">
+            <!-- FORMULARIO DE PRODUCTOS -->
+            <div class="container-fluid">
+              <form action="" method="post">
+                  {% csrf_token %}
+                <div class="mb-3">
+                  <label class="form-label">Motivo de la cita</label>
+                  <input type="text" class="form-control" name="motivo">
+                </div>
+                <div class="mb-3">
+                  <label  class="form-label">Fecha en la que desea la cita</label>
+                  <input type="date" class="form-control" name="fecha" id="fecha">
+                </div>
+                <div class="mb-3">
+                  <label  class="form-label">Coche que desea revisar</label>
+                    <select class="form-select" name="coche">
+                      {% for c in coches %}
+                        {% if citas.cocheCliente_id == c.id %}
+                            <option value="{{ c.id }}" selected="selected">{{ c.modelo }}, {{ c.marca }}</option>
+                            {% else %}
+                            <option value="{{ c.id }}">{{ c.modelo }}, {{ c.marca }}</option>
+                          {% endif %}
+                      {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-dark">Realizar</button>
+              </form>
             </div>
-            <div class="mb-3">
-              <label  class="form-label">Fecha en la que desea la cita</label>
-              <input type="date" class="form-control" name="fecha">
-            </div>
-            <div class="mb-3">
-              <label  class="form-label">Coche que desea revisar</label>
-                <select class="form-select" name="coche">
-                  {% for c in coches %}
-                    {% if citas.cocheCliente_id == c.id %}
-                        <option value="{{ c.id }}" selected="selected">{{ c.modelo }}, {{ c.marca }}</option>
-                        {% else %}
-                        <option value="{{ c.id }}">{{ c.modelo }}, {{ c.marca }}</option>
-                      {% endif %}
-                  {% endfor %}
-                </select>
-            </div>
-            <button type="submit" class="btn btn-dark">Realizar</button>
-          </form>
-        <div class="modal" tabindex="-1" id="fechaModal">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Verificación de Fecha</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <p>La fecha de la cita debe ser posterior a la fecha actual.</p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-              </div>
-            </div>
+            <!-- Contenido principal -->
           </div>
+            {% include 'alerts/alert.html' %}
         </div>
-        </div>
-        <!-- Contenido principal -->
       </div>
-    </div>
-  </div>
+</body>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
 
-    document.querySelector('form').addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        var fechaCita = document.querySelector('input[name="fecha"]').value;
-
-        var hoy = new Date();
-        var fechaCitaDate = new Date(fechaCita);
-        if (fechaCitaDate < hoy) {
-            var myModal = new bootstrap.Modal(document.getElementById('fechaModal'), {});
-            myModal.show();
-        } else {
-            event.target.submit();
-        }
+        today = yyyy + '-' + mm + '-' + dd;
+        document.getElementById("fecha").setAttribute("min", today);
     });
-
 </script>
-
-</body>
 </html>

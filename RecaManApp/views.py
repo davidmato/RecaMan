@@ -2,7 +2,7 @@ import time
 from datetime import datetime
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password, check_password
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import EmailMessage
@@ -33,6 +33,7 @@ def plantilla_mecanicos(request):
 
 @check_user_roles('ADMIN')
 def nuevo_meacanico(request):
+    mecanico = Mecanico.objects.all()
     if request.method == 'GET':
         return render(request, 'newMecanic.html')
     else:
@@ -49,20 +50,27 @@ def nuevo_meacanico(request):
         usuario.save()
         nuevo.user_id = usuario.id
         nuevo.save()
-        return redirect('lista_mecanicos')
+        return render(request, 'PlantillaMecanico.html', {'mecanico': mecanico,
+                                                   'alert': {'icon': 'success',
+                                                             'message': 'Mecanico añadido correctamente '}})
+
 
 @check_user_roles('ADMIN')
 def eliminar_mecanico(request, id):
     mecanic = Mecanico.objects.get(id=id)
     user = Usuario.objects.get(id=mecanic.user_id)
+    mecanico = Mecanico.objects.all()
     mecanic.delete()
     if user is not None:
         user.delete()
-    return redirect('lista_mecanicos')
+    return render(request, 'PlantillaMecanico.html', {'mecanico': mecanico,
+                                                      'alert': {'icon': 'success',
+                                                                'message': 'Mecanico eliminado correctamente '}})
 
 @check_user_roles('ADMIN')
 def editar_mecanico(request, id):
     mecanic = Mecanico.objects.get(id=id)
+    mecanico = Mecanico.objects.all()
     if request.method == "GET":
         return render(request, 'newMecanic.html', {'mecanic':mecanic})
     else:
@@ -72,7 +80,10 @@ def editar_mecanico(request, id):
         mecanic.dni = request.POST.get('dni')
         mecanic.url = request.POST.get('url')
         mecanic.save()
-        return redirect('lista_mecanicos')
+        return render(request, 'PlantillaMecanico.html', {'mecanico': mecanico,
+                                                          'alert': {'icon': 'success',
+                                                                    'message': 'Mecanico editado correctamente '}})
+
 
 def registrar_usuario(request):
     if request.method == "GET":
@@ -156,9 +167,11 @@ def plantilla_productos(request):
 
 @check_user_roles('ADMIN')
 def nuevo_producto(request):
+    tipos_producto = Tipo_producto.objects.all()
+    marca = MarcaCoche.objects.all()
+
     if request.method == 'GET':
-        tipos_producto = Tipo_producto.objects.all()
-        marca = MarcaCoche.objects.all()
+
         return render(request, 'newProduct.html', {'tipos_producto': tipos_producto, 'marca': marca})
     else:
         new = Producto()
@@ -169,19 +182,25 @@ def nuevo_producto(request):
         new.tipo_producto = Tipo_producto.objects.get(id=request.POST.get('tipos_producto'))
         new.precio = request.POST.get('precio', 0.0)
         new.save()
-        return redirect('añadir_producto')
+        return render(request, 'newProduct.html', {'tipos_producto': tipos_producto, 'marca': marca,
+                                                        'alert': {'icon': 'success',
+                                                                  'message': 'Producto añadido correctamente '}})
 
 @check_user_roles('ADMIN')
 def eliminar_producto(request, id):
     producto = Producto.objects.get(id=id)
+    productos = Producto.objects.all()
     producto.delete()
-    return redirect('lista_productos')
+    return render(request, 'PlantillaProducto.html', {'producto': productos,
+                'alert': {'icon': 'success',
+                  'message': 'Producto eliminado correctamente '}})
 
 @check_user_roles('ADMIN')
 def editar_producto(request, id):
-    producto = Producto.objects.get(id=id)
     tipos_producto = Tipo_producto.objects.all()
+    productos = Producto.objects.all()
     marca = MarcaCoche.objects.all()
+    producto = Producto.objects.get(id=id)
     if request.method == 'GET':
         return render(request, 'newProduct.html', {'producto': producto, 'tipos_producto': tipos_producto, 'marca':marca})
     else:
@@ -192,7 +211,10 @@ def editar_producto(request, id):
         producto.tipo_producto = Tipo_producto.objects.get(id=request.POST.get('tipos_producto'))
         producto.precio = request.POST.get('precio', 0.0)
         producto.save()
-        return redirect('lista_productos')
+        return render(request, 'PlantillaProducto.html', {'producto': productos,
+                                                          'alert': {'icon': 'success',
+                                                                    'message': 'Producto editado correctamente '}})
+
 
 @check_user_roles('ADMIN')
 def nueva_marca(request):
@@ -203,7 +225,10 @@ def nueva_marca(request):
         new.nombre = request.POST.get('nombre')
         new.url = request.POST.get('url')
         new.save()
-        return redirect('añadir_marca')
+        return render(request, 'newMarca.html', {
+                                                      'alert': {'icon': 'success',
+                                                                'message': 'Marca añadida correctamente'}})
+
 
 @check_user_roles('ADMIN')
 def mostrar_marcas(request):
@@ -213,34 +238,47 @@ def mostrar_marcas(request):
 @check_user_roles('ADMIN')
 def eliminar_marca(request, id):
     marca = MarcaCoche.objects.get(id=id)
+    marcas = MarcaCoche.objects.all()
     marca.delete()
-    return redirect('lista_marcas')
+    return render(request, 'listado_marcas.html', {'marcas': marcas,
+        'alert': {'icon': 'success',
+                  'message': 'Marca eliminada correctamente'}})
 
 @check_user_roles('ADMIN')
 def editar_marca(request, id):
     marca = MarcaCoche.objects.get(id=id)
+    marcas = MarcaCoche.objects.all()
     if request.method == "GET":
         return render(request, 'newMarca.html', {'marca':marca})
     else:
         marca.nombre = request.POST.get('nombre')
         marca.url = request.POST.get('url')
         marca.save()
-        return redirect('lista_marcas')
+        return render(request, 'listado_marcas.html', {'marcas': marcas,
+                                                       'alert': {'icon': 'success',
+                                                                 'message': 'Marca editada correctamente'}})
 
 def nuevo_tipo_producto(request):
-    if request.method == 'POST':
+    list_tipos_productos = Tipo_producto.objects.all().order_by('-id')
+    if request.method == 'GET':
+
+       return render(request, 'newTipoProducto.html',{'tipos_productos': list_tipos_productos})
+    else:
         new = Tipo_producto()
         new.nombre = request.POST.get('nombre')
         new.save()
-        return redirect('añadir_tipo_producto')
-    list_tipos_productos = Tipo_producto.objects.all().order_by('-id')
-    return render(request, 'newTipoProducto.html',{'tipos_productos': list_tipos_productos})
+        return render(request, 'newTipoProducto.html', {'tipos_productos': list_tipos_productos,
+                                                       'alert': {'icon': 'success',
+                                                                 'message': 'Categoria añadida correctamente'}})
+
 
 @check_user_roles('ADMIN')
 def eliminar_tipo_producto(request, id):
     tipo_producto = Tipo_producto.objects.get(id=id)
+    list_tipos_productos = Tipo_producto.objects.all()
     tipo_producto.delete()
     return redirect('añadir_tipo_producto')
+
 
 @check_user_roles('ADMIN')
 def editar_tipo_producto(request, id):
@@ -251,7 +289,9 @@ def editar_tipo_producto(request, id):
     else:
         tipo_producto.nombre = request.POST.get('nombre')
         tipo_producto.save()
-        return redirect('añadir_tipo_producto')
+        return render(request, 'newTipoProducto.html', {'tipos_productos': list_tipos_productos,
+                                                        'alert': {'icon': 'success',
+                                                                  'message': 'Categoria editada correctamente'}})
 
 @check_user_roles('ADMIN')
 def mostrar_presupuestos(request):
@@ -274,8 +314,11 @@ def mostrar_citas(request):
 
 def eliminar_cita(request, id):
     cita = Citas.objects.get(id=id)
+    citas = Citas.objects.all()
     cita.delete()
-    return redirect('lista_citas')
+    return render(request, 'listado_citas.html', {'citas': citas,
+                                                  'alert': {'icon': 'success',
+                                                            'message': 'Cita eliminada correctamente'}})
 
 def asignar_cita_jefe(request, id):
     cita = Citas.objects.get(id=id)
@@ -284,56 +327,92 @@ def asignar_cita_jefe(request, id):
     hora_elegida = request.POST.get('hora')
     fecha = request.POST.get('fecha')
     mecanico_elegido = request.POST.get('mecanico')
-    fecha_formateada = datetime.strptime(fecha, "%B %d, %Y").strftime("%Y-%m-%d")
+    fecha_formateada = cambiar_fecha(fecha).strftime("%Y-%m-%d")
+
     if Citas.objects.filter(fecha=fecha_formateada,hora=hora_elegida,mecanico=mecanico_elegido).exists():
         return render(request, 'listado_citas.html', {'citas': list_citas, 'mecanicos': mecanicos, 'alert': {'icon': 'error', 'message': 'Cita ya ha sido asignada a ese mecanico en esa fecha y hora'}})
     cita.hora = hora_elegida
     cita.mecanico_id = Mecanico.objects.get(id=request.POST.get('mecanico'))
     cita.estado = EstadoCitas.ACEPTADA
     cita.save()
-    print(cita.mecanico_id)
     return render(request, 'listado_citas.html', {'citas': list_citas, 'mecanicos': mecanicos, 'alert': {'icon': 'success', 'message': 'Cita asignada correctamente'}})
 
+
+def cambiar_fecha(date_string):
+    for fmt in ('%b. %d, %Y', '%b %d, %Y'):
+        try:
+            return datetime.strptime(date_string, fmt)
+        except ValueError:
+            pass
+    raise ValueError('no valid date format found')
 
 
 @check_user_roles('CLIENTE')
 def pedir_cita(request):
+    usuario_logeado = request.user
     coches = CocheCliente.objects.filter(usuario=request.user)
+
+    try:
+        cliente = Cliente.objects.get(user=usuario_logeado)
+    except Cliente.DoesNotExist:
+        return render(request, 'areaUsuario.html', {'alert': {'icon': 'error','message': 'Debes de estar verificado para poder pedir una cita'}})
+
     if request.method == 'GET':
         return render(request, 'newCitaCliente.html', {'coches': coches})
     else:
-        usuario_logeado = request.user
-        cliente = Cliente.objects.get(user=usuario_logeado)
-        cita = Citas()
-        cita.motivo = request.POST.get('motivo')
-        cita.fecha = request.POST.get('fecha')
-        cita.cocheCliente = CocheCliente.objects.get(id=request.POST.get('coche'))
-        cita.estado = EstadoCitas.PENDIENTE
-        cita.usuario = usuario_logeado
-        cita.cliente = cliente
-        cita.save()
-        return redirect('añadir_cita_cliente')
+        try:
+            fecha_cita = request.POST.get('fecha')
+            cita_mismo_dia = Citas.objects.filter(fecha=fecha_cita, cliente=cliente)
+            if cita_mismo_dia.count() >= 2:
+                  return render(request, 'newCitaCliente.html', {'coches': coches, 'alert': {'icon': 'error','message': 'No puedes pedir más de dos citas el mismo día'}})
+            cita = Citas()
+            cita.motivo = request.POST.get('motivo')
+            cita.fecha = fecha_cita
+            cita.cocheCliente = CocheCliente.objects.get(id=request.POST.get('coche'))
+            cita.estado = EstadoCitas.PENDIENTE
+            cita.usuario = usuario_logeado
+            cita.cliente = cliente
+            cita.save()
+            return render(request, 'newCitaCliente.html', {'coches': coches, 'alert': {'icon': 'success','message': 'Cita reservada correctamente'}})
+        except Exception as e:
+            return render(request, 'newCitaCliente.html', {'coches': coches, 'alert': {'icon': 'error','message': 'Error al reservar cita'}})
+
 
 def vista_citas_cliente(request):
     usuario_logeado = request.user
     try:
         cliente = Cliente.objects.get(user=usuario_logeado)
     except Cliente.DoesNotExist:
-        return redirect('verificar')
+         return render(request, 'areaUsuario.html', {'alert': {'icon': 'error','message': 'Debes de estar verificado para poder pedir una cita'}})
+
     citas = Citas.objects.filter(cliente=cliente).order_by('-id')
     return render(request, 'listado_citasCliente.html', {'citas': citas})
 
 def cancelar_cita(request, id):
     cita = Citas.objects.get(id=id)
+    cliente = Cliente.objects.get(user=request.user)
+    citalista = Citas.objects.filter(cliente=cliente)
     if cita.estado == EstadoCitas.PENDIENTE:
         cita.delete()
+        return render(request, 'listado_citasCliente.html',
+                      {'citas': citalista, 'alert': {'icon': 'success', 'message': 'Cita cancelada correctamente'}})
+
     else:
         cita.estado = EstadoCitas.RECHAZADA
         cita.save()
-    return redirect('lista_citas_cliente')
+        return render(request, 'listado_citasCliente.html',{'citas':citalista,'alert': {'icon': 'success', 'message': 'Cita cancelada correctamente'}})
 
 @check_user_roles('CLIENTE')
 def mostrar_coches(request):
+
+    usuario_logeado = request.user
+
+    try:
+        Cliente.objects.get(user=usuario_logeado)
+    except Cliente.DoesNotExist:
+        return render(request, 'areaUsuario.html', {'alert': {'icon': 'error','message': 'Debes de estar verificado para poder pedir una cita'}})
+
+
     cocheCliente = CocheCliente.objects.all().order_by('-id')
     for coche in cocheCliente:
         if coche.usuario.nombreUsuario != request.user.nombreUsuario:
@@ -343,11 +422,17 @@ def mostrar_coches(request):
 @check_user_roles('CLIENTE')
 def nuevo_coche(request):
     coche = CocheCliente.objects.all()
+    usuario_logeado = request.user
+    try:
+        Cliente.objects.get(user=usuario_logeado)
+    except Cliente.DoesNotExist:
+        return render(request, 'areaUsuario.html', {'alert': {'icon': 'error','message': 'Debes de estar verificado para poder pedir una cita'}})
+
     if request.method == 'GET':
         return render(request, 'newCoche.html' ,{'coches': coche})
     else:
         try:
-            usuario_logeado = request.user
+
             coche = CocheCliente()
             coche.modelo = request.POST.get('modelo')
             coche.marca = request.POST.get('marca')
@@ -362,9 +447,11 @@ def nuevo_coche(request):
 
 @check_user_roles('CLIENTE')
 def eliminar_coche(request,id):
-    coche = CocheCliente.objects.get(id=id)
+    usuario_logeado = request.user
+    coche = CocheCliente.objects.filter(id=id)
+    coches = CocheCliente.objects.filter(usuario=usuario_logeado)
     coche.delete()
-    return redirect('lista_coches')
+    return render(request, 'listado_cochesCliente.html', {'coches': coches, 'alert': {'icon': 'success', 'message': 'Coche eliminado correctamente'}})
 
 @check_user_roles('CLIENTE')
 def editar_coche(request, id):
@@ -373,6 +460,7 @@ def editar_coche(request, id):
         return render(request, 'newCoche.html', {'coches':coche})
     else:
         usuario_logeado = request.user
+        coches = CocheCliente.objects.filter(usuario=usuario_logeado)
         coche.modelo = request.POST.get('modelo')
         coche.marca = request.POST.get('marca')
         coche.matricula = request.POST.get('matricula')
@@ -380,7 +468,7 @@ def editar_coche(request, id):
         coche.ITV = request.POST.get('ITV')
         coche.usuario_id = usuario_logeado.id
         coche.save()
-        return redirect('lista_coches')
+        return render(request, 'listado_cochesCliente.html', {'coches': coches ,'alert': {'icon': 'success', 'message': 'Coche editado correctamente'}})
 
 @check_user_roles('CLIENTE')
 def recambio_coche(request):
@@ -406,6 +494,7 @@ def nuevo_presupuesto(request, id):
         new.save()
         return redirect('lista_citas_mecanico')
 
+
 def vista_citas_mecanico(request):
     usuario_logeado = request.user
     mecanico = Mecanico.objects.get(user=usuario_logeado)
@@ -424,7 +513,7 @@ def mostrar_presupuesto_mecanico(request):
 
 def sobre_nosotros(request):
     return render(request, 'contactanos.html')
-
+@check_user_roles('CLIENTE')
 def lista_productos_tienda(request):
     query = request.GET.get('q')
     if query:
@@ -441,7 +530,28 @@ def lista_productos_tienda(request):
 
 @check_user_roles('CLIENTE')
 def añadir_al_carrito(request, id):
+    productos_list = Producto.objects.all()
     cart = {}
+    usuario_logeado = request.user
+    try:
+        cliente = Cliente.objects.get(user=usuario_logeado)
+    except Cliente.DoesNotExist:
+        return render(request, 'tienda.html',
+                      {'producto': productos_list,
+                       'alert': {'icon': 'error', 'message': 'Debes de estar verificado para poder comprar'}})
+
+    query = request.GET.get('q')
+    if query:
+        productos_list = Producto.objects.filter(nombre__icontains=query)
+        paginator = Paginator(productos_list, 6)
+        page_number = request.GET.get('page')
+        productos = paginator.get_page(page_number)
+    else:
+        productos_list = Producto.objects.all()
+        paginator = Paginator(productos_list, 6)
+        page_number = request.GET.get('page')
+        productos = paginator.get_page(page_number)
+
     if "cart" in request.session:
         cart = request.session.get("cart", {})
     if str(id) in cart.keys():
@@ -449,10 +559,19 @@ def añadir_al_carrito(request, id):
     else:
         cart[str(id)] = 1
     request.session["cart"] = cart
-    return redirect('tienda')
+    return render(request, 'tienda.html', {'producto':productos,'alert': {'icon': 'success', 'message': 'Añadido correctamente'}})
+
 
 @check_user_roles('CLIENTE')
 def mostrar_carrito(request):
+    usuario_logeado = request.user
+    productos_list = Producto.objects.all()
+    try:
+        cliente = Cliente.objects.get(user=usuario_logeado)
+    except Cliente.DoesNotExist:
+        return render(request, 'verificarCliente.html',
+                      {'alert': {'icon': 'error', 'message': 'Debes de estar verificado para poder comprar'}})
+
     cart = {}
     session_cart = {}
     total = 0.0
@@ -519,7 +638,6 @@ def contacto(request):
         )
         mail.fail_silently = False
         mail.send()
-        messages.success(request, 'Verificación realizada correctamente')
         return redirect('cliente')
 
 def comprar_carrito(request):
@@ -557,3 +675,54 @@ def mis_pedidos(request):
 def detalles_pedidos(request, id):
     pedido = Pedido.objects.filter(id=id).annotate(coste=Sum(ExpressionWrapper(F('linea_pedidos__cantidad') * F('linea_pedidos__producto__precio'), output_field=FloatField())))
     return render(request, 'detalles_pedido.html', {'pedido': pedido[0]})
+
+
+@check_user_roles('CLIENTE')
+def mis_presupuestos(request):
+    usuario_logeado = request.user
+    cliente = Cliente.objects.get(user=usuario_logeado)
+    presupuestos = Presupuesto.objects.filter(cliente=cliente).order_by('-id')
+    return render(request, 'mis_presupuestos.html', {'presupuestos': presupuestos})
+
+
+@login_required
+def datos_cliente(request):
+    try:
+        cliente = Cliente.objects.get(user=request.user)
+    except Cliente.DoesNotExist:
+        return render(request, 'verificarCliente.html', {'alert': {'icon': 'error', 'message': 'Debe verificar su cuenta'}})
+
+    if request.method == 'POST':
+        nombre = request.POST['nombre']
+        fecha_nacimiento = request.POST['fecha_nacimiento']
+        direccion = request.POST['direccion']
+        email = request.POST['email']
+        # Actualizar los atributos del cliente
+        cliente.nombre = nombre
+        cliente.fecha_nacimiento = fecha_nacimiento
+        cliente.direccion = direccion
+        cliente.email = email
+        # Guardar el cliente
+        cliente.save()
+        return render(request, 'areaUsuario.html', {'cliente': cliente, 'alert': {'icon': 'success', 'message': 'Datos actualizados correctamente'}})
+
+    else:
+        # Pasar el objeto cliente a la plantilla
+        return render(request, 'datos_cliente.html', {'cliente': cliente})
+
+@login_required
+def cambiar_contraseña(request):
+    cliente = Cliente.objects.get(user=request.user)
+    if request.method == 'POST':
+        old_password = request.POST.get('old_password')
+        new_password = request.POST.get('new_password')
+
+        if not check_password(old_password, request.user.password):
+            messages.error(request, 'La contraseña antigua es incorrecta.')
+        else:
+            request.user.set_password(new_password)
+            request.user.save()
+            messages.success(request, 'Tu contraseña fue actualizada exitosamente!')
+
+            return render(request, 'login.html', {'alert': {'icon': 'success', 'message': 'Debe iniciar sesion nuevamente'}})
+    return render(request, 'datos_cliente.html',  {'cliente':cliente,'alert': {'icon': 'error', 'message': 'Su contraseña es incorrecta'}})

@@ -14,7 +14,7 @@
       <!-- Barra lateral -->
       {% include 'barraLateral.html' %}
       <!-- Contenido principal -->
-      <div class="col-10" id="form_central">
+      <div class="col-md-10" id="form_central">
         <!-- FORMULARIO DE PRODUCTOS -->
         <div class="container-fluid">
           <form action="" method="post">
@@ -37,7 +37,7 @@
                     <tr>
                         <th scope="row">{{ tp.id }}</th>
                         <td>{{ tp.nombre }}</td>
-                        <td><a href="{% url 'quitar_tipo_producto' id=tp.id %}"><img src="{% static 'icons8-papelera-24.png' %}"></a></td>
+                        <td><a class="confirmAlert" href="{% url 'quitar_tipo_producto' id=tp.id %}"><img src="{% static 'icons8-papelera-24.png' %}"></a></td>
                         <td><a href="{% url 'cambiar_tipo_producto' id=tp.id %}"><img src="{% static 'icons8-editar-24.png' %}"></a></td>
                     </tr>
                     {% endfor %}
@@ -47,6 +47,8 @@
         <!-- Contenido principal -->
       </div>
     </div>
+    {% include 'alerts/alert.html' %}
+    {% include 'alerts/estaseguro.html' %}
   </div>
 </body>
 </html>

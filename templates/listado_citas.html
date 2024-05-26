@@ -13,7 +13,7 @@
     <div class="row">
       <!-- Barra lateral -->
       {% include 'barraLateral.html' %}
-        <div class="col-10">
+        <div class="col-md-10">
             {% csrf_token %}
         <table class="table">
             <thead>
@@ -41,7 +41,7 @@
                         {% if c.hora %}
                             <td>{{ c.hora }}</td>
                         {% else %}
-                            <td><input type="time" name="hora"></td>
+                            <td><input type="time" name="hora" required></td>
                         {% endif %}
                         <td>{{ c.motivo }}</td>
                         <td>{{ c.cocheCliente.matricula }}</td>
@@ -62,10 +62,10 @@
                         	<td><img src="{% static 'tick-verde.png' %}"></td>
                         {% endif %}
                         {% if c.estado == 'RECHAZADA' or c.estado == 'FINALIZADA' %}
-                            <td><a href="{% url 'quitar_cita' c.id %}"><img  src="{% static 'icons8-papelera-24.png' %}"></a></td>
+                            <td><a href="{% url 'quitar_cita' c.id %}"><img  src="{% static 'icons8-cancelar-24.png' %}"></a></td>
                         {% endif %}
                         {% if c.estado == 'PENDIENTE' %}
-                            <td><button type="submit" style="border: none; background-color: white"><img src="{% static 'icons8-editar-24.png' %}"></button></td>
+                            <td><button type="submit" style="border: none; background-color: white"><img src="{% static 'icons8-lápiz-24.png' %}"></button></td>
                         {% endif %}
                     </tr>
                 </form>

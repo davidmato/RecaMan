@@ -1,41 +1,42 @@
 {% include "headerTienda.html" %}
 {% load static %}
 {% block content %}
-    <div class="columns is-mobile">
-        <div class="column is-half is-offset-one-quarter"
-             style="justify-content: center;  align-items:  center; display: flex;">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Código</th>
-                    <th>Fecha</th>
-                    <th>Precio</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for o in pedidos %}
-                    <tr>
-                        <td>
-                            {{ o.codigo  }}
-                        </td>
-                        <td>
-                            {{ o.fecha }}
-                        </td>
-                        <td>
-                           {{ o.coste }}€
-                        </td>
-                         <td>
-                           <a href="{% url 'detalles_pedidos' id=o.id %}" class="has-text-dark">
-                                <span class="icon">
-                                    <i class="fas fa-eye"></i>
-                                </span>
-                            </a>
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+    
+    <div class="container-fluid">
+        <div class="row">
+            {% include "barra_lateral_cliente.html" %}
+            <div class="col-md-10">
+                <div>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Fecha</th>
+                            <th>Precio</th>
+                            <th>Detalles</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for o in pedidos %}
+                            <tr>
+                                <td>
+                                    {{ o.codigo  }}
+                                </td>
+                                <td>
+                                    {{ o.fecha }}
+                                </td>
+                                <td>
+                                   {{ o.coste }}€
+                                </td>
+                                 <td>
+                                   <a href="{% url 'detalles_pedidos' id=o.id %}" class="has-text-dark"><img src="{% static 'icons8-lápiz-24.png' %}"></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

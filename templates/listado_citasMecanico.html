@@ -5,10 +5,12 @@
     <title>Title</title>
 </head>
 <body>
+
     {% include 'header.html' %}
+<div class="container-fluid">    
     <div class="row">
         {% include 'barra_lateralMecanico.html' %}
-        <div class="col-10">
+        <div class="col-md-10">
             {% if not citas %}
                 <h1 class="text-center mt-5">No tienes citas pendientes</h1>
             {% endif %}
@@ -30,5 +32,6 @@
             {% endfor %}
         </div>
     </div>
+</div>
 </body>
 </html>

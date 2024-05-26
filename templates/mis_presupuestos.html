@@ -1,0 +1,44 @@
+{% include "headerTienda.html" %}
+{% load static %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        {% include "barra_lateral_cliente.html" %}
+        <div class="col-md-12">
+            <div class="col-md-10"
+                 style="justify-content: center;  align-items:  center; display: flex;">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Fallos</th>
+                        <th>Precio</th>
+                        <th>Mecanico</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for o in presupuestos %}
+                        <tr>
+                            <td>
+                                {{ o.fecha_compra  }}
+                            </td>
+                            <td>
+                                {{ o.fallos }}
+                            </td>
+                            <td>
+                               {{ o.precio }}€
+                            </td>
+                            <td>
+                                {{ o.cita.mecanico.nombre }} 
+                            </td>     
+                            
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+ {% endblock %}

@@ -22,7 +22,8 @@
 <body>
     {% include 'headerTienda.html' %}
     <h1 class="text-center mt-5 hover-zoom ">Bienvenido a tu area de usuario</h1>
-    <div class="d-flex flex-wrap justify-content-around mt-5">
+    <div class="container-fluid d-flex flex-wrap justify-content-center">    
+    
         <div id="carta" class="card d-flex justify-content-center align-items-center hover-zoom" style="width: 400px; height: 200px; margin: 10px;">
             <a href="{% url 'lista_coches' %}" class="text-decoration-none">
             <div class="d-flex justify-content-center align-items-center">
@@ -54,8 +55,20 @@
                 </div>
             </a>
         </div>
-    </div>
-    <div class="d-flex flex-wrap justify-content-around mt-5">
+        
+        {% if cliente %}
+        <div id="carta" class="card d-flex justify-content-center align-items-center hover-zoom" style="width: 400px; height: 200px; margin: 10px;">
+            <a href="{% url 'presupuesto_cliente' %}" class="text-decoration-none">
+            <div class="d-flex justify-content-center align-items-center">
+                <img src="{% static 'icons8-presupuesto-64.png' %}" class="card-img-top justify-content-center" alt="" style="width: 60px; height: 60px;">
+            </div>
+                <div class="card-body">
+                    <h4 class="card-text" style="color: darkred">Mis Presupuestos</h4>
+                </div>
+            </a>
+        </div>
+        {% endif %}
+    
          {% if not cliente %}
         <div id="carta" class="card d-flex justify-content-center align-items-center hover-zoom" style="width: 400px; height: 200px; margin: 10px;">
             <a href="{% url 'verificar' %}" class="text-decoration-none">
@@ -80,6 +93,21 @@
             </a>
         </div>
         {% endif %}
+        
+         {% if cliente %}
+        <div id="carta" class="card d-flex justify-content-center align-items-center hover-zoom" style="width: 400px; height: 200px; margin: 10px;">
+            <a href="{% url 'datos_cliente' %}" class="text-decoration-none">
+            <div class="d-flex justify-content-center align-items-center">
+                <img src="{% static 'icons8-presupuesto-64.png' %}" class="card-img-top justify-content-center" alt="" style="width: 60px; height: 60px;">
+            </div>
+                <div class="card-body">
+                    <h4 class="card-text" style="color: darkred">Ajustes</h4>
+                </div>
+            </a>
+        </div>
+        {% endif %}
+    
+    
         <div id="carta" class="card d-flex justify-content-center align-items-center hover-zoom" style="width: 400px; height: 200px; margin: 10px;">
             <a href="{% url 'añadir_cita_cliente' %}" class="text-decoration-none">
             <div class="d-flex justify-content-center align-items-center">
@@ -100,6 +128,7 @@
                 </div>
             </a>
         </div>
+        {% include 'alerts/alert.html' %}
     </div>
 </body>
 </html>

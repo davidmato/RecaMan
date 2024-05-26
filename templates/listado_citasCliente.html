@@ -14,7 +14,7 @@
   <div class="container-fluid">
     <div class="row">
         {% include 'barra_lateral_cliente.html' %}
-        <div class="col-10">
+        <div class="col-md-10">
             {% csrf_token %}
                     {% if not citas %}
                         <h1 class="text-center mt-5">Aún no has pedido ninguna cita</h1>
@@ -45,7 +45,7 @@
                                 {% if c.estado == 'FINALIZADA' %}
                                     <strong>Gracias por confiar en nosotros</strong>
                                 {% else %}
-                                    <a href="{% url 'quitar_cita' c.id %}" class="btn btn-dark">Cancelar Cita</a>
+                                    <a href="{% url 'quitar_cita_cliente' c.id %}" class="btn btn-dark confirmAlert">Cancelar Cita</a>
                                 {% endif %}
                             </div>
                         </div>
@@ -54,6 +54,8 @@
         </div>
       </div>
     </div>
+    {% include 'alerts/alert.html' %}
+    {% include 'alerts/estaseguro.html' %}
   </div>
 </body>
 </html>

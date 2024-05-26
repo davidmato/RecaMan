@@ -8,23 +8,27 @@
 </head>
 <body>
     {% include 'header.html' %}
-  <div class="container-fluid row">
-  {% include 'barraLateral.html' %}
-    <div class="col-10 d-flex flex-wrap">
-      <!-- Barra lateral -->
-        {% for m in marcas %}
-           <div class="card" style="width: 18rem; margin: 2px;">
-              <img src="{{ m.url }}" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">{{ m.nombre }}</h5>
-              </div>
-              <div class="card-body">
-                  <a href="{% url 'quitar_marca' id=m.id %}"><img src={% static 'icons8-papelera-24.png' %}></a>
-                  <a href="{% url 'cambiar_marca' id=m.id %}"><img src={% static 'icons8-editar-24.png' %}></a>
-              </div>
-            </div>
-        {% endfor %}
+  <div class="container-fluid">
+    <div class="row">
+      {% include 'barraLateral.html' %}
+        <div class="col-md-10 d-flex flex-wrap">
+          <!-- Barra lateral -->
+            {% for m in marcas %}
+               <div class="card" style="width: 16rem; margin: 5px;">
+                  <img src="{{ m.url }}" class="card-img-top rounded-circle" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title text-center">{{ m.nombre }}</h5>
+                  </div>
+                  <div class="card-body d-flex justify-content-center">
+                      <a class="confirmAlert" href="{% url 'quitar_marca' id=m.id %}"><img src={% static 'icons8-papelera-24.png' %}></a>
+                      <a href="{% url 'cambiar_marca' id=m.id %}"><img src={% static 'icons8-editar-24.png' %}></a>
+                  </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% include 'alerts/alert.html' %}
+        {% include 'alerts/estaseguro.html' %}
     </div>
-    </div>
+  </div>
 </body>
 </html>
